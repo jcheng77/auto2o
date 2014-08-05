@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20140805163857) do
     t.integer  "tender_id"
     t.integer  "bid_id"
     t.integer  "dealer_id"
-    t.decimal  "price",      precision: 10, scale: 0
+    t.decimal  "price",      precision: 12, scale: 2
     t.string   "postscript"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20140805163857) do
   create_table "bids", force: true do |t|
     t.integer  "tender_id"
     t.integer  "dealer_id"
-    t.decimal  "price",       precision: 10, scale: 0
+    t.decimal  "price",       precision: 12, scale: 2
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -98,7 +98,7 @@ ActiveRecord::Schema.define(version: 20140805163857) do
     t.integer  "bid_id"
     t.integer  "bargain_id"
     t.integer  "dealer_id"
-    t.decimal  "final_price", precision: 10, scale: 0
+    t.decimal  "final_price", precision: 12, scale: 2
     t.string   "postscript"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -106,7 +106,7 @@ ActiveRecord::Schema.define(version: 20140805163857) do
 
   create_table "tenders", force: true do |t|
     t.string   "model"
-    t.decimal  "price",       precision: 10, scale: 0
+    t.decimal  "price",       precision: 12, scale: 2
     t.string   "description"
     t.datetime "created_at"
     t.datetime "updated_at"

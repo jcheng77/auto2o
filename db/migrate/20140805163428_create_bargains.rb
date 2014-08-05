@@ -5,7 +5,7 @@ class CreateBargains < ActiveRecord::Migration
       t.integer :tender_id
       t.integer :bid_id
       t.integer :dealer_id
-      t.decimal :price
+      t.decimal :price, precision: 12, scale: 2
       t.string :postscript
 
       t.timestamps
