@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Model:</strong>
+  <%= @tender.model %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @tender.price %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @tender.description %>
+</p>
+
+<%= link_to 'Edit', edit_tender_path(@tender) %> |
+<%= link_to 'Back', tenders_path %>

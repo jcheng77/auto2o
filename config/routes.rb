@@ -54,6 +54,8 @@
 #   end
 Rails.application.routes.draw do
 
+  resources :tenders
+
   resources :cars
 
   devise_for :admin_users, ActiveAdmin::Devise.config

@@ -466,3 +466,44 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
       create  app/admin/user.rb
 ~/mine/JustBidIt (master)⚡ > rails generate active_admin:resource Dealer
       create  app/admin/dealer.rb
+			
+~/mine/JustBidIt (master) > rails g scaffold tender model:string price:decimal description:string
+      invoke  active_record
+      create    db/migrate/20140805162516_create_tenders.rb
+      create    app/models/tender.rb
+      invoke    test_unit
+      create      test/models/tender_test.rb
+      create      test/fixtures/tenders.yml
+      invoke  resource_route
+       route    resources :tenders
+      invoke  inherited_resources_controller
+      create    app/controllers/tenders_controller.rb
+      invoke    erb
+      create      app/views/tenders
+      create      app/views/tenders/index.html.erb
+      create      app/views/tenders/edit.html.erb
+      create      app/views/tenders/show.html.erb
+      create      app/views/tenders/new.html.erb
+      create      app/views/tenders/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/tenders_controller_test.rb
+      invoke    helper
+      create      app/helpers/tenders_helper.rb
+      invoke      test_unit
+      create        test/helpers/tenders_helper_test.rb
+      invoke    jbuilder
+      create      app/views/tenders/index.json.jbuilder
+      create      app/views/tenders/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/tenders.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/tenders.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805162516 CreateTenders: migrating ====================================
+-- create_table(:tenders)
+   -> 0.0584s
+== 20140805162516 CreateTenders: migrated (0.0585s) ===========================
+
