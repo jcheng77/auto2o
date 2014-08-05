@@ -54,6 +54,8 @@
 #   end
 Rails.application.routes.draw do
 
+  resources :deals
+
   resources :bargains
 
   resources :bids

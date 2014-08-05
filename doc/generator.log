@@ -587,3 +587,43 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
    -> 0.0367s
 == 20140805163428 CreateBargains: migrated (0.0368s) ==========================
 
+~/mine/JustBidIt (master)⚡ > rails g scaffold deal user_id:integer tender_id:integer bid_id:integer bargain_id:integer dealer_id:integer  final_price:decimal postscript:string
+      invoke  active_record
+      create    db/migrate/20140805163857_create_deals.rb
+      create    app/models/deal.rb
+      invoke    test_unit
+      create      test/models/deal_test.rb
+      create      test/fixtures/deals.yml
+      invoke  resource_route
+       route    resources :deals
+      invoke  inherited_resources_controller
+      create    app/controllers/deals_controller.rb
+      invoke    erb
+      create      app/views/deals
+      create      app/views/deals/index.html.erb
+      create      app/views/deals/edit.html.erb
+      create      app/views/deals/show.html.erb
+      create      app/views/deals/new.html.erb
+      create      app/views/deals/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/deals_controller_test.rb
+      invoke    helper
+      create      app/helpers/deals_helper.rb
+      invoke      test_unit
+      create        test/helpers/deals_helper_test.rb
+      invoke    jbuilder
+      create      app/views/deals/index.json.jbuilder
+      create      app/views/deals/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/deals.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/deals.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805163857 CreateDeals: migrating ======================================
+-- create_table(:deals)
+   -> 0.0329s
+== 20140805163857 CreateDeals: migrated (0.0330s) =============================
+

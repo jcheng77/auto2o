@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140805163428) do
+ActiveRecord::Schema.define(version: 20140805163857) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -91,6 +91,18 @@ ActiveRecord::Schema.define(version: 20140805163428) do
 
   add_index "dealers", ["email"], name: "index_dealers_on_email", unique: true, using: :btree
   add_index "dealers", ["reset_password_token"], name: "index_dealers_on_reset_password_token", unique: true, using: :btree
+
+  create_table "deals", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "tender_id"
+    t.integer  "bid_id"
+    t.integer  "bargain_id"
+    t.integer  "dealer_id"
+    t.decimal  "final_price", precision: 10, scale: 0
+    t.string   "postscript"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "tenders", force: true do |t|
     t.string   "model"
