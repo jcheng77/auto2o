@@ -189,3 +189,280 @@ Using turbolinks 2.2.2
 Using uglifier 2.5.3
 Your bundle is complete!
 Use `bundle show [gemname]` to see where a bundled gem is installed.
+
+
+~/mine/JustBidIt (master) > rails generate devise:install
+      create  config/initializers/devise.rb
+      create  config/locales/devise.en.yml
+===============================================================================
+
+Some setup you must do manually if you haven't yet:
+
+  1. Ensure you have defined default url options in your environments files. Here
+     is an example of default_url_options appropriate for a development environment
+     in config/environments/development.rb:
+
+       config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
+     In production, :host should be set to the actual host of your application.
+
+  2. Ensure you have defined root_url to *something* in your config/routes.rb.
+     For example:
+
+       root to: "home#index"
+
+  3. Ensure you have flash messages in app/views/layouts/application.html.erb.
+     For example:
+
+       <p class="notice"><%= notice %></p>
+       <p class="alert"><%= alert %></p>
+
+  4. If you are deploying on Heroku with Rails 3.2 only, you may want to set:
+
+       config.assets.initialize_on_precompile = false
+
+     On config/application.rb forcing your application to not access the DB
+     or load models when precompiling your assets.
+
+  5. You can copy Devise views (for customization) to your app by running:
+
+       rails g devise:views
+
+===============================================================================
+~/mine/JustBidIt (master)⚡ > rails g controller home index
+      create  app/controllers/home_controller.rb
+       route  get 'home/index'
+      invoke  erb
+      create    app/views/home
+      create    app/views/home/index.html.erb
+      invoke  test_unit
+      create    test/controllers/home_controller_test.rb
+      invoke  helper
+      create    app/helpers/home_helper.rb
+      invoke    test_unit
+      create      test/helpers/home_helper_test.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/home.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/home.css.scss
+~/mine/JustBidIt (master)⚡ > rails g devise:views
+      invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/devise/shared
+      create    app/views/devise/shared/_links.erb
+      invoke  form_for
+      create    app/views/devise/confirmations
+      create    app/views/devise/confirmations/new.html.erb
+      create    app/views/devise/passwords
+      create    app/views/devise/passwords/edit.html.erb
+      create    app/views/devise/passwords/new.html.erb
+      create    app/views/devise/registrations
+      create    app/views/devise/registrations/edit.html.erb
+      create    app/views/devise/registrations/new.html.erb
+      create    app/views/devise/sessions
+      create    app/views/devise/sessions/new.html.erb
+      create    app/views/devise/unlocks
+      create    app/views/devise/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/devise/mailer
+      create    app/views/devise/mailer/confirmation_instructions.html.erb
+      create    app/views/devise/mailer/reset_password_instructions.html.erb
+      create    app/views/devise/mailer/unlock_instructions.html.erb
+~/mine/JustBidIt (master)⚡ > rails generate devise User
+      invoke  active_record
+      create    db/migrate/20140805145530_devise_create_users.rb
+      create    app/models/user.rb
+      invoke    test_unit
+      create      test/models/user_test.rb
+      create      test/fixtures/users.yml
+      insert    app/models/user.rb
+       route  devise_for :users
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805145530 DeviseCreateUsers: migrating ================================
+-- create_table(:users)
+   -> 0.0346s
+-- add_index(:users, :email, {:unique=>true})
+   -> 0.0129s
+-- add_index(:users, :reset_password_token, {:unique=>true})
+   -> 0.0125s
+== 20140805145530 DeviseCreateUsers: migrated (0.0603s) =======================
+
+
+~/mine/JustBidIt (master)⚡ > bundle install
+Fetching git://github.com/gregbell/active_admin.git
+Checking out files: 100% (517/517), done.
+Fetching gem metadata from https://rubygems.org/...........
+Fetching additional metadata from https://rubygems.org/..
+Resolving dependencies...
+Using rake 10.3.2
+Using i18n 0.6.11
+Using json 1.8.1
+Using minitest 5.4.0
+Using thread_safe 0.3.4
+Using tzinfo 1.2.1
+Using activesupport 4.1.4
+Using builder 3.2.2
+Using erubis 2.7.0
+Using actionview 4.1.4
+Using rack 1.5.2
+Using rack-test 0.6.2
+Using actionpack 4.1.4
+Using mime-types 1.25.1
+Using polyglot 0.3.5
+Using treetop 1.4.15
+Using mail 2.5.4
+Using actionmailer 4.1.4
+Installing arbre 1.0.1
+Using sass 3.2.19
+Using thor 0.19.1
+Installing bourbon 3.2.3
+Using coffee-script-source 1.7.1
+Using execjs 2.2.1
+Using coffee-script 2.3.0
+Using railties 4.1.4
+Using coffee-rails 4.0.1
+Installing formtastic 2.3.0.rc3
+Installing has_scope 0.6.0.rc
+Installing responders 1.0.0
+Installing inherited_resources 1.4.1
+Using jquery-rails 3.1.1
+Installing jquery-ui-rails 5.0.0
+Installing kaminari 0.16.1
+Using activemodel 4.1.4
+Using arel 5.0.1.20140414130214
+Using activerecord 4.1.4
+Using bundler 1.6.2
+Using hike 1.2.3
+Using multi_json 1.10.1
+Using tilt 1.4.1
+Using sprockets 2.11.0
+Using sprockets-rails 2.1.3
+Using rails 4.1.4
+Installing polyamorous 1.0.0
+Installing ransack 1.2.3
+Using sass-rails 4.0.3
+Using activeadmin 1.0.0.pre from git://github.com/gregbell/active_admin.git (at master)
+Using bcrypt 3.1.7
+Using orm_adapter 0.5.0
+Using warden 1.2.3
+Using devise 3.2.4
+Using jbuilder 2.1.3
+Using mysql2 0.3.16
+Using rdoc 4.1.1
+Using sdoc 0.4.0
+Using spring 1.1.3
+Using turbolinks 2.2.2
+Using uglifier 2.5.3
+Your bundle is complete!
+Use `bundle show [gemname]` to see where a bundled gem is installed.
+
+~/mine/JustBidIt (master)⚡ > rails generate devise Dealer
+      invoke  active_record
+      create    db/migrate/20140805151310_devise_create_dealers.rb
+      create    app/models/dealer.rb
+      invoke    test_unit
+      create      test/models/dealer_test.rb
+      create      test/fixtures/dealers.yml
+      insert    app/models/dealer.rb
+       route  devise_for :dealers
+
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805151310 DeviseCreateDealers: migrating ==============================
+-- create_table(:dealers)
+   -> 0.0331s
+-- add_index(:dealers, :email, {:unique=>true})
+   -> 0.0106s
+-- add_index(:dealers, :reset_password_token, {:unique=>true})
+   -> 0.0097s
+== 20140805151310 DeviseCreateDealers: migrated (0.0537s) =====================
+
+~/mine/JustBidIt (master)⚡ > rails generate active_admin:install
+      invoke  devise
+    generate    No need to install devise, already done.
+      invoke    active_record
+   identical      db/migrate/20140805152049_devise_create_admin_users.rb
+      create      app/models/admin_user.rb
+      invoke      test_unit
+      create        test/models/admin_user_test.rb
+      create        test/fixtures/admin_users.yml
+      insert      app/models/admin_user.rb
+       route    devise_for :admin_users
+        gsub    app/models/admin_user.rb
+        gsub    config/routes.rb
+      insert    db/migrate/20140805152049_devise_create_admin_users.rb
+      create  config/initializers/active_admin.rb
+      create  app/admin
+      create  app/admin/dashboard.rb
+      create  app/admin/admin_user.rb
+      insert  config/routes.rb
+    generate  active_admin:assets
+   identical  app/assets/javascripts/active_admin.js.coffee
+   identical  app/assets/stylesheets/active_admin.css.scss
+      create  db/migrate/20140805153414_create_active_admin_comments.rb
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805152049 DeviseCreateAdminUsers: migrating ===========================
+-- create_table(:admin_users)
+   -> 0.0367s
+-- add_index(:admin_users, :email, {:unique=>true})
+   -> 0.0153s
+-- add_index(:admin_users, :reset_password_token, {:unique=>true})
+   -> 0.0113s
+== 20140805152049 DeviseCreateAdminUsers: migrated (0.0636s) ==================
+
+== 20140805153414 CreateActiveAdminComments: migrating ========================
+-- create_table(:active_admin_comments)
+   -> 0.0190s
+-- add_index(:active_admin_comments, [:namespace])
+   -> 0.0114s
+-- add_index(:active_admin_comments, [:author_type, :author_id])
+   -> 0.0114s
+-- add_index(:active_admin_comments, [:resource_type, :resource_id])
+   -> 0.0104s
+== 20140805153414 CreateActiveAdminComments: migrated (0.0525s) ===============
+
+~/mine/JustBidIt (master)⚡ > rails g scaffold car name:string model:string price:decimal
+      invoke  active_record
+      create    db/migrate/20140805154323_create_cars.rb
+      create    app/models/car.rb
+      invoke    test_unit
+      create      test/models/car_test.rb
+      create      test/fixtures/cars.yml
+      invoke  resource_route
+       route    resources :cars
+      invoke  inherited_resources_controller
+      create    app/controllers/cars_controller.rb
+      invoke    erb
+      create      app/views/cars
+      create      app/views/cars/index.html.erb
+      create      app/views/cars/edit.html.erb
+      create      app/views/cars/show.html.erb
+      create      app/views/cars/new.html.erb
+      create      app/views/cars/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/cars_controller_test.rb
+      invoke    helper
+      create      app/helpers/cars_helper.rb
+      invoke      test_unit
+      create        test/helpers/cars_helper_test.rb
+      invoke    jbuilder
+      create      app/views/cars/index.json.jbuilder
+      create      app/views/cars/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/cars.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/cars.css.scss
+      invoke  scss
+      create    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rails generate active_admin:resource Car
+      create  app/admin/car.rb
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805154323 CreateCars: migrating =======================================
+-- create_table(:cars)
+   -> 0.0335s
+== 20140805154323 CreateCars: migrated (0.0336s) ==============================
+
+~/mine/JustBidIt (master)⚡ > rails generate active_admin:resource User
+      create  app/admin/user.rb
+~/mine/JustBidIt (master)⚡ > rails generate active_admin:resource Dealer
+      create  app/admin/dealer.rb
