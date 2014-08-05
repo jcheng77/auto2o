@@ -547,3 +547,43 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
    -> 0.0310s
 == 20140805162809 CreateBids: migrated (0.0311s) ==============================
 
+~/mine/JustBidIt (master)⚡ > rails g scaffold bargain user_id:integer tender_id:integer bid_id:integer  dealer_id:integer price:decimal postscript:string
+      invoke  active_record
+      create    db/migrate/20140805163428_create_bargains.rb
+      create    app/models/bargain.rb
+      invoke    test_unit
+      create      test/models/bargain_test.rb
+      create      test/fixtures/bargains.yml
+      invoke  resource_route
+       route    resources :bargains
+      invoke  inherited_resources_controller
+      create    app/controllers/bargains_controller.rb
+      invoke    erb
+      create      app/views/bargains
+      create      app/views/bargains/index.html.erb
+      create      app/views/bargains/edit.html.erb
+      create      app/views/bargains/show.html.erb
+      create      app/views/bargains/new.html.erb
+      create      app/views/bargains/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/bargains_controller_test.rb
+      invoke    helper
+      create      app/helpers/bargains_helper.rb
+      invoke      test_unit
+      create        test/helpers/bargains_helper_test.rb
+      invoke    jbuilder
+      create      app/views/bargains/index.json.jbuilder
+      create      app/views/bargains/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/bargains.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/bargains.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805163428 CreateBargains: migrating ===================================
+-- create_table(:bargains)
+   -> 0.0367s
+== 20140805163428 CreateBargains: migrated (0.0368s) ==========================
+

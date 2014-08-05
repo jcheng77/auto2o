@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  tender_id: 1
+  bid_id: 1
+  dealer_id: 1
+  price: 9.99
+  postscript: MyString
+
+two:
+  user_id: 1
+  tender_id: 1
+  bid_id: 1
+  dealer_id: 1
+  price: 9.99
+  postscript: MyString

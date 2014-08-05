@@ -1,0 +1,35 @@
+<h1>Listing bargains</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Tender</th>
+      <th>Bid</th>
+      <th>Dealer</th>
+      <th>Price</th>
+      <th>Postscript</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @bargains.each do |bargain| %>
+      <tr>
+        <td><%= bargain.user_id %></td>
+        <td><%= bargain.tender_id %></td>
+        <td><%= bargain.bid_id %></td>
+        <td><%= bargain.dealer_id %></td>
+        <td><%= bargain.price %></td>
+        <td><%= bargain.postscript %></td>
+        <td><%= link_to 'Show', bargain %></td>
+        <td><%= link_to 'Edit', edit_bargain_path(bargain) %></td>
+        <td><%= link_to 'Destroy', bargain, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Bargain', new_bargain_path %>

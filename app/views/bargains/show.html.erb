@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @bargain.user_id %>
+</p>
+
+<p>
+  <strong>Tender:</strong>
+  <%= @bargain.tender_id %>
+</p>
+
+<p>
+  <strong>Bid:</strong>
+  <%= @bargain.bid_id %>
+</p>
+
+<p>
+  <strong>Dealer:</strong>
+  <%= @bargain.dealer_id %>
+</p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @bargain.price %>
+</p>
+
+<p>
+  <strong>Postscript:</strong>
+  <%= @bargain.postscript %>
+</p>
+
+<%= link_to 'Edit', edit_bargain_path(@bargain) %> |
+<%= link_to 'Back', bargains_path %>

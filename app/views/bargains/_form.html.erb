@@ -1,0 +1,41 @@
+<%= form_for(@bargain) do |f| %>
+  <% if @bargain.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bargain.errors.count, "error") %> prohibited this bargain from being saved:</h2>
+
+      <ul>
+      <% @bargain.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :tender_id %><br>
+    <%= f.number_field :tender_id %>
+  </div>
+  <div class="field">
+    <%= f.label :bid_id %><br>
+    <%= f.number_field :bid_id %>
+  </div>
+  <div class="field">
+    <%= f.label :dealer_id %><br>
+    <%= f.number_field :dealer_id %>
+  </div>
+  <div class="field">
+    <%= f.label :price %><br>
+    <%= f.text_field :price %>
+  </div>
+  <div class="field">
+    <%= f.label :postscript %><br>
+    <%= f.text_field :postscript %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
