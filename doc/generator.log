@@ -507,3 +507,43 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
    -> 0.0584s
 == 20140805162516 CreateTenders: migrated (0.0585s) ===========================
 
+~/mine/JustBidIt (master) > rails g scaffold bid tender_id:integer dealer_id:integer price:decimal description:string
+      invoke  active_record
+      create    db/migrate/20140805162809_create_bids.rb
+      create    app/models/bid.rb
+      invoke    test_unit
+      create      test/models/bid_test.rb
+      create      test/fixtures/bids.yml
+      invoke  resource_route
+       route    resources :bids
+      invoke  inherited_resources_controller
+      create    app/controllers/bids_controller.rb
+      invoke    erb
+      create      app/views/bids
+      create      app/views/bids/index.html.erb
+      create      app/views/bids/edit.html.erb
+      create      app/views/bids/show.html.erb
+      create      app/views/bids/new.html.erb
+      create      app/views/bids/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/bids_controller_test.rb
+      invoke    helper
+      create      app/helpers/bids_helper.rb
+      invoke      test_unit
+      create        test/helpers/bids_helper_test.rb
+      invoke    jbuilder
+      create      app/views/bids/index.json.jbuilder
+      create      app/views/bids/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/bids.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/bids.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140805162809 CreateBids: migrating =======================================
+-- create_table(:bids)
+   -> 0.0310s
+== 20140805162809 CreateBids: migrated (0.0311s) ==============================
+
