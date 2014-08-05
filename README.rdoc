@@ -11,6 +11,9 @@ Things you may want to cover:
 
 * Configuration
 
+http://localhost:3000/admin
+email: 'admin@example.com', password: 'password'
+
 * Database creation
 
 * Database initialization
