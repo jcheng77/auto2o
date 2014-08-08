@@ -1,0 +1,12 @@
+<h1>还价</h1>
+
+价格：<%= @bargain.price %>
+<br/>
+<br/>
+附注：<%= @bargain.postscript %>
+<br/>
+<br/>
+
+<%= button_to "决定成交", accept_bargain_path(@bargain), :confirm => "确定成交？" %>
+
+<br>

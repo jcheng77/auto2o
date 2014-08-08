@@ -1,4 +1,5 @@
-source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
+# source 'https://rubygems.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -38,6 +39,11 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+gem 'pry'
+
 gem 'devise'
 
 gem 'activeadmin', github: 'gregbell/active_admin'
+
+gem 'bootstrap-sass', '~> 3.2.0'
+gem 'autoprefixer-rails'

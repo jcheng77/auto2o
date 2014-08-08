@@ -54,13 +54,32 @@
 #   end
 Rails.application.routes.draw do
 
+  resources :deposits
+
   resources :deals
 
-  resources :bargains
+  resources :bargains do
+    member do
+      post :accept
+    end
+  end
 
-  resources :bids
+  resources :bids do
+    member do
+      post :submit
+    end
+  end
 
-  resources :tenders
+  resources :tenders do
+    member do
+      get :bid
+      get :bids_list
+      post :submit
+      get :bargain
+      get :show_bargain
+      post :submit_bargain      
+    end
+  end
 
   resources :cars
 

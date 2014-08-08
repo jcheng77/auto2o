@@ -16,6 +16,9 @@
         <td><%= tender.model %></td>
         <td><%= tender.price %></td>
         <td><%= tender.description %></td>
+        <td><%= link_to '投标', bid_tender_path(tender) %></td>
+        <td><%= link_to '首轮竞标', bids_list_tender_path(tender) %></td>
+        <td><%= link_to '显示还价', show_bargain_tender_path(tender) %></td>
         <td><%= link_to 'Show', tender %></td>
         <td><%= link_to 'Edit', edit_tender_path(tender) %></td>
         <td><%= link_to 'Destroy', tender, method: :delete, data: { confirm: 'Are you sure?' } %></td>

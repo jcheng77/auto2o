@@ -18,6 +18,7 @@
         <td><%= bid.dealer_id %></td>
         <td><%= bid.price %></td>
         <td><%= bid.description %></td>
+        <td><%= link_to '还价', bargain_tender_path(bid.tender) %></td>
         <td><%= link_to 'Show', bid %></td>
         <td><%= link_to 'Edit', edit_bid_path(bid) %></td>
         <td><%= link_to 'Destroy', bid, method: :delete, data: { confirm: 'Are you sure?' } %></td>
