@@ -627,3 +627,48 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
    -> 0.0329s
 == 20140805163857 CreateDeals: migrated (0.0330s) =============================
 
+
+~/mine/JustBidIt (master)⚡ > rails g scaffold deposit user_id:integer tender_id:integer sum:decimal status:string
+      invoke  active_record
+      create    db/migrate/20140808194001_create_deposits.rb
+      create    app/models/deposit.rb
+      invoke    test_unit
+      create      test/models/deposit_test.rb
+      create      test/fixtures/deposits.yml
+      invoke  resource_route
+       route    resources :deposits
+      invoke  inherited_resources_controller
+      create    app/controllers/deposits_controller.rb
+      invoke    erb
+      create      app/views/deposits
+      create      app/views/deposits/index.html.erb
+      create      app/views/deposits/edit.html.erb
+      create      app/views/deposits/show.html.erb
+      create      app/views/deposits/new.html.erb
+      create      app/views/deposits/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/deposits_controller_test.rb
+      invoke    helper
+      create      app/helpers/deposits_helper.rb
+      invoke      test_unit
+      create        test/helpers/deposits_helper_test.rb
+      invoke    jbuilder
+      create      app/views/deposits/index.json.jbuilder
+      create      app/views/deposits/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/deposits.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/deposits.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+== 20140808194001 CreateDeposits: migrating ===================================
+-- create_table(:deposits)
+   -> 0.0351s
+== 20140808194001 CreateDeposits: migrated (0.0352s) ==========================
+
+~/mine/JustBidIt (master)⚡ > rails g active_admin:resource Deal
+      create  app/admin/deal.rb
+~/mine/JustBidIt (master)⚡ > rails g active_admin:resource Deposit
+      create  app/admin/deposit.rb

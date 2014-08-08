@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  tender_id: 1
+  sum: 9.99
+  status: MyString
+
+two:
+  user_id: 1
+  tender_id: 1
+  sum: 9.99
+  status: MyString
