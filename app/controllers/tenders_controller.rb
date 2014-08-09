@@ -1,5 +1,7 @@
 class TendersController < InheritedResources::Base
 
+  before_action :authenticate_user!, except: [:index]
+
   before_action :set_tender, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
@@ -26,7 +28,7 @@ class TendersController < InheritedResources::Base
   # POST /tenders.json
   def create
     @tender = Tender.new(tender_params)
-
+    @tender.user = current_user
     respond_to do |format|
       if @tender.save
         format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
@@ -70,7 +72,7 @@ class TendersController < InheritedResources::Base
 
   # GET /tender/1/bid_list
   # GET /tender/1/bid_list.json
-  def bids_list  
+  def bids_list
     @bids = @tender.bids
   end
 
@@ -78,7 +80,7 @@ class TendersController < InheritedResources::Base
   # POST /tender/1/submit.json
   def submit
     @bid = Bid.new(bid_params)
-    @bid.tender = @tender       
+    @bid.tender = @tender
     respond_to do |format|
       if @bid.save
         format.html { redirect_to @bid, notice: 'Tender was successfully created.' }
@@ -89,24 +91,25 @@ class TendersController < InheritedResources::Base
       end
     end
   end
-  
+
   # GET /tender/1/bargain
-  # GET /tender/1/bargain.json  
+  # GET /tender/1/bargain.json
   def bargain
-    @bargain = @tender.build_bargain 
+    @bargain = @tender.build_bargain
   end
 
   # GET /tender/1/show_bargain
   # GET /tender/1/show_bargain.json
   def show_bargain
     @bargain = @tender.bargain
+    @bid = @bargain.bids.new
   end
 
   # POST /tender/1/submit_bargain
   # POST /tender/1/submit_bargain.json
   def submit_bargain
     @bargain = @tender.build_bargain(bargain_params)
-       
+
     respond_to do |format|
       if @bargain.save
         format.html { redirect_to @bargain, notice: 'Tender was successfully created.' }
@@ -133,7 +136,7 @@ class TendersController < InheritedResources::Base
   def bid_params
     params.require(:bid).permit(:price, :description)
   end
-  
+
   def bargain_params
     params.require(:bargain).permit(:price, :postscript)
   end

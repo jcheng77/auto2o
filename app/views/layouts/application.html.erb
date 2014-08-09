@@ -33,6 +33,15 @@
             <li><a href="/bids">投标</a></li>
             <li><a href="/bargains">还价</a></li>
             <li><a href="/deals">成交历史</a></li>
+						<% if user_signed_in? %>
+            <li>
+							<%= link_to "注销", destroy_user_session_path %>
+						</li>
+						<% else %>
+            <li>
+							<%= link_to "登录",  user_session_path %>
+						</li>
+						<% end %>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

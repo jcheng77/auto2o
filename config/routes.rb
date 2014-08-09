@@ -61,6 +61,7 @@ Rails.application.routes.draw do
   resources :bargains do
     member do
       post :accept
+      post :submit
     end
   end
 

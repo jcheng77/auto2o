@@ -14,7 +14,13 @@
   <tbody>
     <% @bids.each do |bid| %>
       <tr>
-        <td><%= link_to (bid.tender.description || "标的"), tender_path(bid.tender) %></td>
+        <td>
+					<% if bid.tender  %>
+					<%= link_to (bid.tender.description || "标的"), tender_path(bid.tender) %>
+					<% else %>
+					<%= link_to (bid.bargain.postscript || "还价"), bargain_path(bid.bargain) %>
+					<% end %>
+				</td>
         <td><%= bid.dealer_id %></td>
         <td><%= bid.price %></td>
         <td><%= bid.description %></td>
