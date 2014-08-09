@@ -672,3 +672,49 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
       create  app/admin/deal.rb
 ~/mine/JustBidIt (master)⚡ > rails g active_admin:resource Deposit
       create  app/admin/deposit.rb
+
+~/mine/JustBidIt (master)⚡ > rails generate devise:views users
+      invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/users/shared
+      create    app/views/users/shared/_links.erb
+      invoke  form_for
+      create    app/views/users/confirmations
+      create    app/views/users/confirmations/new.html.erb
+      create    app/views/users/passwords
+      create    app/views/users/passwords/edit.html.erb
+      create    app/views/users/passwords/new.html.erb
+      create    app/views/users/registrations
+      create    app/views/users/registrations/edit.html.erb
+      create    app/views/users/registrations/new.html.erb
+      create    app/views/users/sessions
+      create    app/views/users/sessions/new.html.erb
+      create    app/views/users/unlocks
+      create    app/views/users/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/users/mailer
+      create    app/views/users/mailer/confirmation_instructions.html.erb
+      create    app/views/users/mailer/reset_password_instructions.html.erb
+      create    app/views/users/mailer/unlock_instructions.html.erb
+
+~/mine/JustBidIt (master)⚡ > rails generate devise:views dealers
+      invoke  Devise::Generators::SharedViewsGenerator
+      create    app/views/dealers/shared
+      create    app/views/dealers/shared/_links.erb
+      invoke  form_for
+      create    app/views/dealers/confirmations
+      create    app/views/dealers/confirmations/new.html.erb
+      create    app/views/dealers/passwords
+      create    app/views/dealers/passwords/edit.html.erb
+      create    app/views/dealers/passwords/new.html.erb
+      create    app/views/dealers/registrations
+      create    app/views/dealers/registrations/edit.html.erb
+      create    app/views/dealers/registrations/new.html.erb
+      create    app/views/dealers/sessions
+      create    app/views/dealers/sessions/new.html.erb
+      create    app/views/dealers/unlocks
+      create    app/views/dealers/unlocks/new.html.erb
+      invoke  erb
+      create    app/views/dealers/mailer
+      create    app/views/dealers/mailer/confirmation_instructions.html.erb
+      create    app/views/dealers/mailer/reset_password_instructions.html.erb
+      create    app/views/dealers/mailer/unlock_instructions.html.erb
