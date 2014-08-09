@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20140808194001) do
     t.integer  "dealer_id"
     t.decimal  "price",      precision: 12, scale: 2
     t.string   "postscript"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -62,6 +63,7 @@ ActiveRecord::Schema.define(version: 20140808194001) do
     t.integer  "dealer_id"
     t.decimal  "price",       precision: 12, scale: 2
     t.string   "description"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -100,6 +102,7 @@ ActiveRecord::Schema.define(version: 20140808194001) do
     t.integer  "dealer_id"
     t.decimal  "final_price", precision: 12, scale: 2
     t.string   "postscript"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -108,7 +111,7 @@ ActiveRecord::Schema.define(version: 20140808194001) do
     t.integer  "user_id"
     t.integer  "tender_id"
     t.decimal  "sum",        precision: 10, scale: 0
-    t.string   "status"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -119,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140808194001) do
     t.string   "model"
     t.decimal  "price",       precision: 12, scale: 2
     t.string   "description"
+    t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
