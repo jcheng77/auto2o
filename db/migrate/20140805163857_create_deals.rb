@@ -8,6 +8,7 @@ class CreateDeals < ActiveRecord::Migration
       t.integer :dealer_id
       t.decimal :final_price, precision: 12, scale: 2
       t.string :postscript
+      t.string :state
 
       t.timestamps
     end

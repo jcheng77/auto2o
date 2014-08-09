@@ -4,7 +4,7 @@ class CreateDeposits < ActiveRecord::Migration
       t.integer :user_id
       t.integer :tender_id
       t.decimal :sum
-      t.string :status
+      t.string :state
 
       t.timestamps
     end

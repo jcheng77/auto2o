@@ -6,6 +6,7 @@ class CreateTenders < ActiveRecord::Migration
       t.string :model
       t.decimal :price, precision: 12, scale: 2
       t.string :description
+      t.string :state
 
       t.timestamps
     end

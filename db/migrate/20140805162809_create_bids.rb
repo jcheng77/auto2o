@@ -5,6 +5,7 @@ class CreateBids < ActiveRecord::Migration
       t.integer :dealer_id
       t.decimal :price, precision: 12, scale: 2
       t.string :description
+      t.string :state
 
       t.timestamps
     end
