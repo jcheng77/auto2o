@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1">	
+	<meta name="viewport" content="width=device-width, initial-scale=1">
   <title>JustBidIt</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
@@ -11,9 +11,25 @@
 </head>
 <body>
 
-	<p class="notice"><%= notice %></p>
-	<p class="alert"><%= alert %></p>
+  <!--
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+  -->
 
+<p></p>
+<p></p>
+<br/>
+<br/>
+    <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: "alert alert-#{name}", role: "alert" %>
+    <% end -%>
+
+<!--
+<div class="alert alert-success" role="alert"></div>
+<div class="alert alert-info" role="alert"></div>
+<div class="alert alert-warning" role="alert"></div>
+<div class="alert alert-danger" role="alert"></div>
+-->
 
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -33,15 +49,24 @@
             <li><a href="/bids">投标</a></li>
             <li><a href="/bargains">还价</a></li>
             <li><a href="/deals">成交历史</a></li>
-						<% if user_signed_in? %>
+            <% if user_signed_in? %>
             <li>
-							<%= link_to "注销", destroy_user_session_path %>
-						</li>
-						<% else %>
+            	<%= link_to "用户#{current_user.email}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            </li>
+            <% else %>
             <li>
-							<%= link_to "登录",  user_session_path %>
-						</li>
-						<% end %>
+            	<%= link_to "用户登录",  user_session_path %>
+            </li>
+            <% end %>
+            <% if dealer_signed_in? %>
+            <li>
+            	<%= link_to "经销商#{current_dealer.email}注销", destroy_dealer_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            </li>
+            <% else %>
+            <li>
+            	<%= link_to "经销商登录",  dealer_session_path %>
+            </li>
+            <% end %>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -50,7 +75,7 @@
     <div class="container">
 			<%= yield %>
     </div><!-- /.container -->
-		
+
 </body>
 </html>
 

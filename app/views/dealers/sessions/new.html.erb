@@ -1,11 +1,15 @@
 <h2>经销商登录</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <div><%= f.label :email, "邮件地址" %><br />
+  <%= f.email_field :email, autofocus: true,
+    type: "email", class: "form-control", placeholder: "expamle@site.com", required: true %>
+  </div>
 
-  <div><%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
+  <div><%= f.label :password, "密码" %><br />
+    <%= f.password_field :password, autocomplete: "off",
+             type: "password", class: "form-control", placeholder: "******", required: true %>
+  </div>
 
   <% if devise_mapping.rememberable? -%>
     <div><%= f.check_box :remember_me %> <%= f.label :remember_me %></div>

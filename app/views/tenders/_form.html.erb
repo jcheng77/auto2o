@@ -12,7 +12,7 @@
   <% end %>
 
   <div class="field">
-    <%= f.label :model %><br>
+    <%= f.label :model, '车型' %><br>
     <%= f.text_field :model %>
   </div>
   <!--
@@ -22,10 +22,10 @@
   </div>
 	-->
   <div class="field">
-    <%= f.label :description %><br>
+    <%= f.label :description, '额外要求' %><br>
     <%= f.text_field :description %>
   </div>
   <div class="actions">
-    <%= f.submit %>
+    <%= f.submit '确定买这个' %>
   </div>
 <% end %>
