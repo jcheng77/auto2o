@@ -2,11 +2,12 @@ class BargainsController < InheritedResources::Base
 
 
   before_action :authenticate_user!
+  before_action :authenticate_dealer!, only: [:submit]
 
-  before_action :set_bargin, only: [:show, :edit, :update, :destroy, :accept, :submit]
+  before_action :set_bargain, only: [:show, :edit, :update, :destroy, :accept, :submit]
 
   def accept
-    @deal = @bargin.tender.build_deal(final_price: @bargin.price, postscript: @bargin.postscript)
+    @deal = @bargain.tender.build_deal(final_price: @bargain.price, postscript: @bargain.postscript)
     @deal.save!
     redirect_to deals_path
   end
@@ -16,6 +17,7 @@ class BargainsController < InheritedResources::Base
     @bid = Bid.new(bid_params)
     @bid.bargain = @bargain
     @bid.tender = @bargain.tender
+    @bid.dealer = current_dealer
     respond_to do |format|
       if @bid.save
         format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
@@ -27,12 +29,11 @@ class BargainsController < InheritedResources::Base
     end
   end
 
-
 private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_bargin
-    @bargin = Bargain.find(params[:id])
+  def set_bargain
+    @bargain = Bargain.find(params[:id])
   end
 
   def bargain_params

@@ -2,7 +2,8 @@ class TendersController < InheritedResources::Base
 
   before_action :authenticate_user!, except: [:index]
 
-  before_action :set_tender, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :submit, :bargain, :submit_bargain, :show_bargain]
+  before_action :set_tender, except: [:index, :create, :new]
+                #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
   # GET /tenders.json
@@ -13,6 +14,7 @@ class TendersController < InheritedResources::Base
   # GET /tenders/1
   # GET /tenders/1.json
   def show
+    @deposit = @tender.deposit || @tender.build_deposit
   end
 
   # GET /tenders/new
@@ -28,6 +30,7 @@ class TendersController < InheritedResources::Base
   # POST /tenders.json
   def create
     @tender = Tender.new(tender_params)
+    @tender.chose_subject if @tender.model.present?
     @tender.user = current_user
     respond_to do |format|
       if @tender.save
@@ -64,6 +67,11 @@ class TendersController < InheritedResources::Base
     end
   end
 
+  def invite
+    @tender.invite_dealer
+    redirect_to @tender, notice: '竞标邀请已发出.'
+  end
+
   # GET /tender/1/bid
   # GET /tender/1/bid.json
   def bid
@@ -74,6 +82,10 @@ class TendersController < InheritedResources::Base
   # GET /tender/1/bid_list.json
   def bids_list
     @bids = @tender.bids
+  end
+
+  def final_bids
+    @bids = @tender.bargain.bids if @tender.bargain
   end
 
   # POST /tender/1/submit
@@ -102,7 +114,7 @@ class TendersController < InheritedResources::Base
   # GET /tender/1/show_bargain.json
   def show_bargain
     @bargain = @tender.bargain
-    @bid = @bargain.bids.new
+    @bid = @bargain.bids.new if @bargain
   end
 
   # POST /tender/1/submit_bargain

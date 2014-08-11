@@ -1,39 +1,47 @@
 <h1>还价</h1>
 
-价格：<%= @bargain.price %>
-<br/>
-<br/>
-附注：<%= @bargain.postscript %>
-<br/>
-<br/>
+<% if @bargain  %>
 
+  价格：<%= @bargain.price %>
+  <br/>
+  <br/>
+  附注：<%= @bargain.postscript %>
+  <br/>
+  <br/>
 
-<%= form_for(@bid, url: submit_bargain_path(@bargain)) do |f| %>
-  <% if @bid.errors.any? %>
+  <% if dealer_signed_in?  %>
+    <%= form_for(@bid, url: submit_bargain_path(@bargain)) do |f| %>
+    <% if @bid.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@bid.errors.count, "error") %> prohibited this tender from being saved:</h2>
 
       <ul>
-      <% @bid.errors.full_messages.each do |message| %>
+        <% @bid.errors.full_messages.each do |message| %>
         <li><%= message %></li>
-      <% end %>
+        <% end %>
       </ul>
     </div>
+    <% end %>
+
+    <div class="field">
+      <%= f.label :price %><br>
+      <%= f.text_field :price %>
+    </div>
+    <div class="field">
+      <%= f.label :description %><br>
+      <%= f.text_field :description %>
+    </div>
+    <div class="actions">
+      <%= submit_tag "提交第二轮报价" ,confirm: '确定提交?' %>
+    </div>
+    <% end %>
   <% end %>
 
-  <div class="field">
-    <%= f.label :price %><br>
-    <%= f.text_field :price %>
-  </div>
-  <div class="field">
-    <%= f.label :description %><br>
-    <%= f.text_field :description %>
-  </div>
-  <div class="actions">
-    <%= submit_tag "提交第二轮报价" ,confirm: '确定提交?' %>
-  </div>
-<% end %>
+<% else %>
 
+<p>尚无投标</p>
+
+<% end %>
 
 <%#= button_to "决定成交", accept_bargain_path(@bargain), :confirm => "确定成交？" %>
 
