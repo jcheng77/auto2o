@@ -73,12 +73,14 @@ Rails.application.routes.draw do
 
   resources :tenders do
     member do
+      post :invite
       get :bid
-      get :bids_list
       post :submit
-      get :bargain
+      get :bids_list
+      post :submit_bargain
       get :show_bargain
-      post :submit_bargain      
+      get :bargain
+      get :final_bids
     end
   end
 

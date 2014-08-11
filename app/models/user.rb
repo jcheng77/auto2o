@@ -8,5 +8,6 @@ class User < ActiveRecord::Base
   has_many :tenders
 
   has_many :deals
+  has_many :deposits
 
 end

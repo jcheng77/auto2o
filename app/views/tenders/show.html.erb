@@ -1,21 +1,60 @@
+<h1>目标车型</h1>
+
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Model:</strong>
+  <strong>车型:</strong>
   <%= @tender.model %>
 </p>
 
 <p>
-  <strong>Price:</strong>
-  <%= @tender.price %>
-</p>
-
-<p>
-  <strong>Description:</strong>
+  <strong>其它要求:</strong>
   <%= @tender.description %>
 </p>
 
-<%= link_to 'Bid', bid_tender_path(@tender) %> |
 
-<%= link_to 'Edit', edit_tender_path(@tender) %> |
-<%= link_to 'Back', tenders_path %>
+<h1>保证金</h1>
+<p>第一次询价后可以全额退回保证金</p>
+<p>还价后若有经销商应价成功不可全额退回保证金</p>
+
+
+<% if @tender.deposit.new_record? %>
+
+	<%= form_for(@deposit) do |f| %>
+	<% if @deposit.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@deposit.errors.count, "error") %> prohibited this tender from being saved:</h2>
+
+		<ul>
+			<% @deposit.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+
+	<div class="field">
+		<%= f.label :sum %><br>
+		<%= f.text_field :sum %>
+	</div>
+
+	<%= hidden_field_tag "deposit[tender_id]", @tender.id, onchange: "alert('Input collected!')" %>
+
+	<div class="actions">
+		<%= f.submit '提交保证金' %>
+	</div>
+	<% end %>
+
+<% else %>
+
+	<p>已交保证金：</p>
+	<p><%= @tender.deposit.sum %></p>
+
+    <% if @tender.qualified? %>
+        <p>可以邀请经销商报价了：</p>
+    <%= link_to "邀请经销商报价", invite_tender_path(@tender), method: :post %>
+    <% else %>
+        <%= t("tender.state.#{@tender.state}") %>
+    <% end %>
+
+<% end %>
