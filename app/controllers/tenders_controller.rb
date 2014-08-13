@@ -1,6 +1,7 @@
 class TendersController < InheritedResources::Base
 
-  before_action :authenticate_user!, except: [:index]
+  before_action :authenticate_user!, except: [:index, :bid, :submit]
+  before_action :authenticate_dealer!, only: [:bid, :submit]
 
   before_action :set_tender, except: [:index, :create, :new]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
@@ -13,8 +14,19 @@ class TendersController < InheritedResources::Base
 
   # GET /tenders/1
   # GET /tenders/1.json
+  # 用户支付完毕后，也重定向回来这里
   def show
     @deposit = @tender.deposit || @tender.build_deposit
+
+    # 友好的提示当前订单的状态
+    callback_params = params.except(*request.path_parameters.keys)
+    if callback_params.any? && Alipay::Sign.verify?(callback_params)
+      if @deposit.paid? || @deposit.completed?
+        flash.now[:success] = I18n.t('deposit_paid_message')
+      elsif @deposit.pending?
+        flash.now[:info] = I18n.t('deposit_pendding_message')
+      end
+    end
   end
 
   # GET /tenders/new
@@ -93,6 +105,14 @@ class TendersController < InheritedResources::Base
   def submit
     @bid = Bid.new(bid_params)
     @bid.tender = @tender
+    begin
+      @tender.submit_tender!
+      @bid.dealer = current_dealer
+    rescue StateMachine::InvalidTransition => e
+      flash[:warning] = e.to_s
+      Rails.logger.info(e)
+      redirect_to(tenders_path) and return
+    end
     respond_to do |format|
       if @bid.save
         format.html { redirect_to @bid, notice: 'Tender was successfully created.' }

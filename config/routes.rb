@@ -54,7 +54,11 @@
 #   end
 Rails.application.routes.draw do
 
-  resources :deposits
+  resources :deposits, only: [:create, :update] do
+    collection do
+      post :alipay_notify
+    end
+  end
 
   resources :deals
 

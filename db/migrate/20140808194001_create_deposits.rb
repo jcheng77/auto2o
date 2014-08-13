@@ -5,6 +5,8 @@ class CreateDeposits < ActiveRecord::Migration
       t.integer :tender_id
       t.decimal :sum
       t.string :state
+      t.string :trade_no
+      t.string :broker_type
 
       t.timestamps
     end

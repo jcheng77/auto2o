@@ -50,3 +50,5 @@ gem 'autoprefixer-rails'
 
 gem 'state_machine'
 gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
+
+gem 'alipay', '~> 0.1.0'

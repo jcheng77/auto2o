@@ -1,9 +1,9 @@
 class BidsController < InheritedResources::Base
 
-    before_action :authenticate_dealer!
+  before_action :authenticate_dealer!
 
   def index
-    @bids = Bid.all
+    @bids = current_dealer.bids.all
   end
 
 end

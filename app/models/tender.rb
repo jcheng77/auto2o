@@ -12,6 +12,9 @@ class Tender < ActiveRecord::Base
 
     before_transition :invite => any - :invite, :do => :check_deposit
 
+    before_transition any => :bid_open, :do => :check_bid_time
+    before_transition any => :final_bid_closed, :do => :check_final_bid_time
+
     after_transition any => :closed do |tender, transition|
       # tender.noty_all
     end
@@ -34,7 +37,7 @@ class Tender < ActiveRecord::Base
       transition [:invite, :bid_open] => :bid_open
     end
 
-    event :submit_tender_closed do
+    event :tender_closed do
       transition :bid_open => :bid_closed
     end
 
@@ -45,7 +48,15 @@ class Tender < ActiveRecord::Base
 
     # if user not satisfied with result of first round, bargain
     event :submit_bargain do
-      transition :bid_closed => :invite
+      transition :bid_closed => :bargain_started
+    end
+
+    event :submit_final do
+      transition [:bargain_started, :final_bid_open] => :final_bid_open
+    end
+
+    event :final_closed do
+      transition :final_bid_open => :final_bid_closed
     end
 
     state :determined do
@@ -65,10 +76,18 @@ class Tender < ActiveRecord::Base
     self.deposit.present?
   end
 
+  def check_bid_time
+    tender_closed if Time.now > (self.created_at + 1.days)
+  end
+
+  def check_final_bid_time
+
+  end
+
   def log_transaction
-    Rails.logger.info("start ")
+    Rails.logger.info("Start change state--------")
     yield
-    Rails.logger.info("End ")
+    Rails.logger.info("End change state----------")
   end
 
 end

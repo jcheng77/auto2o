@@ -32,3 +32,9 @@ zh-CN:
       bid_open: '竞标中'
       bid_closed: '竞标截止'
       deal_closed: '交易达成'
+
+  devise:
+    sessions:
+      dealer:
+      signed_in: '已登录经销商'
+      signed_out: '已登出经销商'

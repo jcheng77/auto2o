@@ -1,29 +1,60 @@
 class DepositsController < InheritedResources::Base
 
-  before_action :authenticate_user!
+  skip_before_filter :verify_authenticity_token, :only => [:alipay_notify]
 
-  before_action :set_deposit, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, :except => [:alipay_notify]
+  before_action :set_deposit, only: [:edit, :update, :destroy]
 
+  # 创建订单
   def create
-    @deposit = Deposit.new(deposit_params)
-    @deposit.user = current_user
+    @deposit = current_user.deposits.new(deposit_params)
+
     @tender = Tender.find(deposit_params[:tender_id])
     @deposit.tender = @tender
     @tender.submit_margin
 
     respond_to do |format|
       if @deposit.save
-        format.html { redirect_to @deposit.tender, notice: 'Tender was successfully created.' }
+        format.html { redirect_to @deposit.pay_url }
+        # format.html { redirect_to @deposit.tender, notice: 'Tender was successfully created.' }
         format.json { render :show, status: :created, location: @deposit }
       else
-        format.html { render :new }
+        format.html { redirect_to tender_path(@tender), notice: '订金订单创建失败，请重试.' }
         format.json { render json: @deposit.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  def deposit_params
-    params.require(:deposit).permit(:sum, :tender_id)
+  # 支付宝异步消息接口
+  def alipay_notify
+    notify_params = params.except(*request.path_parameters.keys)
+    # 先校验消息的真实性
+    if Alipay::Sign.verify?(notify_params) && Alipay::Notify.verify?(notify_params)
+      # 获取交易关联的订单
+      @deposit = self.class.find params[:out_trade_no]
+
+      case params[:trade_status]
+      when 'WAIT_BUYER_PAY'
+        # 交易开启
+        @deposit.update_attribute :trade_no, params[:trade_no]
+        @deposit.pend
+      when 'WAIT_SELLER_SEND_GOODS'
+        # 买家完成支付
+        @deposit.pay
+        # 虚拟物品无需发货，所以立即调用发货接口
+        @deposit.send_good
+      when 'TRADE_FINISHED'
+        # 交易完成
+        @deposit.complete
+      when 'TRADE_CLOSED'
+        # 交易被关闭
+        @deposit.cancel
+      end
+
+      render :text => 'success' # 成功接收消息后，需要返回纯文本的 ‘success’，否则支付宝会定时重发消息，最多重试7次。
+    else
+      render :text => 'error'
+    end
   end
 
 private
@@ -31,6 +62,10 @@ private
   # Use callbacks to share common setup or constraints between actions.
   def set_deposit
     @deposit = Deposit.find(params[:id])
+  end
+
+  def deposit_params
+    params.require(:deposit).permit(:sum, :tender_id, :quantity)
   end
 
 end

@@ -110,8 +110,10 @@ ActiveRecord::Schema.define(version: 20140808194001) do
   create_table "deposits", force: true do |t|
     t.integer  "user_id"
     t.integer  "tender_id"
-    t.decimal  "sum",        precision: 10, scale: 0
+    t.decimal  "sum",         precision: 10, scale: 0
     t.string   "state"
+    t.string   "trade_no"
+    t.string   "broker_type"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
