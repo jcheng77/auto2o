@@ -43,6 +43,7 @@ class TendersController < InheritedResources::Base
   def create
     @tender = Tender.new(tender_params)
     @tender.chose_subject if @tender.model.present?
+    # @tender.car = Car.find_by_model(params[:model])
     @tender.user = current_user
     respond_to do |format|
       if @tender.save

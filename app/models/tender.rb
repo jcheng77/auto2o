@@ -7,6 +7,7 @@ class Tender < ActiveRecord::Base
   has_one :bargain
   has_one :deal
   has_one :deposit
+  belongs_to :car
 
   state_machine :initial => :intention do
 
