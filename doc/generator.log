@@ -1,5 +1,5 @@
 ~/mine > rails new JustBidIt -d mysql
-      create  
+      create
       create  README.rdoc
       create  Rakefile
       create  config.ru
@@ -466,7 +466,7 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
       create  app/admin/user.rb
 ~/mine/JustBidIt (master)⚡ > rails generate active_admin:resource Dealer
       create  app/admin/dealer.rb
-			
+
 ~/mine/JustBidIt (master) > rails g scaffold tender model:string price:decimal description:string
       invoke  active_record
       create    db/migrate/20140805162516_create_tenders.rb
@@ -718,3 +718,67 @@ Use `bundle show [gemname]` to see where a bundled gem is installed.
       create    app/views/dealers/mailer/confirmation_instructions.html.erb
       create    app/views/dealers/mailer/reset_password_instructions.html.erb
       create    app/views/dealers/mailer/unlock_instructions.html.erb
+
+
+~/mine/JustBidIt (master)⚡ > rails g scaffold devices push_id:string type:string state:string
+Plural version of the model detected, using singularized version. Override with --force-plural.
+      invoke  active_record
+      create    db/migrate/20140819163840_create_devices.rb
+      create    app/models/device.rb
+      invoke    test_unit
+      create      test/models/device_test.rb
+      create      test/fixtures/devices.yml
+      invoke  resource_route
+       route    resources :devices
+      invoke  inherited_resources_controller
+      create    app/controllers/devices_controller.rb
+      invoke    erb
+      create      app/views/devices
+      create      app/views/devices/index.html.erb
+      create      app/views/devices/edit.html.erb
+      create      app/views/devices/show.html.erb
+      create      app/views/devices/new.html.erb
+      create      app/views/devices/_form.html.erb
+      invoke    test_unit
+      create      test/controllers/devices_controller_test.rb
+      invoke    helper
+      create      app/helpers/devices_helper.rb
+      invoke      test_unit
+      create        test/helpers/devices_helper_test.rb
+      invoke    jbuilder
+      create      app/views/devices/index.json.jbuilder
+      create      app/views/devices/show.json.jbuilder
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/devices.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/devices.css.scss
+      invoke  scss
+   identical    app/assets/stylesheets/scaffolds.css.scss
+~/mine/JustBidIt (master)⚡ > rake db:migrate
+[deprecated] I18n.enforce_available_locales will default to true in the future. If you really want to skip validation of your locale you can set I18n.enforce_available_locales = false to avoid this message.
+== 20140819163840 CreateDevices: migrating ====================================
+-- create_table(:devices)
+   -> 0.0812s
+== 20140819163840 CreateDevices: migrated (0.0813s) ===========================
+
+
+~/mine/JustBidIt (master)⚡ > rails g controller dealers index show
+      create  app/controllers/dealers_controller.rb
+       route  get 'dealers/show'
+       route  get 'dealers/index'
+      invoke  erb
+       exist    app/views/dealers
+      create    app/views/dealers/index.html.erb
+      create    app/views/dealers/show.html.erb
+      invoke  test_unit
+      create    test/controllers/dealers_controller_test.rb
+      invoke  helper
+      create    app/helpers/dealers_helper.rb
+      invoke    test_unit
+      create      test/helpers/dealers_helper_test.rb
+      invoke  assets
+      invoke    coffee
+      create      app/assets/javascripts/dealers.js.coffee
+      invoke    scss
+      create      app/assets/stylesheets/dealers.css.scss
