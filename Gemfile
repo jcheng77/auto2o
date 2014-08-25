@@ -61,3 +61,5 @@ gem 'clockwork'
 gem 'rqrcode-rails3'
 
 gem 'qrio'
+
+gem 'mini_magick'

@@ -77,7 +77,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :deals
+  resources :deals do
+    member do
+      get :qrcode
+    end
+  end
 
   resources :dealers
 
