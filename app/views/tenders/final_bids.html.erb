@@ -25,3 +25,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= link_to '取消购买意向', cancel_2_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['bargain_started', 'final_bid_open', 'final_bid_closed', 'final_deal_closed'].include?(@tender.state) %>

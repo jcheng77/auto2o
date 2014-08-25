@@ -189,6 +189,49 @@ class TendersController < InheritedResources::Base
     end
   end
 
+  def bid_final
+    @bid = @tender.bids.new
+  end
+
+  def submit_2_round
+    @bid = Bid.new(bid_params)
+    @bid.tender = @tender
+    @bid.bargain = @tender.bargain
+    begin
+      @tender.check_final_bid_time
+      @tender.submit_final!
+      @bid.dealer = current_dealer
+    rescue StateMachine::InvalidTransition => e
+      flash[:warning] = e.to_s
+      Rails.logger.info(e)
+      redirect_to(tenders_path) and return
+    end
+    respond_to do |format|
+      if @bid.save
+        format.html { redirect_to @bid, notice: 'Tender was successfully created.' }
+        format.json { render :show, status: :created, location: @bid }
+      else
+        format.html { render :new }
+        format.json { render json: @bid.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+  def cancel_2_round
+    @tender.cancel_2_round!
+    @reasons=[
+      "reason1",
+      "reason2",
+      "reason3",
+      "reason4"
+    ]
+    respond_to do |format|
+      format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+      format.json { render :cancel_1_round, status: :accepted, location: @tender }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

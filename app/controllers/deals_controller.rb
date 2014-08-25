@@ -9,7 +9,7 @@ class DealsController < InheritedResources::Base
   end
 
   def show
-
+    @tender = @deal.tender
   end
 
   def qrcode

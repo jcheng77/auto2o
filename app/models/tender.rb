@@ -14,6 +14,7 @@ class Tender < ActiveRecord::Base
 
     before_transition any - :bid_closed => :bid_open, :do => :check_bid_time
     before_transition any => :final_bid_closed, :do => :check_final_bid_time
+    before_transition any => :round_2_canceled, :do => :deal_with_deposit
 
     after_transition any => :closed do |tender, transition|
       # tender.noty_all
@@ -41,13 +42,13 @@ class Tender < ActiveRecord::Base
       transition :bid_open => :bid_closed
     end
 
-    event :cancel_1_round do
-      transition [:intention, :determined, :bid_closed, :qualified, :invite, :bid_open, :bid_closed] => :round_1_canceled
-    end
-
     # user can make deal in the middle or end of the first round of bid
     event :make_deal do
       transition [:bid_open, :bid_closed] => :deal_closed
+    end
+
+    event :cancel_1_round do
+      transition [:intention, :determined, :bid_closed, :qualified, :invite, :bid_open, :bid_closed, :deal_closed] => :round_1_canceled
     end
 
     # if user not satisfied with result of first round, bargain
@@ -93,7 +94,16 @@ class Tender < ActiveRecord::Base
   end
 
   def check_final_bid_time
+    final_closed if Time.now > (self.created_at + 1.days)
+  end
 
+  def deal_with_deposit
+    if self.deal.present?
+      # refund to dealer, user, forfeiture of deposit
+    else
+      # refund to user, forfeiture of deposit
+    end
+    Rails.logger.info("deal_with_deposit --------")
   end
 
   def log_transaction

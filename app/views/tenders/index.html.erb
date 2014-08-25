@@ -42,7 +42,7 @@
         </td>
         <td>
           <% if ['bargain_started', 'final_bid_open'].include? tender.state %>
-          <%= link_to '第二轮竞标', final_bids_tender_path(tender) %>
+          <%= link_to '参与第二轮竞标', bid_final_tender_path(tender) %>
           <% else %>
           不能投第二轮
           <% end %>

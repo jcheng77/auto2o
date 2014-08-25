@@ -106,10 +106,12 @@ Rails.application.routes.draw do
       post :submit
       get :bids_list
       post :submit_bargain
-      delete :cancel_bargain
       get :show_bargain
       get :bargain
+      get :bid_final
+      post :submit_2_round
       get :final_bids
+      delete :cancel_2_round
     end
   end
 
