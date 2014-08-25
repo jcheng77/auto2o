@@ -7,7 +7,7 @@
       <th>Price</th>
       <th>Description</th>
       <th>State</th>
-      <th colspan="6"></th>
+      <th colspan="7"></th>
     </tr>
   </thead>
 
@@ -17,7 +17,8 @@
         <td><%= tender.model %></td>
         <td><%= tender.price %></td>
         <td><%= tender.description %></td>
-        <td><%= tender.state %></td>
+        <td><%= t("tender.state.#{tender.state}") %></td>
+        <td><%= link_to '详情', tender %></td>
         <td>
           <% if tender.state == 'invite' || tender.state == 'bid_open' %>
           <%= link_to '参与第一轮投标', bid_tender_path(tender) %>
@@ -53,7 +54,13 @@
           不能投第二轮
           <% end %>
         </td>
-        <td><%= link_to 'Show', tender %></td>
+        <td>
+          <% if ['deal_closed', 'final_deal_closed'].include?(tender.state) %>
+          <%= link_to '成交结果', deal_path(tender.deal) %>
+          <% else %>
+          尚未成交
+          <% end %>
+        </td>
         <!-- <td><%= link_to 'Edit', edit_tender_path(tender) %></td> -->
         <!-- <td><%= link_to 'Destroy', tender, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
       </tr>

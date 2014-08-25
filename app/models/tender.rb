@@ -1,13 +1,12 @@
 class Tender < ActiveRecord::Base
 
-  belongs_to :user
+  belongs_to :user, inverse_of: :tenders
 
-  # has_one :car
-  has_many :bids
-  has_one :bargain
-  has_one :deal
-  has_one :deposit
-  belongs_to :car
+  has_many :bids, inverse_of: :tender
+  has_one :bargain, inverse_of: :tender
+  has_one :deal, inverse_of: :tender
+  has_one :deposit, inverse_of: :tender
+  belongs_to :car, inverse_of: :tenders
 
   state_machine :initial => :intention do
 
@@ -62,6 +61,14 @@ class Tender < ActiveRecord::Base
 
     event :final_closed do
       transition :final_bid_open => :final_bid_closed
+    end
+
+    event :make_final_deal do
+      transition [:final_bid_open, :final_bid_closed] => :final_deal_closed
+    end
+
+    event :cancel_2_round do
+      transition [:bargain_started, :final_bid_open, :final_bid_closed, :final_deal_closed] => :round_2_canceled
     end
 
     state :determined do

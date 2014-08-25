@@ -1,9 +1,9 @@
 class Device < ActiveRecord::Base
 
 
-  belongs_to :user
-  belongs_to :dealer
-  belongs_to :admin_user
+  belongs_to :user, inverse_of: :devices
+  belongs_to :dealer, inverse_of: :devices
+  belongs_to :admin_user, inverse_of: :devices
 
 end
 

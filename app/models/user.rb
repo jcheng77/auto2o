@@ -5,10 +5,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
 
-  has_many :devices
-  has_many :tenders
+  has_many :devices, inverse_of: :user
+  has_many :tenders, inverse_of: :user
 
-  has_many :deals
-  has_many :deposits
+  has_many :deals, inverse_of: :user
+  has_many :deposits, inverse_of: :user
+
+  has_many :bargains
 
 end

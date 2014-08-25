@@ -83,14 +83,14 @@ Rails.application.routes.draw do
 
   resources :bargains do
     member do
-      post :accept
       post :submit
     end
   end
 
   resources :bids do
     member do
-      post :submit
+      post :accept_final
+      post :accept
     end
   end
 

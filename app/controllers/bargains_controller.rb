@@ -4,14 +4,7 @@ class BargainsController < InheritedResources::Base
   before_action :authenticate_user!
   before_action :authenticate_dealer!, only: [:submit]
 
-  before_action :set_bargain, only: [:show, :edit, :update, :destroy, :accept, :submit]
-
-  def accept
-    @deal = @bargain.tender.build_deal(final_price: @bargain.price, postscript: @bargain.postscript)
-    @deal.save!
-    redirect_to deals_path
-  end
-
+  before_action :set_bargain, only: [:show, :edit, :update, :destroy, :submit]
 
   def submit
     @bid = Bid.new(bid_params)

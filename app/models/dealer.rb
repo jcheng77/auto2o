@@ -4,8 +4,8 @@ class Dealer < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :devices
-  has_many :bids
-  has_many :deals
+  has_many :devices, inverse_of: :dealer
+  has_many :bids, inverse_of: :dealer
+  has_many :deals, inverse_of: :dealer
 
 end
