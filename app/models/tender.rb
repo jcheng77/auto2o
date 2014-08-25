@@ -13,7 +13,7 @@ class Tender < ActiveRecord::Base
 
     before_transition :invite => any - :invite, :do => :check_deposit
 
-    before_transition any => :bid_open, :do => :check_bid_time
+    before_transition any - :bid_closed => :bid_open, :do => :check_bid_time
     before_transition any => :final_bid_closed, :do => :check_final_bid_time
 
     after_transition any => :closed do |tender, transition|
@@ -40,6 +40,10 @@ class Tender < ActiveRecord::Base
 
     event :tender_closed do
       transition :bid_open => :bid_closed
+    end
+
+    event :cancel_1_round do
+      transition [:intention, :determined, :bid_closed, :qualified, :invite, :bid_open, :bid_closed] => :round_1_canceled
     end
 
     # user can make deal in the middle or end of the first round of bid
@@ -89,6 +93,10 @@ class Tender < ActiveRecord::Base
     Rails.logger.info("Start change state--------")
     yield
     Rails.logger.info("End change state----------")
+  end
+
+  def self.close
+    self.where(state: 'bid_open').where("NOW() > DATE_ADD(created_at, INTERVAL 1 DAY)").update_all(state: 'bid_closed')
   end
 
 end

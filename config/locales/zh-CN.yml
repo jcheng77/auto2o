@@ -38,3 +38,12 @@ zh-CN:
       dealer:
       signed_in: '已登录经销商'
       signed_out: '已登出经销商'
+
+
+  activerecord:
+    errors:
+      models:
+        tender:
+          attributes:
+            state:
+              invalid_transition: '无效状态迁移'

@@ -54,6 +54,23 @@
 #   end
 Rails.application.routes.draw do
 
+  get 'dealers/index'
+
+  get 'dealers/show'
+
+  root to: 'home#index'
+  get 'home', to: 'home#index'
+
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  ActiveAdmin.routes(self)
+
+  devise_for :dealers
+  devise_for :users
+
+  resources :devices
+
   resources :deposits, only: [:create, :update] do
     collection do
       post :alipay_notify
@@ -61,6 +78,8 @@ Rails.application.routes.draw do
   end
 
   resources :deals
+
+  resources :dealers
 
   resources :bargains do
     member do
@@ -79,9 +98,11 @@ Rails.application.routes.draw do
     member do
       post :invite
       get :bid
+      delete :cancel_1_round
       post :submit
       get :bids_list
       post :submit_bargain
+      delete :cancel_bargain
       get :show_bargain
       get :bargain
       get :final_bids
@@ -90,13 +111,5 @@ Rails.application.routes.draw do
 
   resources :cars
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
-
-  ActiveAdmin.routes(self)
-
-  devise_for :dealers
-  devise_for :users
-
-  root to: "home#index"
 
 end

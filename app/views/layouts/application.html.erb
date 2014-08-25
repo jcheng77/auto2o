@@ -11,26 +11,6 @@
 </head>
 <body>
 
-  <!--
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-  -->
-
-<p></p>
-<p></p>
-<br/>
-<br/>
-    <% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: "alert alert-#{name}", role: "alert" %>
-    <% end -%>
-
-<!--
-<div class="alert alert-success" role="alert"></div>
-<div class="alert alert-info" role="alert"></div>
-<div class="alert alert-warning" role="alert"></div>
-<div class="alert alert-danger" role="alert"></div>
--->
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -72,7 +52,27 @@
       </div>
     </div>
 
+<br/>
+<br/>
+<br/>
+
     <div class="container">
+
+    <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: "alert alert-#{name}", role: "alert" %>
+    <% end -%>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+<!--
+<div class="alert alert-success" role="alert"></div>
+<div class="alert alert-info" role="alert"></div>
+<div class="alert alert-warning" role="alert"></div>
+<div class="alert alert-danger" role="alert"></div>
+-->
+
+
 			<%= yield %>
     </div><!-- /.container -->
 

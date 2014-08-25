@@ -15,12 +15,14 @@ class BargainsController < InheritedResources::Base
 
   def submit
     @bid = Bid.new(bid_params)
+    @tender = @bargain.tender
     @bid.bargain = @bargain
-    @bid.tender = @bargain.tender
+    @bid.tender = @tender
     @bid.dealer = current_dealer
+    @tender.submit_final!
     respond_to do |format|
       if @bid.save
-        format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
+        format.html { redirect_to @tender, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
         format.html { render :new }

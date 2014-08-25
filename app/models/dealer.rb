@@ -4,6 +4,7 @@ class Dealer < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_many :devices
   has_many :bids
   has_many :deals
 
