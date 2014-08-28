@@ -23,3 +23,7 @@ POST http://127.0.0.1:3001/bids/24/accept_final.json
 GET http://127.0.0.1:3001/deals.json
 
 GET http://127.0.0.1:3001/deals/4/verify.json?code=234asdf
+
+POST http://127.0.0.1:3001/users/register.json  user[phone] = 123123123
+
+POST http://127.0.0.1:3001/dealers/register.json dealer[phone] = 123123123

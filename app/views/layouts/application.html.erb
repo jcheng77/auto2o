@@ -31,7 +31,7 @@
             <li><a href="/deals">成交历史</a></li>
             <% if user_signed_in? %>
             <li>
-            	<%= link_to "用户#{current_user.email}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            	<%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
             </li>
             <% else %>
             <li>
@@ -40,7 +40,7 @@
             <% end %>
             <% if dealer_signed_in? %>
             <li>
-            	<%= link_to "经销商#{current_dealer.email}注销", destroy_dealer_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            	<%= link_to "经销商#{current_dealer.phone}注销", destroy_dealer_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
             </li>
             <% else %>
             <li>

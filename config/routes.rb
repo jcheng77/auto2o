@@ -54,6 +54,10 @@
 #   end
 Rails.application.routes.draw do
 
+  get 'dealers/register'
+
+  get 'users/register'
+
   get 'dealers/index'
 
   get 'dealers/show'
@@ -84,7 +88,17 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :dealers
+  resources :dealers do
+    collection do
+      post :register
+    end
+  end
+
+  resources :users do
+    collection do
+      post :register
+    end
+  end
 
   resources :bargains do
     member do
