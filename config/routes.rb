@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   resources :deals do
     member do
       get :qrcode
+      get :verify
     end
   end
 

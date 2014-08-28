@@ -77,7 +77,8 @@ Devise.setup do |config|
   # Notice that if you are skipping storage for all authentication paths, you
   # may want to disable generating routes to Devise's sessions controller by
   # passing skip: :sessions to `devise_for` in your config/routes.rb
-  config.skip_session_storage = [:http_auth]
+  config.skip_session_storage = [:http_auth, :token_auth]
+  config.token_authentication_key = :auth_token
 
   # By default, Devise cleans up the CSRF token on authentication to
   # avoid CSRF token fixation attacks. This means that, when using AJAX
@@ -99,6 +100,22 @@ Devise.setup do |config|
   # Setup a pepper to generate the encrypted password.
   # config.pepper = '3808511f57c9040f27448e6afb335db5f7103de5e48de407e0fb49436d54ce4af6c987d3cb2b084b830aa98af86d2f085adb97f6632a3b2e9eed00bac9f98619'
 
+  # ==> Configuration for :sms_activable
+  # The period the generated sms token is valid, after
+  # this period, the user won't be able to activate.
+  # config.sms_confirm_within = 0.days
+
+  # The keys searched for confirmation values.
+  # config.sms_confirmation_keys = [:email]
+  
+  # Your SmsSender class. The provided one uses 
+  # moonshado-sms gem so install it and configure
+  # if you want to use it.
+  # A simple instance of the class has been copied in your lib folder
+  # For further informations on using and configuring moonshado-sms gem check
+  # https://github.com/moonshado/moonshado-sms
+  # config.sms_sender = "Devise::SmsSender"
+  
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
   # confirming their account. For instance, if set to 2.days, the user will be

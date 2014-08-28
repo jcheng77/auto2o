@@ -782,3 +782,21 @@ Plural version of the model detected, using singularized version. Override with 
       create      app/assets/javascripts/dealers.js.coffee
       invoke    scss
       create      app/assets/stylesheets/dealers.css.scss
+
+
+
+~/mine/JustBidIt (master)⚡ > rails generate devise_sms_activable:install
+      insert  config/initializers/devise.rb
+      create  config/locales/devise_sms_activable.en.yml
+      create  lib/devise/sms_sender.rb
+
+~/mine/JustBidIt (master)⚡ > rails generate devise_sms_activable User
+      insert  app/models/user.rb
+      invoke  active_record
+      create    db/migrate/20140826171105_devise_sms_activable_add_to_users.rb
+~/mine/JustBidIt (master)⚡ > rails generate devise_sms_activable Dealer
+      insert  app/models/dealer.rb
+      invoke  active_record
+      create    db/migrate/20140826171109_devise_sms_activable_add_to_dealers.rb
+
+~/mine/JustBidIt (master)⚡ > rails g migration add_verify_code_to_deals verify_code:string

@@ -63,3 +63,9 @@ gem 'rqrcode-rails3'
 gem 'qrio'
 
 gem 'mini_magick'
+
+gem 'devise-token_authenticatable'
+
+gem 'devise_sms_activable', github: 'shir/devise_sms_activable', branch: 'rails-4'
+
+gem 'omniauth'
