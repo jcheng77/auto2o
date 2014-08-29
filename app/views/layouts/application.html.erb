@@ -11,26 +11,6 @@
 </head>
 <body>
 
-  <!--
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
-  -->
-
-<p></p>
-<p></p>
-<br/>
-<br/>
-    <% flash.each do |name, msg| -%>
-      <%= content_tag :div, msg, class: "alert alert-#{name}", role: "alert" %>
-    <% end -%>
-
-<!--
-<div class="alert alert-success" role="alert"></div>
-<div class="alert alert-info" role="alert"></div>
-<div class="alert alert-warning" role="alert"></div>
-<div class="alert alert-danger" role="alert"></div>
--->
-
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
         <div class="navbar-header">
@@ -51,7 +31,7 @@
             <li><a href="/deals">成交历史</a></li>
             <% if user_signed_in? %>
             <li>
-            	<%= link_to "用户#{current_user.email}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            	<%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
             </li>
             <% else %>
             <li>
@@ -60,7 +40,7 @@
             <% end %>
             <% if dealer_signed_in? %>
             <li>
-            	<%= link_to "经销商#{current_dealer.email}注销", destroy_dealer_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            	<%= link_to "经销商#{current_dealer.phone}注销", destroy_dealer_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
             </li>
             <% else %>
             <li>
@@ -72,7 +52,27 @@
       </div>
     </div>
 
+<br/>
+<br/>
+<br/>
+
     <div class="container">
+
+    <% flash.each do |name, msg| -%>
+      <%= content_tag :div, msg, class: "alert alert-#{name}", role: "alert" %>
+    <% end -%>
+
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+
+<!--
+<div class="alert alert-success" role="alert"></div>
+<div class="alert alert-info" role="alert"></div>
+<div class="alert alert-warning" role="alert"></div>
+<div class="alert alert-danger" role="alert"></div>
+-->
+
+
 			<%= yield %>
     </div><!-- /.container -->
 

@@ -1,7 +1,7 @@
 class Deposit < ActiveRecord::Base
 
-  belongs_to :user
-  belongs_to :tender
+  belongs_to :user, inverse_of: :deposits
+  belongs_to :tender, inverse_of: :deposit
 
 
   state_machine :initial => :pending do

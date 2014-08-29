@@ -35,5 +35,27 @@
   <%= @deal.postscript %>
 </p>
 
-<%= link_to 'Edit', edit_deal_path(@deal) %> |
-<%= link_to 'Back', deals_path %>
+<!-- <%= link_to 'Edit', edit_deal_path(@deal) %> |
+<%= link_to 'Back', deals_path %> -->
+
+<%= link_to '取消购买意向', cancel_1_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['intention', 'determined','qualified', 'invite', 'bid_open', 'bid_closed', 'deal_closed'].include?(@tender.state) && @deal.state != 'verified' %>
+
+<%= link_to '取消购买意向', cancel_2_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['bargain_started', 'final_bid_open', 'final_bid_closed', 'final_deal_closed'].include?(@tender.state) && @deal.state != 'verified' %>
+
+<br/>
+<br/>
+
+<% if @deal.state == 'new' %>
+<h1>验证码</h1>
+
+可以让商家直接访问：
+
+<%= link_to verify_deal_url(@deal, code: @deal.verify_code) , verify_deal_url(@deal, code: @deal.verify_code) %>
+
+<br/>
+<br/>
+
+<image src="<%= qrcode_deal_path(@deal, format: :png) %>"/>
+<% elsif @deal.state == 'verified' %>
+验证码已使用
+<% end %>

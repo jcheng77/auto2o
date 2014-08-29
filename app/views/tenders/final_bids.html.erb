@@ -7,7 +7,7 @@
       <th>Dealer</th>
       <th>Price</th>
       <th>Description</th>
-      <th colspan="3"></th>
+      <th colspan="1"></th>
     </tr>
   </thead>
 
@@ -18,7 +18,12 @@
         <td><%= bid.dealer_id %></td>
         <td><%= bid.price %></td>
         <td><%= bid.description %></td>
+        <td>
+          <%= link_to "决定成交", accept_final_bid_path(bid), method: :post, data: { confirm: '确定成交' } %>
+        </td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<%= link_to '取消购买意向', cancel_2_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['bargain_started', 'final_bid_open', 'final_bid_closed', 'final_deal_closed'].include?(@tender.state) %>

@@ -14,10 +14,13 @@
   <tbody>
     <% @bids.each do |bid| %>
       <tr>
-        <td><%= link_to (bid.tender.description || "标的"), tender_path(bid.tender) %></td>
+        <td><%= link_to (bid.tender.model || "标的"), tender_path(bid.tender) %></td>
         <td><%= bid.dealer_id %></td>
         <td><%= bid.price %></td>
         <td><%= bid.description %></td>
+        <td>
+        <%= link_to '选这家成交', accept_bid_path(bid), method: :post, data: { confirm: 'Are you sure?' }  if [ 'bid_open', 'bid_closed'].include?(@tender.state) %>
+        </td>
       </tr>
     <% end %>
   </tbody>
@@ -25,4 +28,9 @@
 
 <br>
 
-<%= link_to '还价', bargain_tender_path(@tender) %>
+<%= link_to '还价', bargain_tender_path(@tender) if @tender.state == 'bid_closed'%>
+
+<br>
+<br>
+
+<%= link_to '取消购买意向', cancel_1_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['intention', 'determined','qualified', 'invite', 'bid_open', 'bid_closed'].include?(@tender.state) %>

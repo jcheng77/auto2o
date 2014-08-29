@@ -1,9 +1,9 @@
 <h2>经销商登录</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div><%= f.label :email, "邮件地址" %><br />
-  <%= f.email_field :email, autofocus: true,
-    type: "email", class: "form-control", placeholder: "expamle@site.com", required: true %>
+  <div><%= f.label :phone, "手机号" %><br />
+  <%= f.email_field :phone, autofocus: true,
+    type: "tel", class: "form-control", placeholder: "例: 18600000000", required: true %>
   </div>
 
   <div><%= f.label :password, "密码" %><br />

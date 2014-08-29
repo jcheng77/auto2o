@@ -10,6 +10,11 @@ class TendersController < InheritedResources::Base
   # GET /tenders.json
   def index
     @tenders = Tender.all
+
+    respond_to do |format|
+      format.html
+      format.json { render json: @tenders }
+    end
   end
 
   # GET /tenders/1
@@ -107,6 +112,7 @@ class TendersController < InheritedResources::Base
     @bid = Bid.new(bid_params)
     @bid.tender = @tender
     begin
+      @tender.check_bid_time
       @tender.submit_tender!
       @bid.dealer = current_dealer
     rescue StateMachine::InvalidTransition => e
@@ -125,10 +131,29 @@ class TendersController < InheritedResources::Base
     end
   end
 
+
+  def cancel_1_round
+    @tender.cancel_1_round!
+    @reasons=[
+      "reason1",
+      "reason2",
+      "reason3",
+      "reason4"
+    ]
+    respond_to do |format|
+      format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+      format.json { render :cancel_1_round, status: :accepted, location: @tender }
+    end
+  end
+
   # GET /tender/1/bargain
   # GET /tender/1/bargain.json
   def bargain
     @bargain = @tender.build_bargain
+    @terms = [
+      "取消还价保证金不能全额退回",
+      "成交后超期不去现场交易保证金不能全额退回"
+    ]
   end
 
   # GET /tender/1/show_bargain
@@ -141,8 +166,18 @@ class TendersController < InheritedResources::Base
   # POST /tender/1/submit_bargain
   # POST /tender/1/submit_bargain.json
   def submit_bargain
-    @bargain = @tender.build_bargain(bargain_params)
-
+    begin
+      @bargain = @tender.build_bargain(bargain_params)
+      @tender.submit_bargain!
+    rescue StateMachine::InvalidTransition => e
+      flash[:warning] = e.to_s
+      Rails.logger.info(e)
+      respond_to do |format|
+        format.html { redirect_to(tenders_path) }
+        format.json { render json: @tender.errors, status: :unprocessable_entity }
+      end
+      return
+    end
     respond_to do |format|
       if @bargain.save
         format.html { redirect_to @bargain, notice: 'Tender was successfully created.' }
@@ -151,6 +186,49 @@ class TendersController < InheritedResources::Base
         format.html { render :new }
         format.json { render json: @bargain.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def bid_final
+    @bid = @tender.bids.new
+  end
+
+  def submit_2_round
+    @bid = Bid.new(bid_params)
+    @bid.tender = @tender
+    @bid.bargain = @tender.bargain
+    begin
+      @tender.check_final_bid_time
+      @tender.submit_final!
+      @bid.dealer = current_dealer
+    rescue StateMachine::InvalidTransition => e
+      flash[:warning] = e.to_s
+      Rails.logger.info(e)
+      redirect_to(tenders_path) and return
+    end
+    respond_to do |format|
+      if @bid.save
+        format.html { redirect_to @bid, notice: 'Tender was successfully created.' }
+        format.json { render :show, status: :created, location: @bid }
+      else
+        format.html { render :new }
+        format.json { render json: @bid.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+  def cancel_2_round
+    @tender.cancel_2_round!
+    @reasons=[
+      "reason1",
+      "reason2",
+      "reason3",
+      "reason4"
+    ]
+    respond_to do |format|
+      format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+      format.json { render :cancel_1_round, status: :accepted, location: @tender }
     end
   end
 

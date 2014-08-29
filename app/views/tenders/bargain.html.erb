@@ -1,5 +1,11 @@
 <h1>还价</h1>
 
+<ul>
+  <% @terms.each do |term| %>
+  <li><%= term %></li>
+  <% end %>
+</ul>
+
 <%= render 'bargain_form' %>
 
 <%= link_to 'Show', @tender %> |

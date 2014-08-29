@@ -54,24 +54,62 @@
 #   end
 Rails.application.routes.draw do
 
+  get 'dealers/register'
+
+  get 'users/register'
+
+  get 'dealers/index'
+
+  get 'dealers/show'
+
+  root to: 'home#index'
+  get 'home', to: 'home#index'
+
+
+  devise_for :admin_users, ActiveAdmin::Devise.config
+
+  ActiveAdmin.routes(self)
+
+  devise_for :dealers
+  devise_for :users
+
+  resources :devices
+
   resources :deposits, only: [:create, :update] do
     collection do
       post :alipay_notify
     end
   end
 
-  resources :deals
+  resources :deals do
+    member do
+      get :qrcode
+      get :verify
+    end
+  end
+
+  resources :dealers do
+    collection do
+      post :register
+    end
+  end
+
+  resources :users do
+    collection do
+      post :register
+    end
+  end
 
   resources :bargains do
     member do
-      post :accept
       post :submit
     end
   end
 
   resources :bids do
     member do
-      post :submit
+      post :accept_final
+      post :accept
     end
   end
 
@@ -79,12 +117,16 @@ Rails.application.routes.draw do
     member do
       post :invite
       get :bid
+      delete :cancel_1_round
       post :submit
       get :bids_list
       post :submit_bargain
       get :show_bargain
       get :bargain
+      get :bid_final
+      post :submit_2_round
       get :final_bids
+      delete :cancel_2_round
     end
   end
 
@@ -95,13 +137,4 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :admin_users, ActiveAdmin::Devise.config
-
-  ActiveAdmin.routes(self)
-
-  devise_for :dealers
-  devise_for :users
-
-  root to: "home#index"
-  
 end

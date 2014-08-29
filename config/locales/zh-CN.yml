@@ -31,10 +31,25 @@ zh-CN:
       qualified: '已获资质'
       bid_open: '竞标中'
       bid_closed: '竞标截止'
+      round_1_canceled: '询价取消'
       deal_closed: '交易达成'
+      bargain_started: '还价开始'
+      final_bid_open: '最终竞标开放'
+      final_bid_closed: '最终竞标关闭'
+      final_deal_closed: '最终交易达成'
+      round_2_canceled: '最终竞标取消'
 
   devise:
     sessions:
       dealer:
       signed_in: '已登录经销商'
       signed_out: '已登出经销商'
+
+
+  activerecord:
+    errors:
+      models:
+        tender:
+          attributes:
+            state:
+              invalid_transition: '无效状态迁移'
