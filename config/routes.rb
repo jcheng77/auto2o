@@ -88,7 +88,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :cars
+  resources :cars do
+    member do
+      get :car_list
+      get :car_trims
+    end
+  end
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
@@ -98,5 +103,5 @@ Rails.application.routes.draw do
   devise_for :users
 
   root to: "home#index"
-
+  
 end

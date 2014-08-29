@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808194001) do
+ActiveRecord::Schema.define(version: 20140822110646) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -64,6 +64,50 @@ ActiveRecord::Schema.define(version: 20140808194001) do
     t.decimal  "price",       precision: 12, scale: 2
     t.string   "description"
     t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_brands", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_colors", force: true do |t|
+    t.string   "name"
+    t.string   "code"
+    t.integer  "car_model_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_makers", force: true do |t|
+    t.string   "name"
+    t.integer  "car_brand_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_models", force: true do |t|
+    t.string   "name"
+    t.integer  "year"
+    t.integer  "car_maker_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_pics", force: true do |t|
+    t.string   "pic_url"
+    t.integer  "car_model_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "car_trims", force: true do |t|
+    t.string   "name"
+    t.integer  "car_model_id"
+    t.decimal  "guide_price",  precision: 12, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end
