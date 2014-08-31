@@ -9,11 +9,11 @@ class TendersController < InheritedResources::Base
   # GET /tenders
   # GET /tenders.json
   def index
-    @tenders = Tender.all
+    @tenders = Tender.includes(:bargain).all
 
     respond_to do |format|
       format.html
-      format.json { render json: @tenders }
+      format.json
     end
   end
 
@@ -108,6 +108,7 @@ class TendersController < InheritedResources::Base
 
   # POST /tender/1/submit
   # POST /tender/1/submit.json
+  # submit first round bid
   def submit
     @bid = Bid.new(bid_params)
     @bid.tender = @tender

@@ -7,7 +7,7 @@
       <th>Price</th>
       <th>Description</th>
       <th>State</th>
-      <th colspan="7"></th>
+      <th colspan="8"></th>
     </tr>
   </thead>
 
@@ -26,6 +26,7 @@
           不能投第一轮
           <% end %>
         </td>
+        <td>第一轮投标数<%= tender.bids_count.to_i - (tender.bargain ? tender.bargain.bids_count.to_i : 0) %></td>
         <td>
           <% if ['intention', 'determined', 'qualified', 'invite'].include? tender.state %>
           尚无投标
@@ -35,18 +36,18 @@
         </td>
         <td>
           <% if ['bargain_started', 'final_bid_open', 'final_bid_closed'].include? tender.state %>
-          <%= link_to '显示还价', show_bargain_tender_path(tender) %>
+          <%= link_to '参与第二轮竞标', show_bargain_tender_path(tender) %>
           <% else %>
           未进第二轮
           <% end %>
         </td>
-        <td>
-          <% if ['bargain_started', 'final_bid_open'].include? tender.state %>
-          <%= link_to '参与第二轮竞标', bid_final_tender_path(tender) %>
-          <% else %>
-          不能投第二轮
-          <% end %>
-        </td>
+        <!--<td>-->
+          <!--<% if ['bargain_started', 'final_bid_open'].include? tender.state %>-->
+          <!--<%= link_to '参与第二轮竞标', bid_final_tender_path(tender) %>-->
+          <!--<% else %>-->
+          <!--不能投第二轮-->
+          <!--<% end %>-->
+        <!--</td>-->
         <td>
           <% if ['bargain_started', 'final_bid_open'].include? tender.state %>
           <%= link_to '第二轮竞标列表', final_bids_tender_path(tender) %>
@@ -54,6 +55,7 @@
           不能投第二轮
           <% end %>
         </td>
+        <td>第二轮投标数<%=(tender.bargain ? tender.bargain.bids_count : 0 )%></td>
         <td>
           <% if ['deal_closed', 'final_deal_closed'].include?(tender.state) %>
           <%= link_to '成交结果', deal_path(tender.deal) %>

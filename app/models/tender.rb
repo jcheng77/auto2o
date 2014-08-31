@@ -90,7 +90,7 @@ class Tender < ActiveRecord::Base
   end
 
   def check_bid_time
-    tender_closed if Time.now > (self.created_at + 1.days)
+    # tender_closed if Time.now > (self.created_at + 1.days)
   end
 
   def check_final_bid_time
