@@ -9,6 +9,8 @@ class Dealer < ActiveRecord::Base
   has_many :bids, inverse_of: :dealer
   has_many :deals, inverse_of: :dealer
 
+  belongs_to :shop, inverse_of: :dealers
+
   def email_required?
     false
   end

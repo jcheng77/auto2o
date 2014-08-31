@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831045439) do
+ActiveRecord::Schema.define(version: 20140831074403) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -138,6 +138,8 @@ ActiveRecord::Schema.define(version: 20140831045439) do
     t.string   "sms_confirmation_token",   limit: 5
     t.datetime "confirmation_sms_sent_at"
     t.datetime "sms_confirmed_at"
+    t.string   "role"
+    t.integer  "shop_id"
   end
 
   add_index "dealers", ["email"], name: "index_dealers_on_email", unique: true, using: :btree
@@ -178,6 +180,13 @@ ActiveRecord::Schema.define(version: 20140831045439) do
     t.string   "push_id"
     t.string   "type"
     t.string   "state"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "shops", force: true do |t|
+    t.string   "name"
+    t.string   "address"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

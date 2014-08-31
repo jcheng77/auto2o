@@ -54,6 +54,8 @@
 #   end
 Rails.application.routes.draw do
 
+  resources :shops
+
   get 'dealers/register'
 
   get 'users/register'
