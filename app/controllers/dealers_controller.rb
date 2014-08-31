@@ -2,9 +2,14 @@ class DealersController < ApplicationController
 
 
   before_action :authenticate_user!, except: [:new, :register]
+  skip_before_action :authenticate_user!, if: :dealer_login
+
+  before_action :authenticate_dealer!, except: [:new, :register]
+  skip_before_action :authenticate_dealer!, if: :user_login
 
   def index
     @dealers = Dealer.all
+    @dealers = current_dealer.shop.dealers if current_dealer
   end
 
   def show
@@ -34,6 +39,14 @@ class DealersController < ApplicationController
 
   def dealer_params
     params.require(:dealer).permit(:phone)
+  end
+
+  def dealer_login
+    current_dealer.present?
+  end
+
+  def user_login
+    current_user.present?
   end
 
 end
