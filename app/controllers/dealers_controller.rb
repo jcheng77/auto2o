@@ -26,6 +26,15 @@ class DealersController < ApplicationController
     @dealer = Dealer.new(dealer_params.merge(password: generated_password, email: "fake_mail@#{dealer_params["phone"]}.com"))
     respond_to do |format|
       if @dealer.save
+        company = "紫薯"
+        template_value = URI.encode "#code#=#{generated_password}&#company#=#{company}"
+        url = "http://v.juhe.cn"                                                                  <<
+              "/sms/send?"                                                                        <<
+              "mobile=#{user_params["phone"]}"                                                    <<
+              "&tpl_id=1"                                                                         <<
+              "&tpl_value=#{template_value}"                                                      <<
+              "&key=b837cf1fbc2809288678f954c679495b"
+        Typhoeus.post(url, body: {})
         format.html { redirect_to dealer_session_path, notice: "密码已发给手机号#{dealer_params['phone']}，请用收到的密码登录。" }
         format.json { render :show, status: :created, location: @dealer }
       else
