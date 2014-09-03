@@ -21,7 +21,7 @@ class DealersController < ApplicationController
 
   def register
     # only:  c d e f h k p x y
-    generated_password = SecureRandom.urlsafe_base64(18).downcase.tr!("-_a0ob6gq9i1jlrmnt7uvwz25348", "").first(4)
+    generated_password = SecureRandom.urlsafe_base64(18).downcase.tr!("-_a0ob6gq9i1jlrmnt7uvwz25s348", "").first(4)
     Rails.logger.info("PASSWORD:::::::::::#{generated_password}") if Rails.env.development?
     @dealer = Dealer.new(dealer_params.merge(password: generated_password, email: "fake_mail@#{dealer_params["phone"]}.com"))
     respond_to do |format|
