@@ -107,15 +107,15 @@ Devise.setup do |config|
 
   # The keys searched for confirmation values.
   # config.sms_confirmation_keys = [:email]
-  
-  # Your SmsSender class. The provided one uses 
+
+  # Your SmsSender class. The provided one uses
   # moonshado-sms gem so install it and configure
   # if you want to use it.
   # A simple instance of the class has been copied in your lib folder
   # For further informations on using and configuring moonshado-sms gem check
   # https://github.com/moonshado/moonshado-sms
   # config.sms_sender = "Devise::SmsSender"
-  
+
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without
   # confirming their account. For instance, if set to 2.days, the user will be
@@ -272,3 +272,5 @@ Devise.setup do |config|
   # so you need to do it manually. For the users scope, it would be:
   # config.omniauth_path_prefix = '/my_engine/users/auth'
 end
+
+Devise::SessionsController.send(:respond_to, :html, :json)
