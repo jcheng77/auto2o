@@ -7,6 +7,7 @@ class HomeController < ApplicationController
 
     respond_to do |format|
       format.html
+      format.json
       format.svg  { render :qrcode => root_url, :level => :l, :unit => 10 }
       format.png  { render :qrcode => root_url }
       format.gif  { render :qrcode => root_url }

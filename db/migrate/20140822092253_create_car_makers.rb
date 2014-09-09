@@ -2,7 +2,7 @@ class CreateCarMakers < ActiveRecord::Migration
   def change
     create_table :car_makers do |t|
     	t.string :name
-    	t.references :car_brand
+    	t.references :brand
 
     	t.timestamps
     end

@@ -3,7 +3,7 @@ class CreateCarColors < ActiveRecord::Migration
     create_table :car_colors do |t|
     	t.string :name
     	t.string :code
-    	t.references :car_model
+    	t.references :model
 
       t.timestamps
     end
