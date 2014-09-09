@@ -6,7 +6,7 @@ class CarsController < ApplicationController
   end
 
 
-  def car_list
+  def list
     @car_brands = Car::Brand.all
 
     @cars = { 'brands' => [] }
@@ -47,7 +47,7 @@ class CarsController < ApplicationController
     end
   end
 
-  def car_trims
+  def trims
     @models = Car::Model.find_by(name: params['model_name'])
     @trims = @models.trims
 

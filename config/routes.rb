@@ -134,8 +134,8 @@ Rails.application.routes.draw do
 
   resources :cars do
     collection do
-      get :car_list
-      get :car_trims
+      get :list
+      get :trims
     end
   end
 

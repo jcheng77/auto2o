@@ -1,6 +1,7 @@
 GET http://127.0.0.1:3001/home.json
 
-GET http://127.0.0.1:3001/cars/car_list.json
+GET http://127.0.0.1:3001/cars/list.json
+GET http://127.0.0.1:3001/cars/trims.json?model_name=A3
 
 GET http://127.0.0.1:3001/deals.json
 
