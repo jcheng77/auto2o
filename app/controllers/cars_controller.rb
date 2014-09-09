@@ -49,7 +49,7 @@ class CarsController < ApplicationController
 
   def car_trims
     @models = Car::Model.find_by(name: params['model_name'])
-    @trims = @models.car_trims
+    @trims = @models.trims
 
     respond_to do |format|
       #format.html index.html.erb

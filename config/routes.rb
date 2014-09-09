@@ -135,8 +135,6 @@ Rails.application.routes.draw do
   resources :cars do
     collection do
       get :car_list
-    end
-    member do
       get :car_trims
     end
   end
