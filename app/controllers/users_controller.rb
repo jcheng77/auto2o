@@ -19,7 +19,7 @@ class UsersController < ApplicationController
         url = "http://v.juhe.cn"                                                                  <<
               "/sms/send?"                                                                        <<
               "mobile=#{user_params["phone"]}"                                                    <<
-              "&tpl_id=1"                                                                         <<
+              "&tpl_id=513"                                                                       <<
               "&tpl_value=#{template_value}"                                                      <<
               "&key=b837cf1fbc2809288678f954c679495b"
         Typhoeus.post(url, body: {})
@@ -31,6 +31,14 @@ class UsersController < ApplicationController
       end
     end
   end
+
+  # def show
+  #   @user = User.find(params[:id])
+  #   respond_to do |format|
+  #     format.html
+  #     format.json { render json: @user }
+  #   end
+  # end
 
   private
 
