@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.save
         company = "紫薯"
-        template_value = URI.encode "#code#=#{generated_password}&#company#=#{company}"
+        template_value = CGI::escape "#code#=#{generated_password}&#company#=#{company}"
         url = "http://v.juhe.cn"                                                                  <<
               "/sms/send?"                                                                        <<
               "mobile=#{user_params["phone"]}"                                                    <<
