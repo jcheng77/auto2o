@@ -30,7 +30,7 @@ class DealersController < ApplicationController
         template_value = URI.encode "#code#=#{generated_password}&#company#=#{company}"
         url = "http://v.juhe.cn"                                                                  <<
               "/sms/send?"                                                                        <<
-              "mobile=#{user_params["phone"]}"                                                    <<
+              "mobile=#{dealer_params["phone"]}"                                                  <<
               "&tpl_id=1"                                                                         <<
               "&tpl_value=#{template_value}"                                                      <<
               "&key=b837cf1fbc2809288678f954c679495b"
