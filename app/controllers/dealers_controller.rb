@@ -13,6 +13,11 @@ class DealersController < ApplicationController
   end
 
   def show
+    @dealer = Dealer.find(params[:id])
+    respond_to do |format|
+      format.html
+      format.json { render json: @dealer }
+    end
   end
 
   def new
