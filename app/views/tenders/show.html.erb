@@ -57,4 +57,6 @@
         <%= t("tender.state.#{@tender.state}") %>
     <% end %>
 
+    <%= link_to "finish 1st round", finish_1st_round_tender_path(@tender) %>
+
 <% end %>

@@ -34,6 +34,11 @@ class TendersController < InheritedResources::Base
     end
   end
 
+  def finish_1st_round
+    @tender.tender_closed!
+    redirect_to tender_path(@tender)
+  end
+
   # GET /tenders/new
   def new
     @tender = Tender.new

@@ -129,6 +129,8 @@ Rails.application.routes.draw do
       post :submit_2_round
       get :final_bids
       delete :cancel_2_round
+      # for debug:
+      get :finish_1st_round
     end
   end
 
