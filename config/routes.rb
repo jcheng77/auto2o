@@ -131,6 +131,7 @@ Rails.application.routes.draw do
       delete :cancel_2_round
       # for debug:
       get :finish_1st_round
+      get :finish_2nd_round
     end
   end
 
