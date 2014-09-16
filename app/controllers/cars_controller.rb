@@ -25,7 +25,7 @@ class CarsController < ApplicationController
 
           model = { 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [] }
           car_model.trims.each do |car_trim|
-            model['trims'] << { 'name' => car_trim.name, 'guide_price' => car_trim.guide_price }
+            model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price }
           end
 
           car_model.colors.each do |car_color|
@@ -48,7 +48,7 @@ class CarsController < ApplicationController
   end
 
   def trims
-    @models = Car::Model.find_by(name: params['model_name'])
+    @models = Car::Model.find_by(id: params['model_id'])
     @trims = @models.trims
 
     respond_to do |format|
