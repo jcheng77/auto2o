@@ -40,7 +40,7 @@
           <% if ['bargain_started', 'final_bid_open', 'final_bid_closed'].include? tender.state %>
           <%= link_to '参与抢单', show_bargain_tender_path(tender) %>
           <% else %>
-          未进第二轮
+          尚未开始
           <% end %>
         </td>
         <!--<td>-->
@@ -54,7 +54,7 @@
           <% if ['bargain_started', 'final_bid_open'].include? tender.state %>
           <%= link_to '抢单列表', final_bids_tender_path(tender) %>
           <% else %>
-          不能投第二轮
+          尚不能抢单
           <% end %>
         </td>
         <td>抢单商家数<%=(tender.bargain ? tender.bargain.bids_count : 0 )%></td>
