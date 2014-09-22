@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140831074403) do
+ActiveRecord::Schema.define(version: 20140921032543) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -67,6 +67,11 @@ ActiveRecord::Schema.define(version: 20140831074403) do
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "brands_shops", force: true do |t|
+    t.integer "brand_id"
+    t.integer "shop_id"
   end
 
   create_table "car_brands", force: true do |t|
@@ -183,9 +188,14 @@ ActiveRecord::Schema.define(version: 20140831074403) do
     t.datetime "updated_at"
   end
 
+  create_table "shops_tenders", force: true do |t|
+    t.integer "shop_id"
+    t.integer "tender_id"
+  end
+
   create_table "tenders", force: true do |t|
     t.integer  "user_id"
-    t.integer  "car_id"
+    t.integer  "trim_id"
     t.string   "model"
     t.decimal  "price",       precision: 12, scale: 2
     t.string   "description"
@@ -193,6 +203,7 @@ ActiveRecord::Schema.define(version: 20140831074403) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "bids_count"
+    t.integer  "color_id"
   end
 
   create_table "users", force: true do |t|
