@@ -54,3 +54,5 @@ set :migration_role, 'db'                  # Defaults to 'db'
 set :conditionally_migrate, false          # Defaults to false
 set :assets_roles, [:web]                  # Defaults to [:web]
 set :assets_prefix, 'assets'               # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
+
+set :puma_env, 'staging'
