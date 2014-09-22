@@ -16,6 +16,14 @@ GIT
       sass-rails
 
 GIT
+  remote: git://github.com/seuros/capistrano-puma.git
+  revision: d0aa1701aadb8d072eb6d7e488e8378f758b348a
+  specs:
+    capistrano3-puma (0.7.0)
+      capistrano (~> 3.0)
+      puma (>= 2.6)
+
+GIT
   remote: git://github.com/shir/devise_sms_activable.git
   revision: 95c1a1090561d736a208760fd000640f79f9644f
   branch: rails-4
@@ -150,6 +158,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (2.9.1)
+      rack (>= 1.1, < 2.0)
     qrio (0.0.1)
       chunky_png
     rack (1.5.2)
@@ -242,6 +252,7 @@ DEPENDENCIES
   autoprefixer-rails
   bootstrap-sass (~> 3.2.0)
   capistrano-rails
+  capistrano3-puma!
   clockwork
   coffee-rails (~> 4.0.0)
   devise

@@ -7,6 +7,7 @@
 role :app, %w{ubuntu@54.68.52.232}
 role :web, %w{ubuntu@54.68.52.232}
 role :db,  %w{ubuntu@54.68.52.232}
+role :puma_nginx,  %w{ubuntu@54.68.52.232}
 
 
 # Extended Server Syntax
