@@ -1,5 +1,60 @@
 <h1>买车</h1>
 
-<%= render 'form' %>
+<a onclick="goBack()">返回</a>
 
-<%= link_to 'Back', tenders_path %>
+<!-- <%= link_to "返回", 'onclick="goBack()"' %> -->
+
+<% if !params[:brand] && !params[:maker] && !params[:model] && !params[:trim] %>
+<h2>选择品牌：</h2>
+<ul>
+<% @brands.each do |brand| %>
+<li><%= link_to brand.name, new_tender_path(brand: brand.id) %></li>
+<% end %>
+<ul>
+<% elsif params[:brand] && !params[:maker] && !params[:model] && !params[:trim] %>
+<h2>选择车型：</h2>
+<ul>
+<% @makers.each do |maker| %>
+<li><%= link_to maker.name, new_tender_path(maker: maker.id) %></li>
+<ul>
+  <% maker.models.each do |model| %>
+  <li><%= link_to model.name, new_tender_path(model: model.id) %></li>
+  <% end %>
+</ul>
+<% end %>
+<ul>
+<% elsif params[:maker] && !params[:model] && !params[:trim] %>
+<h2>选择车型：</h2>
+<h3><%= @maker.name %></h3>
+<ul>
+  <% @maker.models.each do |model| %>
+  <li><%= link_to model.name, new_tender_path(model: model.id) %></li>
+  <% end %>
+</ul>
+<% elsif params[:model] && !params[:trim] %>
+<h3><%= @model.maker.name %></h3>
+<h4><%= @model.name %></h4>
+<ul>
+  <% @model.trims.each do |trim| %>
+  <li><%= link_to trim.name, new_tender_path(trim: trim.id) %></li>
+  <% end %>
+</ul>
+<% elsif params[:trim] && ! params[:color]%>
+<h3><%= @model.maker.name %></h3>
+<ul>
+  <% @trim.colors.each do |color| %>
+  <li><span style="color:<%= color.code %>;font-size:40px;">◼︎</span><%= link_to color.name, new_tender_path(trim: @trim.id, color: color.id) %> </li>
+  <% end %>
+</ul>
+<% elsif params[:color]%>
+<!-- <h4><%= @model.name %> <%= @trim.name %></h4> -->
+<%= render 'form' %>
+<% end %>
+
+<%#= link_to 'Back', tenders_path %>
+
+<script>
+function goBack() {
+    window.history.back()
+}
+</script>

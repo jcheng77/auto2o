@@ -22,7 +22,8 @@ class TendersController < InheritedResources::Base
   # 用户支付完毕后，也重定向回来这里
   def show
     @deposit = @tender.deposit || @tender.build_deposit
-
+    @shops = @tender.car_trim.brand.shops
+    @selected_shops = @tender.shops
     # 友好的提示当前订单的状态
     callback_params = params.except(*request.path_parameters.keys)
     if callback_params.any? && Alipay::Sign.verify?(callback_params)
@@ -46,6 +47,22 @@ class TendersController < InheritedResources::Base
 
   # GET /tenders/new
   def new
+    if !params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
+      @brands = Car::Brand.all
+    elsif params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
+      @makers = Car::Brand.find(params[:brand]).makers
+    elsif params[:maker] && !params[:model] && !params[:trim]
+      @maker = Car::Maker.find(params[:maker])
+    elsif params[:model] && !params[:trim]
+      @model = Car::Model.find(params[:model])
+    elsif params[:trim] && !params[:color]
+      @trim = Car::Trim.find(params[:trim])
+      @model = @trim.model
+    elsif params[:color]
+      @trim = Car::Trim.find(params[:trim])
+      @model = @trim.model
+      @color = Car::Color.find params[:color]
+    end
     @tender = Tender.new
   end
 
@@ -56,9 +73,8 @@ class TendersController < InheritedResources::Base
   # POST /tenders
   # POST /tenders.json
   def create
-    @tender = Tender.new(tender_params)
+    @tender = Tender.new(new_tender_params)
     @tender.chose_subject if @tender.model.present?
-    # @tender.car = Car.find_by_model(params[:model])
     @tender.user = current_user
     respond_to do |format|
       if @tender.save
@@ -74,8 +90,11 @@ class TendersController < InheritedResources::Base
   # PATCH/PUT /tenders/1
   # PATCH/PUT /tenders/1.json
   def update
+    if params[:shop].present?
+      @tender.shops << Shop.find(params[:shop].keys)
+    end
     respond_to do |format|
-      if @tender.update(tender_params)
+      if @tender.update(update_tender_params)
         format.html { redirect_to @tender, notice: 'User was successfully updated.' }
         format.json { render :show, status: :ok, location: @tender }
       else
@@ -97,7 +116,8 @@ class TendersController < InheritedResources::Base
 
   def invite
     @tender.invite_dealer
-    redirect_to @tender, notice: '竞标邀请已发出.'
+    # redirect_to @tender, notice: '竞标邀请已发出.'
+    redirect_to bargain_tender_path(@tender)#, notice: '竞标邀请已发出.'
   end
 
   # GET /tender/1/bid
@@ -171,7 +191,9 @@ class TendersController < InheritedResources::Base
   # GET /tender/1/show_bargain.json
   def show_bargain
     @bargain = @tender.bargain
-    @bid = @bargain.bids.new if @bargain
+    @trim    = @tender.car_trim
+    @color   = @tender.car_color
+    @bid     = @bargain.bids.new if @bargain
   end
 
   # POST /tender/1/submit_bargain
@@ -253,6 +275,14 @@ class TendersController < InheritedResources::Base
   # Never trust parameters from the scary internet, only allow the white list through.
   def tender_params
     params.require(:tender).permit(:model, :price, :description)
+  end
+
+  def new_tender_params
+    params.require(:tender).permit(:model, :price, :description, :trim_id, :color_id)
+  end
+
+  def update_tender_params
+    params.require(:tender).permit(:model, :price, :description, :shop)
   end
 
   def bid_params

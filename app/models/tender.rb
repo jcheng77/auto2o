@@ -6,7 +6,10 @@ class Tender < ActiveRecord::Base
   has_one :bargain, inverse_of: :tender
   has_one :deal, inverse_of: :tender
   has_one :deposit, inverse_of: :tender
-  belongs_to :car, inverse_of: :tenders
+  belongs_to :car_trim, class_name: "Car::Trim", foreign_key: :trim_id, inverse_of: :tenders
+  belongs_to :car_color, class_name: "Car::Color", foreign_key: :color_id, inverse_of: :tenders
+
+  has_and_belongs_to_many :shops
 
   state_machine :initial => :intention do
 
@@ -31,7 +34,8 @@ class Tender < ActiveRecord::Base
     end
 
     event :invite_dealer do
-      transition :qualified => :invite
+      # transition :qualified => :invite
+      transition :qualified => :bid_closed # no first round now
     end
 
     event :submit_tender do

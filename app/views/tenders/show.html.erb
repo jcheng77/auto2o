@@ -14,8 +14,10 @@
 
 
 <h1>保证金</h1>
-<p>第一次询价后可以全额退回保证金</p>
-<p>还价后若有经销商应价成功不可全额退回保证金</p>
+<!-- <p>第一次询价后可以全额退回保证金</p>
+<p>还价后若有经销商应价成功不可全额退回保证金</p> -->
+<p>未达成交易可以全额退回保证金</p>
+<p>达成交易后保证金将作为车款。此时反悔不可全额退回保证金</p>
 
 
 <% if @tender.deposit.new_record? %>
@@ -47,12 +49,40 @@
 
 <% else %>
 
-	<p>已交保证金：</p>
-	<p><%= @tender.deposit.sum %></p>
+	<p>已交保证金：¥ <%= @tender.deposit.sum %></p>
 
     <% if @tender.qualified? %>
-        <p>可以邀请经销商报价了：</p>
-    <%= link_to "邀请经销商报价", invite_tender_path(@tender), method: :post %>
+
+      <% unless @selected_shops.present? %>
+      <h2>选择经销商：</h2>
+        <%= form_for(@tender) do |f| %>
+        <%= f.hidden_field :model %>
+        <ul>
+          <% @shops.each do |shop| %>
+          <li>
+            <%= check_box_tag "shop[#{shop.id}]" %>
+            <%= label_tag "shop_#{shop.id}", shop.name %>
+          </li>
+          <% end %>
+        </ul>
+
+        <div class="actions">
+          <%= f.submit '邀请这些经销商应价' %>
+        </div>
+        <% end %>
+      <% else %>
+      <h2>已选择经销商：</h2>
+        <ul>
+          <% @selected_shops.each do |shop| %>
+          <li><%= link_to shop.name, shop_path(shop) %></li>
+          <% end %>
+        </ul>
+        <!-- <p>可以邀请经销商报价了：</p> -->
+        <p>可以给经销商报价了：</p>
+        <%#= button_to "邀请经销商报价", invite_tender_path(@tender), method: :post %>
+        <%= button_to "给经销商报价", invite_tender_path(@tender), method: :post %>
+      <% end %>
+
     <% else %>
         <%= t("tender.state.#{@tender.state}") %>
     <% end %>

@@ -13,7 +13,10 @@
 
   <div class="field">
     <%= f.label :model, '车型' %><br>
-    <%= f.text_field :model %>
+    <%= f.text_field :model, value: "#{@model.name} #{@trim.name} #{@color.name}", readonly: :readonly %>
+    <span style="color:<%= @color.code %>;font-size:40px;">◼︎</span>
+    <%= f.hidden_field :trim_id, value: @trim.id, readonly: :readonly %>
+    <%= f.hidden_field :color_id, value: @color.id, readonly: :readonly %>
   </div>
   <!--
 		<div class="field">
