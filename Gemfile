@@ -74,3 +74,5 @@ gem 'omniauth'
 
 gem "typhoeus"
 
+gem 'capistrano-rails'
+
