@@ -2,7 +2,7 @@ class CarsController < ApplicationController
 
 
   def brands
-
+    @car_brands = Car::Brand.all
   end
 
 
@@ -58,7 +58,7 @@ class CarsController < ApplicationController
     end
   end
 
-  def self.import_cars
+  def self.import_cars(file='cars_audi')
 
     Car::Color .delete_all
     Car::Trim  .delete_all
@@ -67,13 +67,25 @@ class CarsController < ApplicationController
     Car::Maker .delete_all
     Car::Brand .delete_all
 
-    data = JSON.parse(File.read('cars_audi'))
+    data = JSON.parse(File.read(file))
 
+    brands = {}
+    makers = {}
+    models = {}
     data["Cars"].map do |car|
-      car_brand = Car::Brand .find_or_create_by(name: car['@brand'])
-      car_maker = Car::Maker .find_or_create_by(name: car['@make'][/(.+)\(/,1],  brand: car_brand)
-      car_model = Car::Model .find_or_create_by(name: car['@model'][/(.+)\(/,1], maker: car_maker, year: car['@year'])
-      car_pic   = Car::Pic   .find_or_create_by(pic_url: car['@icon_link'],      model: car_model)
+      unless brand = brands[car['@brand']]
+        brand = Car::Brand.find_or_create_by(name: car['@brand'])
+        brands[car['@brand']] = brand
+      end
+      unless maker = makers[car['@make'][/(.+)\(/,1]]
+        maker = Car::Maker.find_or_create_by(name: car['@make'][/(.+)\(/,1], brand: brand)
+        makers[car['@make'][/(.+)\(/,1]] = maker
+      end
+      unless car_model = models[car['@model'][/(.+)\(/,1]]
+        car_model = Car::Model.find_or_create_by(name: car['@model'][/(.+)\(/,1], maker: maker, year: car['@year'])
+        models[car['@model'][/(.+)\(/,1]] = car_model
+      end
+      car_pic = Car::Pic.find_or_create_by(pic_url: car['@icon_link'], model: car_model)
       car_trims = []
       car['@trims'].map do |trim|
         car_trims << Car::Trim.find_or_create_by(name: trim['@trim_name'], model: car_model)
@@ -85,8 +97,8 @@ class CarsController < ApplicationController
       car_model.pics   << car_pic
       car_model.trims   = car_trims
       car_model.colors  = car_colors
-      car_maker.models << car_model
-      car_brand.makers << car_maker
+      maker.models << car_model
+      brand.makers << maker
     end
   end
 
