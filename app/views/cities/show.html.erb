@@ -5,5 +5,15 @@
   <%= @city.name %>
 </p>
 
+
+
+<ul>
+<% @shops.each do |shop| %>
+  <li><%= link_to shop.name, shop_path(shop) %></li>
+
+<% end %>
+</ul>
+
+
 <%= link_to 'Edit', edit_city_path(@city) %> |
 <%= link_to 'Back', cities_path %>
