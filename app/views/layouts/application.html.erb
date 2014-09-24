@@ -30,6 +30,7 @@
             <li><a href="/bargains">还价</a></li>
             <li><a href="/deals">成交历史</a></li>
             <li><a href="/shops">4S店</a></li>
+            <li><a href="/cities">城市</a></li>
             <% if user_signed_in? %>
             <li>
             	<%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>

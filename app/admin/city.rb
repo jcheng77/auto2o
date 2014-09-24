@@ -1,4 +1,4 @@
-ActiveAdmin.register Shop do
+ActiveAdmin.register City do
 
 
   # See permitted parameters documentation:
@@ -14,7 +14,7 @@ ActiveAdmin.register Shop do
   #  permitted
   # end
 
-  permit_params :name, :address, :city
+  permit_params :name
 
 
 end
