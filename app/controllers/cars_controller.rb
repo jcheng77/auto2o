@@ -23,13 +23,13 @@ class CarsController < ApplicationController
 
           next if maker['models'].index { |model| model['name'] == car_model.name }
 
-          model = { 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [] }
+          model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [] }
           car_model.trims.each do |car_trim|
             model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price }
           end
 
           car_model.colors.each do |car_color|
-            model['colors'] << { 'name' => car_color.name, 'code' => car_color.code }
+            model['colors'] << { id: car_color.id, 'name' => car_color.name, 'code' => car_color.code }
           end
 
           maker['models'] << model
