@@ -8,13 +8,27 @@ class BargainsController < InheritedResources::Base
 
   def submit
     @bid = Bid.new(bid_params)
+    @bid.price = @bargain.price # fix bid price as user offered one
     @tender = @bargain.tender
     @bid.bargain = @bargain
     @bid.tender = @tender
     @bid.dealer = current_dealer
     @tender.submit_final!
+
+    begin
+      @deal = @bid.build_deal(final_price: @bid.price, postscript: @bid.description)
+      @deal.tender = @bid.tender
+      @deal.dealer = @bid.dealer
+      @deal.user = current_user
+      @bid.tender.make_final_deal!
+    rescue StateMachine::InvalidTransition => e
+      flash[:warning] = e.to_s
+      Rails.logger.info(e)
+      redirect_to(tenders_path) and return
+    end
+
     respond_to do |format|
-      if @bid.save
+      if @bid.save && @deal.save!
         format.html { redirect_to @tender, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
