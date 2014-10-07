@@ -1,5 +1,11 @@
-<h1><%= "#{@trim.model.name} #{@trim.name} #{@color.name}" %><span style="color:<%= @color.code %>;font-size:40px;">◼︎</span></h1>
+<h1><%= "#{@trim.model.name} #{@trim.name}" %></h1>
 
+只考虑以下颜色：
+<ul>
+<% @colors.each do |color| %>
+<li> <span style="color:<%= color.code %>;font-size:40px;">◼</span><%= color.name %></li>
+<% end %>
+</ul>
 
 <% if @bargain  %>
 

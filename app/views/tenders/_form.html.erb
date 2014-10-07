@@ -31,7 +31,19 @@
     <%= f.label :description, '额外要求' %><br>
     <%= f.text_field :description %>
   </div>
+
+    <h2>选择经销商：</h2>
+
+        <ul>
+          <% @shops.each do |shop| %>
+              <li>
+                <%= check_box_tag "tender[shops][#{shop.id}]" %>
+                <%= label_tag "tender[shops]_#{shop.id}", shop.name %>
+              </li>
+          <% end %>
+        </ul>
+
   <div class="actions">
-    <%= f.submit '确定买这个' %>
+    <%= f.submit '提交订单' %>
   </div>
 <% end %>

@@ -62,6 +62,7 @@ class TendersController < InheritedResources::Base
       @trim = Car::Trim.find(params[:trim])
       @model = @trim.model
       @colors = Car::Color.find params[:color].keys
+      @shops = @trim.brand.shops
     end
     @tender = Tender.new
   end
@@ -76,6 +77,7 @@ class TendersController < InheritedResources::Base
     @tender = Tender.new(new_tender_params)
     @tender.chose_subject if @tender.model.present?
     @tender.user = current_user
+    @tender.shops << Shop.find(params[:tender][:shops].keys)
     respond_to do |format|
       if @tender.save
         format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
@@ -192,7 +194,7 @@ class TendersController < InheritedResources::Base
   def show_bargain
     @bargain = @tender.bargain
     @trim    = @tender.car_trim
-    @color   = @tender.car_color
+    @colors  = @tender.colors
     @bid     = @bargain.bids.new if @bargain
   end
 
@@ -213,7 +215,7 @@ class TendersController < InheritedResources::Base
     end
     respond_to do |format|
       if @bargain.save
-        format.html { redirect_to @bargain, notice: 'Tender was successfully created.' }
+        format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
         format.json { render :show, status: :created, location: @bargain }
       else
         format.html { render :new }
@@ -278,7 +280,7 @@ class TendersController < InheritedResources::Base
   end
 
   def new_tender_params
-    params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids)
+    params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops)
   end
 
   def update_tender_params
