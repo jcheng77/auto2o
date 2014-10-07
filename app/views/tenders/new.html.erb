@@ -41,11 +41,37 @@
 </ul>
 <% elsif params[:trim] && ! params[:color]%>
 <h3><%= @model.maker.name %></h3>
+
+        <%= form_for(@tender, url: new_tender_path, method: :get) do |f| %>
+        <%= hidden_field_tag :trim, @trim.id %>
+        <ul>
+  <% @trim.colors.each do |color| %>
+          <li>
+            <span style="color:<%= color.code %>;font-size:40px;">◼︎</span>
+            <%= check_box_tag "color[#{color.id}]" %>
+            <%= label_tag "color_#{color.id}", color.name %>
+          </li>
+  <% end %>
+        </ul>
+
+        <div class="actions">
+          <%= f.submit '只考虑选中颜色' %>
+        </div>
+        <% end %>
+
+<!--
 <ul>
   <% @trim.colors.each do |color| %>
-  <li><span style="color:<%= color.code %>;font-size:40px;">◼︎</span><%= link_to color.name, new_tender_path(trim: @trim.id, color: color.id) %> </li>
+  <li>
+    <span style="color:<%= color.code %>;font-size:40px;">◼︎</span>
+    <%= link_to color.name, new_tender_path(trim: @trim.id, color: color.id) %>
+  </li>
   <% end %>
 </ul>
+-->
+
+
+
 <% elsif params[:color]%>
 <!-- <h4><%= @model.name %> <%= @trim.name %></h4> -->
 <%= render 'form' %>

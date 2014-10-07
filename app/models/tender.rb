@@ -7,7 +7,6 @@ class Tender < ActiveRecord::Base
   has_one :deal, inverse_of: :tender
   has_one :deposit, inverse_of: :tender
   belongs_to :car_trim, class_name: "Car::Trim", foreign_key: :trim_id, inverse_of: :tenders
-  belongs_to :car_color, class_name: "Car::Color", foreign_key: :color_id, inverse_of: :tenders
 
   has_and_belongs_to_many :shops
 
@@ -118,6 +117,10 @@ class Tender < ActiveRecord::Base
 
   def self.close
     self.where(state: 'bid_open').where("NOW() > DATE_ADD(created_at, INTERVAL 1 DAY)").update_all(state: 'bid_closed')
+  end
+
+  def colors
+    Car::Color.find(self.colors_ids.spilt(','))
   end
 
 end

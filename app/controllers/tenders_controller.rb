@@ -61,7 +61,7 @@ class TendersController < InheritedResources::Base
     elsif params[:color]
       @trim = Car::Trim.find(params[:trim])
       @model = @trim.model
-      @color = Car::Color.find params[:color]
+      @colors = Car::Color.find params[:color].keys
     end
     @tender = Tender.new
   end
@@ -278,7 +278,7 @@ class TendersController < InheritedResources::Base
   end
 
   def new_tender_params
-    params.require(:tender).permit(:model, :price, :description, :trim_id, :color_id)
+    params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids)
   end
 
   def update_tender_params
