@@ -9,6 +9,8 @@ GET http://127.0.0.1:3001/tenders.json
 
 GET http://127.0.0.1:3001/tenders/1.json
 
+GET /tenders/new.json?trim=1&color[1]=1&color[6]=1   # shops api for specified trim and colors
+
 POST http://127.0.0.1:3001/tenders/1/submit.json
 
 POST http://127.0.0.1:3001/bargains/5/submit.json
