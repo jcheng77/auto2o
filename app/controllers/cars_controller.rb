@@ -13,11 +13,11 @@ class CarsController < ApplicationController
 
     @car_brands.each do |car_brand|
 
-      brand = { 'name' => car_brand.name, 'makers' => [] }
+      brand = { id: car_brand.id, 'name' => car_brand.name, 'makers' => [] }
 
       car_brand.makers.each  do |car_maker|
 
-        maker = { 'name' => car_maker.name, 'models' => [] }
+        maker = { id: car_maker.id, 'name' => car_maker.name, 'models' => [] }
 
         car_maker.models.each do |car_model|
 

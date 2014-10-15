@@ -1,3 +1,5 @@
+#encoding: utf-8
+
 class Deposit < ActiveRecord::Base
 
   belongs_to :user, inverse_of: :deposits
