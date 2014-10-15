@@ -47,6 +47,7 @@ class TendersController < InheritedResources::Base
 
   # GET /tenders/new
   def new
+    @tender = Tender.new
     if !params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
       @brands = Car::Brand.all
     elsif params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
@@ -63,8 +64,11 @@ class TendersController < InheritedResources::Base
       @model = @trim.model
       @colors = Car::Color.find params[:color].keys
       @shops = @trim.brand.shops
+      respond_to do |format|
+        format.html { render :new }
+        format.json { render :new }
+      end
     end
-    @tender = Tender.new
   end
 
   # GET /tenders/1/edit
