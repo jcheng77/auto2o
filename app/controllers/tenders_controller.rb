@@ -59,15 +59,15 @@ class TendersController < InheritedResources::Base
     elsif params[:trim] && !params[:color]
       @trim = Car::Trim.find(params[:trim])
       @model = @trim.model
-    elsif params[:color]
-      @trim = Car::Trim.find(params[:trim])
-      @model = @trim.model
-      @colors = Car::Color.find params[:color].keys
       @shops = @trim.brand.shops
       respond_to do |format|
         format.html { render :new }
         format.json { render :new }
       end
+    elsif params[:color]
+      @trim = Car::Trim.find(params[:trim])
+      @model = @trim.model
+      @colors = Car::Color.find params[:color].keys
     end
   end
 
