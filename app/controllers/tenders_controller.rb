@@ -67,6 +67,7 @@ class TendersController < InheritedResources::Base
     elsif params[:color]
       @trim = Car::Trim.find(params[:trim])
       @model = @trim.model
+      @shops = @trim.brand.shops
       @colors = Car::Color.find params[:color].keys
     end
   end
