@@ -1,6 +1,87 @@
 <p id="notice"><%= notice %></p>
 
+
 <p>
+  <strong>车型:</strong>
+  <%= @tender.model %>
+</p>
+
+<!-- <p>
+  <strong>配置:</strong>
+  <%= @tender.car_trim.name %>
+</p> -->
+
+<p>
+  <strong>提车时间:</strong>
+  <%= @tender.pickup_time %>
+</p>
+
+<p>
+  <strong>上牌地点:</strong>
+  <%= @tender.license_location %>
+</p>
+
+<p>
+  <strong>已有牌照:</strong>
+  <%= @tender.got_licence == 1 ? "是" : "否" %>
+</p>
+
+<p>
+  <strong>贷款或全款:</strong>
+  <% case @tender.loan_option %>
+  <% when 1 %>
+  贷款
+  <% when 2 %>
+  全款
+  <% when 3 %>
+  均可
+  <% else %>
+  未知
+  <% end %>
+</p>
+
+<p>
+  <strong>裸车价:</strong>
+  <%= @tender.price %>
+</p>
+
+<p>
+  <strong>保险费预估:</strong>
+  <%= @bid.insurance %>
+</p>
+
+<p>
+  <strong>车船税预估:</strong>
+  <%= @bid.vehicle_tax %>
+</p>
+
+<p>
+  <strong>购置税预估:</strong>
+  <%= @bid.purchase_tax %>
+</p>
+
+<p>
+  <strong>上牌费，根据上牌地预估:</strong>
+  <%= @bid.license_fee %>
+</p>
+
+<p>
+  <strong>服务杂费:</strong>
+  <%= @bid.misc_fee %>
+</p>
+
+<p>
+  <strong>备注:</strong>
+  <%= @bid.description %>
+</p>
+
+<p>
+  <strong>预估总价:</strong>
+  <%= @bid.price %>
+</p>
+
+
+<!-- <p>
   <strong>User:</strong>
   <%= @deal.user_id %>
 </p>
@@ -33,7 +114,7 @@
 <p>
   <strong>Postscript:</strong>
   <%= @deal.postscript %>
-</p>
+</p> -->
 
 <!-- <%= link_to 'Edit', edit_deal_path(@deal) %> |
 <%= link_to 'Back', deals_path %> -->

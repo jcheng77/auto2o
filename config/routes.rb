@@ -91,6 +91,7 @@ Rails.application.routes.draw do
     member do
       get :qrcode
       get :verify
+      get :show_for_dealer
     end
   end
 

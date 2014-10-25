@@ -13,4 +13,8 @@ class Deal < ActiveRecord::Base
 
   end
 
+  def gen_verify_code
+    SecureRandom.urlsafe_base64(40)
+  end
+
 end

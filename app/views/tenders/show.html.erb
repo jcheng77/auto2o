@@ -7,6 +7,11 @@
   <%= @tender.model %>
 </p>
 
+<!-- <p>
+  <strong>配置:</strong>
+  <%= @tender.car_trim.name %>
+</p> -->
+
 <p>
   <strong>提车时间:</strong>
   <%= @tender.pickup_time %>
@@ -169,7 +174,7 @@
   <%= @bid.price %>
 </p>
 
- <%= link_to "决定成交", accept_final_bid_path(@bid), method: :post, data: { confirm: '确定成交' } %>
+ <%= link_to "决定成交", accept_final_bid_path(@bid), method: :post, data: { confirm: '确定成交?成交后您的联系方式会发给商家' } %>
  
- 
+ <%= link_to '取消购买意向', cancel_2_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['qualified', 'taken', 'submitted', 'deal_made'].include?(@tender.state) %>
 <% end %>

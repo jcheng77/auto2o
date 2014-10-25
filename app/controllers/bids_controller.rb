@@ -58,7 +58,7 @@ class BidsController < InheritedResources::Base
       @deal.tender = @bid.tender
       @deal.dealer = @bid.dealer
       @deal.user = current_user
-      @bid.tender.make_final_deal!
+      @bid.tender.accept_price!
     rescue StateMachine::InvalidTransition => e
       flash[:warning] = e.to_s
       Rails.logger.info(e)

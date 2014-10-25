@@ -31,27 +31,27 @@ class Tender < ActiveRecord::Base
       transition :intention => :determined
     end
 
-    event :submit_margin do
-      transition :determined => :qualified
-    end
+    # event :submit_margin do
+    #   transition :determined => :qualified
+    # end
 
     event :invite_dealer do
       # transition :qualified => :invite
       transition :qualified => :bid_closed # no first round now
     end
 
-    event :submit_tender do
-      transition [:invite, :bid_open] => :bid_open
-    end
+    # event :submit_tender do
+    #   transition [:invite, :bid_open] => :bid_open
+    # end
 
-    event :tender_closed do
-      transition :bid_open => :bid_closed
-    end
+    # event :tender_closed do
+    #   transition :bid_open => :bid_closed
+    # end
 
-    # user can make deal in the middle or end of the first round of bid
-    event :make_deal do
-      transition [:bid_open, :bid_closed] => :deal_closed
-    end
+    # # user can make deal in the middle or end of the first round of bid
+    # event :make_deal do
+    #   transition [:bid_open, :bid_closed] => :deal_closed
+    # end
 
     # event :cancel_1_round do
     #   transition [:intention, :determined, :bid_closed, :qualified, :invite, :bid_open, :bid_closed, :deal_closed] => :round_1_canceled
@@ -78,8 +78,13 @@ class Tender < ActiveRecord::Base
       transition :taken => :submitted
     end
 
+    event :accept_price do
+      transition :submitted => :deal_made
+    end
+
     event :make_final_deal do
-      transition [:submitted, :final_bid_open, :final_bid_closed] => :final_deal_closed
+      # transition [:submitted, :final_bid_open, :final_bid_closed] => :final_deal_closed
+      transition :deal_made => :final_deal_closed
     end
 
     event :cancel_2_round do

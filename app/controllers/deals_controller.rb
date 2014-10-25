@@ -1,6 +1,6 @@
 class DealsController < InheritedResources::Base
 
-  before_action :authenticate_user!, except: [:verify]
+  before_action :authenticate_user!, only: [:index, :qrcode, :show]
 
   before_action :authenticate_dealer!, only: [:verify]
 
@@ -12,6 +12,12 @@ class DealsController < InheritedResources::Base
 
   def show
     @tender = @deal.tender
+    @bid = @deal.bid
+  end
+
+  def show_for_dealer
+    @tender = @deal.tender
+    @bid = @deal.bid
   end
 
   def qrcode
@@ -24,11 +30,10 @@ class DealsController < InheritedResources::Base
     end
   end
 
-
   def verify
     if @deal.dealer != current_dealer
       respond_to do |format|
-        format.html { redirect_to @deal, notice: '验证码只能在成交商家使用.' }
+        format.html { redirect_to root_url, notice: '验证码只能在成交商家使用.' }
         format.json { render json: {error: '验证码只能在成交商家使用'}, status: :unprocessable_entity }
       end
       return
@@ -42,6 +47,7 @@ class DealsController < InheritedResources::Base
     end
     begin
       @deal.do_verify! if @deal.verify_code == params[:code]
+      @deal.tender.make_final_deal!
       respond_to do |format|
         format.html { redirect_to @deal, notice: '成功验证' }
         format.json { render json: {info: '成功验证'}, status: :ok, location: @deal }

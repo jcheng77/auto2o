@@ -21,7 +21,6 @@ class BargainsController < InheritedResources::Base
       @deal.dealer = @bid.dealer
       @deal.user = current_user
       @bid.tender.take!
-      # @bid.tender.make_final_deal!
     rescue StateMachine::InvalidTransition => e
       flash[:warning] = e.to_s
       Rails.logger.info(e)
