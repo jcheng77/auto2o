@@ -31,9 +31,9 @@ class Tender < ActiveRecord::Base
       transition :intention => :determined
     end
 
-    # event :submit_margin do
-    #   transition :determined => :qualified
-    # end
+    event :submit_margin do
+      transition :determined => :qualified
+    end
 
     event :invite_dealer do
       # transition :qualified => :invite
