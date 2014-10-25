@@ -4,6 +4,13 @@ class ShopsController < InheritedResources::Base
 
   def index
     @shops = Shop.all
+    if params[:trim_id]
+      @shops = Car::Trim.find(params[:trim_id]).brand.shops
+      respond_to do |format|
+        format.html
+        format.json
+      end
+    end
   end
 
   def show

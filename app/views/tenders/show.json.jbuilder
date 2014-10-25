@@ -1,4 +1,4 @@
-json.extract! @tender, :id, :model, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state
+json.extract! @tender, :id, :model, :trim_id, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state
 
 json.set! :states do
    json.set! :determined, "信息已提交"
