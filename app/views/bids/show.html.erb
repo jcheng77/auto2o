@@ -54,7 +54,7 @@
   user view
 <% end %>
 
-<% if dealer_signed_in? && !@tender.state == 'submitted'%>
+<% if dealer_signed_in? && @tender.state != 'submitted' %>
 <%= form_for(@bid) do |f| %>
   <% if @bid.errors.any? %>
     <div id="error_explanation">
