@@ -1,4 +1,4 @@
-<h1>目标车型</h1>
+<h1>购买需求</h1>
 
 <p id="notice"><%= notice %></p>
 
@@ -140,6 +140,11 @@
 <h1>商家应价</h1>
 
 <p>
+  <strong>销售人员手机:</strong>
+  <%= @bid.dealer.phone %>
+</p>
+
+<p>
   <strong>保险费预估:</strong>
   <%= @bid.insurance %>
 </p>
@@ -174,7 +179,23 @@
   <%= @bid.price %>
 </p>
 
- <%= link_to "决定成交", accept_final_bid_path(@bid), method: :post, data: { confirm: '确定成交?成交后您的联系方式会发给商家' } %>
+ <%= link_to "决定成交", accept_final_bid_path(@bid), method: :post, data: { confirm: '确定成交?成交后您的联系方式会发给商家' } unless @deal && @deal.state == 'verified' %>
  
- <%= link_to '取消购买意向', cancel_2_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['qualified', 'taken', 'submitted', 'deal_made'].include?(@tender.state) %>
+ <%= link_to '取消购买意向', cancel_2_round_tender_path(@tender), method: :delete, data: { confirm: 'Are you sure?' }  if ['qualified', 'taken', 'submitted', 'deal_made'].include?(@tender.state) unless @deal && @deal.state == 'verified' %>
+<% end %>
+
+
+<% if @deal && @deal.state == 'new' %>
+<h1>验证码</h1>
+
+可以让商家直接访问：
+
+<%= link_to verify_deal_url(@deal, code: @deal.verify_code) , verify_deal_url(@deal, code: @deal.verify_code) %>
+
+<br/>
+<br/>
+
+<image src="<%= qrcode_deal_path(@deal, format: :png) %>"/>
+<% elsif @deal && @deal.state == 'verified' %>
+验证码已使用
 <% end %>

@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<h1>购买需求</h1>
 
 <p>
   <strong>车型:</strong>
@@ -45,6 +46,9 @@
   <%= @tender.price %>
 </p>
 
+
+<h1>你的报价</h1>
+
 <p>
   <strong>保险费预估:</strong>
   <%= @bid.insurance %>
@@ -78,6 +82,13 @@
 <p>
   <strong>预估总价:</strong>
   <%= @bid.price %>
+</p>
+
+<h1>客户信息</h1>
+
+<p>
+  <strong>手机:</strong>
+  <%= @bid.tender.user.phone %>
 </p>
 
 

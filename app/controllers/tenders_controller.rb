@@ -27,6 +27,7 @@ class TendersController < InheritedResources::Base
     @tender.state = 'qualified' if @tender.state == 'taken' # 暂态，不让终端用户知道
     @bid = @tender.bids.first if @tender.state == 'submitted'
     # 友好的提示当前订单的状态
+    @deal ||= @tender.deal
     callback_params = params.except(*request.path_parameters.keys)
     if callback_params.any? && Alipay::Sign.verify?(callback_params)
       if @deposit.paid? || @deposit.completed?

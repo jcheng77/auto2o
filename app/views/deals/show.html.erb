@@ -1,5 +1,6 @@
 <p id="notice"><%= notice %></p>
 
+<h1>购买需求</h1>
 
 <p>
   <strong>车型:</strong>
@@ -43,6 +44,23 @@
 <p>
   <strong>裸车价:</strong>
   <%= @tender.price %>
+</p>
+
+<h1>商家应价</h1>
+
+<p>
+  <strong>商家:</strong>
+  <%= @bid.dealer.shop.name %>
+</p>
+
+<p>
+  <strong>商家地址:</strong>
+  <%= @bid.dealer.shop.address %>
+</p>
+
+<p>
+  <strong>销售人员手机:</strong>
+  <%= @bid.dealer.phone %>
 </p>
 
 <p>
