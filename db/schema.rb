@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141007191554) do
+ActiveRecord::Schema.define(version: 20141024230553) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -62,11 +62,16 @@ ActiveRecord::Schema.define(version: 20141007191554) do
     t.integer  "tender_id"
     t.integer  "bargain_id"
     t.integer  "dealer_id"
-    t.decimal  "price",       precision: 12, scale: 2
+    t.decimal  "price",        precision: 12, scale: 2
     t.string   "description"
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.decimal  "insurance",    precision: 12, scale: 2
+    t.decimal  "vehicle_tax",  precision: 12, scale: 2
+    t.decimal  "purchase_tax", precision: 12, scale: 2
+    t.decimal  "license_fee",  precision: 12, scale: 2
+    t.decimal  "misc_fee",     precision: 12, scale: 2
   end
 
   create_table "brands_shops", force: true do |t|
@@ -120,6 +125,15 @@ ActiveRecord::Schema.define(version: 20141007191554) do
 
   create_table "cities", force: true do |t|
     t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "comments", force: true do |t|
+    t.integer  "shop_id"
+    t.integer  "dealer_id"
+    t.text     "content"
+    t.integer  "rate"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -204,13 +218,17 @@ ActiveRecord::Schema.define(version: 20141007191554) do
     t.integer  "user_id"
     t.integer  "trim_id"
     t.string   "model"
-    t.decimal  "price",       precision: 12, scale: 2
+    t.decimal  "price",                      precision: 12, scale: 2
     t.string   "description"
     t.string   "state"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "bids_count"
     t.string   "colors_ids"
+    t.string   "pickup_time"
+    t.string   "license_location"
+    t.integer  "got_licence",      limit: 1
+    t.integer  "loan_option"
   end
 
   create_table "users", force: true do |t|

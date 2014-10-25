@@ -10,5 +10,16 @@
   <%= @shop.address %>
 </p>
 
+<h2>评价</h2>
+
+<ul>
+<% @comments.each do |comment| %>
+
+<li><%= comment.content %></li>
+
+<% end %>
+<ul>
+
 <%= link_to 'Edit', edit_shop_path(@shop) %> |
 <%= link_to 'Back', shops_path %>
+

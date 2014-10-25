@@ -1,24 +1,113 @@
 <p id="notice"><%= notice %></p>
 
+
 <p>
-  <strong>Tender:</strong>
-  <%= @bid.tender_id %>
+  <strong>车型:</strong>
+  <%= @tender.model %>
 </p>
 
 <p>
-  <strong>Dealer:</strong>
-  <%= @bid.dealer_id %>
+  <strong>提车时间:</strong>
+  <%= @tender.pickup_time %>
 </p>
 
 <p>
-  <strong>Price:</strong>
-  <%= @bid.price %>
+  <strong>上牌地点:</strong>
+  <%= @tender.license_location %>
 </p>
 
 <p>
-  <strong>Description:</strong>
+  <strong>已有牌照:</strong>
+  <%= @tender.got_licence == 1 ? "是" : "否" %>
+</p>
+
+<p>
+  <strong>贷款或全款:</strong>
+  <% case @tender.loan_option %>
+  <% when 1 %>
+  贷款
+  <% when 2 %>
+  全款
+  <% when 3 %>
+  均可
+  <% else %>
+  未知
+  <% end %>
+</p>
+
+<p>
+  <strong>裸车价:</strong>
+  <%= @tender.price %>
+</p>
+
+<p>
+  <strong>备注:</strong>
   <%= @bid.description %>
 </p>
 
-<%= link_to 'Edit', edit_bid_path(@bid) %> |
-<%= link_to 'Back', bids_path %>
+<% if user_signed_in? %>
+  user view
+<% end %>
+
+<% if dealer_signed_in? && !@tender.state == 'submitted'%>
+<%= form_for(@bid) do |f| %>
+  <% if @bid.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@bid.errors.count, "error") %> prohibited this bid from being saved:</h2>
+
+      <ul>
+      <% @bid.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :insurance, '保险费预估' %><br>
+    <%= f.number_field :insurance, value: 0, class: "num" %>
+  </div>
+  <div class="field">
+    <%= f.label :vehicle_tax, '车船税预估' %><br>
+    <%= f.number_field :vehicle_tax, value: 0, class: "num" %>
+  </div>
+  <div class="field">
+    <%= f.label :purchase_tax, '购置税预估' %><br>
+    <%= f.number_field :purchase_tax, value: 0, class: "num" %>
+  </div>
+  <div class="field">
+    <%= f.label :license_fee, '上牌费，根据上牌地预估' %><br>
+    <%= f.number_field :license_fee, value: 0, class: "num" %>
+  </div>
+  <div class="field">
+    <%= f.label :misc_fee, '服务杂费, 请在备注内说明' %><br>
+    <%= f.number_field :misc_fee, value: 0, class: "num" %>
+  </div>
+  
+  <div class="field">
+    <%= f.label :price, '预估总价' %><br>
+    <%= f.text_field :price, readonly: :readonly, value: @tender.price %>
+  </div>
+  <div class="field">
+    <%= f.label :description, '备注' %><br>
+    <%= f.text_field :description %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+$(function() {
+  var totalPrice = parseFloat($('#bid_price').val());
+  $('.num').blur(function(){
+    var addedPrice = 0;
+    $('.num').each(function () {
+      addedPrice += parseFloat($(this).val());
+    })
+    $('#bid_price').val(totalPrice+addedPrice);
+  });
+});
+</script>
+
+<% end %>

@@ -11,7 +11,9 @@ class DepositsController < InheritedResources::Base
 
     @tender = Tender.find(deposit_params[:tender_id])
     @deposit.tender = @tender
-    @tender.submit_margin
+    
+    @tender.invite_dealer # TODO notify dealers
+    @tender.submit_margin # TODO remove
 
     respond_to do |format|
       if @deposit.save

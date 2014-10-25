@@ -1,6 +1,6 @@
 class TendersController < InheritedResources::Base
 
-  before_action :authenticate_user!, except: [:index, :bid, :submit]
+  before_action :authenticate_user!, except: [:index, :bid, :submit, :show_bargain]
   before_action :authenticate_dealer!, only: [:bid, :submit]
 
   before_action :set_tender, except: [:index, :create, :new]
@@ -24,6 +24,8 @@ class TendersController < InheritedResources::Base
     @deposit = @tender.deposit || @tender.build_deposit
     @shops = @tender.car_trim.brand.shops
     @selected_shops = @tender.shops
+    @tender.state = 'qualified' if @tender.state == 'taken' # 暂态，不让终端用户知道
+    @bid = @tender.bids.first if @tender.state == 'submitted'
     # 友好的提示当前订单的状态
     callback_params = params.except(*request.path_parameters.keys)
     if callback_params.any? && Alipay::Sign.verify?(callback_params)
@@ -35,15 +37,15 @@ class TendersController < InheritedResources::Base
     end
   end
 
-  def finish_1st_round
-    @tender.tender_closed!
-    redirect_to tender_path(@tender)
-  end
+  # def finish_1st_round
+  #   @tender.tender_closed!
+  #   redirect_to tender_path(@tender)
+  # end
 
-  def finish_2nd_round
-    @tender.final_closed!
-    redirect_to tender_path(@tender)
-  end
+  # def finish_2nd_round
+  #   @tender.final_closed!
+  #   redirect_to tender_path(@tender)
+  # end
 
   # GET /tenders/new
   def new
@@ -82,9 +84,23 @@ class TendersController < InheritedResources::Base
     @tender = Tender.new(new_tender_params)
     @tender.chose_subject if @tender.model.present?
     @tender.user = current_user
-    @tender.shops << Shop.find(params[:tender][:shops].keys)
     respond_to do |format|
-      if @tender.save
+      if @tender.save!
+        raise "必须选择商家" if params[:tender][:shops].blank?
+        @tender.shops << Shop.find(params[:tender][:shops].keys)
+        begin
+          @bargain = @tender.build_bargain(price: params[:price])
+          # @tender.submit_bargain!
+          @bargain.save!
+        rescue => e
+          flash[:warning] = e.to_s
+          Rails.logger.info(e)
+          respond_to do |format|
+            format.html { redirect_to(tenders_path) }
+            format.json { render json: @tender.errors, status: :unprocessable_entity }
+          end
+          return
+        end
         format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
         format.json { render :show, status: :created, location: @tender }
       else
@@ -121,11 +137,11 @@ class TendersController < InheritedResources::Base
     end
   end
 
-  def invite
-    @tender.invite_dealer
-    # redirect_to @tender, notice: '竞标邀请已发出.'
-    redirect_to bargain_tender_path(@tender)#, notice: '竞标邀请已发出.'
-  end
+  # def invite
+  #   @tender.invite_dealer
+  #   # redirect_to @tender, notice: '竞标邀请已发出.'
+  #   redirect_to bargain_tender_path(@tender)#, notice: '竞标邀请已发出.'
+  # end
 
   # GET /tender/1/bid
   # GET /tender/1/bid.json
@@ -143,56 +159,56 @@ class TendersController < InheritedResources::Base
     @bids = @tender.bargain.bids if @tender.bargain
   end
 
-  # POST /tender/1/submit
-  # POST /tender/1/submit.json
-  # submit first round bid
-  def submit
-    @bid = Bid.new(bid_params)
-    @bid.tender = @tender
-    begin
-      @tender.check_bid_time
-      @tender.submit_tender!
-      @bid.dealer = current_dealer
-    rescue StateMachine::InvalidTransition => e
-      flash[:warning] = e.to_s
-      Rails.logger.info(e)
-      redirect_to(tenders_path) and return
-    end
-    respond_to do |format|
-      if @bid.save
-        format.html { redirect_to @bid, notice: 'Tender was successfully created.' }
-        format.json { render :show, status: :created, location: @bid }
-      else
-        format.html { render :new }
-        format.json { render json: @bid.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # # POST /tender/1/submit
+  # # POST /tender/1/submit.json
+  # # submit first round bid
+  # def submit
+  #   @bid = Bid.new(bid_params)
+  #   @bid.tender = @tender
+  #   begin
+  #     @tender.check_bid_time
+  #     @tender.submit_tender!
+  #     @bid.dealer = current_dealer
+  #   rescue StateMachine::InvalidTransition => e
+  #     flash[:warning] = e.to_s
+  #     Rails.logger.info(e)
+  #     redirect_to(tenders_path) and return
+  #   end
+  #   respond_to do |format|
+  #     if @bid.save
+  #       format.html { redirect_to @bid, notice: 'Tender was successfully created.' }
+  #       format.json { render :show, status: :created, location: @bid }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @bid.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
 
-  def cancel_1_round
-    @tender.cancel_1_round!
-    @reasons=[
-      "reason1",
-      "reason2",
-      "reason3",
-      "reason4"
-    ]
-    respond_to do |format|
-      format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
-      format.json { render :cancel_1_round, status: :accepted, location: @tender }
-    end
-  end
+  # def cancel_1_round
+  #   @tender.cancel_1_round!
+  #   @reasons=[
+  #     "reason1",
+  #     "reason2",
+  #     "reason3",
+  #     "reason4"
+  #   ]
+  #   respond_to do |format|
+  #     format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+  #     format.json { render :cancel_1_round, status: :accepted, location: @tender }
+  #   end
+  # end
 
-  # GET /tender/1/bargain
-  # GET /tender/1/bargain.json
-  def bargain
-    @bargain = @tender.build_bargain
-    @terms = [
-      "取消还价保证金不能全额退回",
-      "成交后超期不去现场交易保证金不能全额退回"
-    ]
-  end
+  # # GET /tender/1/bargain
+  # # GET /tender/1/bargain.json
+  # def bargain
+  #   @bargain = @tender.build_bargain
+  #   @terms = [
+  #     "取消还价保证金不能全额退回",
+  #     "成交后超期不去现场交易保证金不能全额退回"
+  #   ]
+  # end
 
   # GET /tender/1/show_bargain
   # GET /tender/1/show_bargain.json
@@ -203,31 +219,31 @@ class TendersController < InheritedResources::Base
     @bid     = @bargain.bids.new if @bargain
   end
 
-  # POST /tender/1/submit_bargain
-  # POST /tender/1/submit_bargain.json
-  def submit_bargain
-    begin
-      @bargain = @tender.build_bargain(bargain_params)
-      @tender.submit_bargain!
-    rescue StateMachine::InvalidTransition => e
-      flash[:warning] = e.to_s
-      Rails.logger.info(e)
-      respond_to do |format|
-        format.html { redirect_to(tenders_path) }
-        format.json { render json: @tender.errors, status: :unprocessable_entity }
-      end
-      return
-    end
-    respond_to do |format|
-      if @bargain.save
-        format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
-        format.json { render :show, status: :created, location: @bargain }
-      else
-        format.html { render :new }
-        format.json { render json: @bargain.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  # # POST /tender/1/submit_bargain
+  # # POST /tender/1/submit_bargain.json
+  # def submit_bargain
+  #   begin
+  #     @bargain = @tender.build_bargain(bargain_params)
+  #     @tender.submit_bargain!
+  #   rescue StateMachine::InvalidTransition => e
+  #     flash[:warning] = e.to_s
+  #     Rails.logger.info(e)
+  #     respond_to do |format|
+  #       format.html { redirect_to(tenders_path) }
+  #       format.json { render json: @tender.errors, status: :unprocessable_entity }
+  #     end
+  #     return
+  #   end
+  #   respond_to do |format|
+  #     if @bargain.save
+  #       format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
+  #       format.json { render :show, status: :created, location: @bargain }
+  #     else
+  #       format.html { render :new }
+  #       format.json { render json: @bargain.errors, status: :unprocessable_entity }
+  #     end
+  #   end
+  # end
 
   def bid_final
     @bid = @tender.bids.new
@@ -285,7 +301,8 @@ class TendersController < InheritedResources::Base
   end
 
   def new_tender_params
-    params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops)
+    params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops,
+                                   :pickup_time, :license_location, :got_licence, :loan_option)
   end
 
   def update_tender_params
@@ -296,8 +313,8 @@ class TendersController < InheritedResources::Base
     params.require(:bid).permit(:price, :description)
   end
 
-  def bargain_params
-    params.require(:bargain).permit(:price, :postscript)
-  end
+  # def bargain_params
+  #   params.require(:bargain).permit(:price, :postscript)
+  # end
 
 end

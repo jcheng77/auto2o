@@ -37,10 +37,10 @@
         </td>
         -->
         <td>
-          <% if ['bargain_started', 'final_bid_open', 'final_bid_closed'].include? tender.state %>
+          <% if ['qualified', 'bargain_started', 'final_bid_open', 'final_bid_closed'].include? tender.state %>
           <%= link_to '参与抢单', show_bargain_tender_path(tender) %>
           <% else %>
-          尚未开始
+          不能抢单
           <% end %>
         </td>
         <!--<td>-->
@@ -50,19 +50,19 @@
           <!--不能投第二轮-->
           <!--<% end %>-->
         <!--</td>-->
-        <td>
-          <% if ['bargain_started', 'final_bid_open'].include? tender.state %>
+        <!-- <td>
+          <% if ['submitted', 'bargain_started', 'final_bid_open'].include? tender.state %>
           <%= link_to '抢单列表', final_bids_tender_path(tender) %>
           <% else %>
-          尚不能抢单
+          不能抢单
           <% end %>
-        </td>
-        <td>抢单商家数<%=(tender.bargain ? tender.bargain.bids_count : 0 )%></td>
+        </td> -->
+        <!-- <td>抢单商家数<%=(tender.bargain ? tender.bargain.bids_count : 0 )%></td> -->
         <td>
           <% if ['deal_closed', 'final_deal_closed'].include?(tender.state) %>
           <%= link_to '成交结果', deal_path(tender.deal) %>
           <% else %>
-          尚未成交
+          未成交
           <% end %>
         </td>
         <!-- <td><%= link_to 'Edit', edit_tender_path(tender) %></td> -->

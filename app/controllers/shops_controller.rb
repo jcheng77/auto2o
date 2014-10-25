@@ -7,6 +7,7 @@ class ShopsController < InheritedResources::Base
   end
 
   def show
+    @comments = @shop.comments
   end
 
 private

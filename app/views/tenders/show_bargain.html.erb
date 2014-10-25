@@ -7,6 +7,42 @@
 <% end %>
 </ul>
 
+
+<p>
+  <strong>提车时间:</strong>
+  <%= @tender.pickup_time %>
+</p>
+
+<p>
+  <strong>上牌地点:</strong>
+  <%= @tender.license_location %>
+</p>
+
+<p>
+  <strong>已有牌照:</strong>
+  <%= @tender.got_licence == 1 ? "是" : "否" %>
+</p>
+
+<p>
+  <strong>贷款或全款:</strong>
+  <% case @tender.loan_option %>
+  <% when 1 %>
+  贷款
+  <% when 2 %>
+  全款
+  <% when 3 %>
+  均可
+  <% else %>
+  未知
+  <% end %>
+</p>
+
+<p>
+  <strong>裸车价:</strong>
+  <%= @tender.price %>
+</p>
+
+
 <% if @bargain  %>
 
   价格：<%= @bargain.price %>

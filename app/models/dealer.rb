@@ -8,6 +8,7 @@ class Dealer < ActiveRecord::Base
   has_many :devices, inverse_of: :dealer
   has_many :bids, inverse_of: :dealer
   has_many :deals, inverse_of: :dealer
+  has_many :comments
 
   belongs_to :shop, inverse_of: :dealers
 

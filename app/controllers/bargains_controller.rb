@@ -1,7 +1,7 @@
 class BargainsController < InheritedResources::Base
 
 
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :authenticate_dealer!, only: [:submit]
 
   before_action :set_bargain, only: [:show, :edit, :update, :destroy, :submit]
@@ -13,14 +13,15 @@ class BargainsController < InheritedResources::Base
     @bid.bargain = @bargain
     @bid.tender = @tender
     @bid.dealer = current_dealer
-    @tender.submit_final!
+    # @tender.submit_final!
 
     begin
       @deal = @bid.build_deal(final_price: @bid.price, postscript: @bid.description)
       @deal.tender = @bid.tender
       @deal.dealer = @bid.dealer
       @deal.user = current_user
-      @bid.tender.make_final_deal!
+      @bid.tender.take!
+      # @bid.tender.make_final_deal!
     rescue StateMachine::InvalidTransition => e
       flash[:warning] = e.to_s
       Rails.logger.info(e)
@@ -29,7 +30,7 @@ class BargainsController < InheritedResources::Base
 
     respond_to do |format|
       if @bid.save && @deal.save!
-        format.html { redirect_to @tender, notice: 'Bid was successfully created.' }
+        format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
         format.html { render :new }

@@ -1,11 +1,32 @@
 class BidsController < InheritedResources::Base
 
-  before_action :authenticate_dealer!
+  before_action :authenticate_dealer!, except: [:accept_final]
+
+  before_action :authenticate_user!, only: [:accept_final]
 
   before_action :set_bid, except: [:index, :create, :new]
 
   def index
     @bids = current_dealer.bids.all
+  end
+
+  def show
+    @tender = @bid.tender
+  end
+
+  def update
+    respond_to do |format|
+      if @bid.update(update_params)
+        @bid.price = @bid.tender.price + @bid.insurance + @bid.vehicle_tax + @bid.purchase_tax + @bid.license_fee + @bid.misc_fee
+        @bid.save
+        @bid.tender.submit_total_price!
+        format.html { redirect_to @bid, notice: '已给客户报价' }
+        format.json { render :show, status: :ok, location: @bid }
+      else
+        format.html { render :edit }
+        format.json { render json: @bid.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   def accept
@@ -45,7 +66,7 @@ class BidsController < InheritedResources::Base
     end
     respond_to do |format|
       if @deal.save!
-        format.html { redirect_to deals_path, notice: 'Bid was successfully accepted.' }
+        format.html { redirect_to tender_path(@bid.tender), notice: 'Bid was successfully accepted.' }
         format.json { render :show_deal, status: :created, location: @deal }
       else
         format.html { redirect_to(tenders_path) }
@@ -55,6 +76,10 @@ class BidsController < InheritedResources::Base
   end
 
 private
+
+  def update_params
+    params.require(:bid).permit(:insurance, :vehicle_tax, :purchase_tax, :license_fee, :misc_fee, :description)    
+  end
 
   def set_bid
     @bid = Bid.find(params[:id])

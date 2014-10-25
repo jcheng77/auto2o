@@ -1,5 +1,8 @@
 class Tender < ActiveRecord::Base
 
+  validates_presence_of :price, :trim_id, :pickup_time, :license_location, :got_licence, :loan_option
+  validates_numericality_of :price
+
   belongs_to :user, inverse_of: :tenders
 
   has_many :bids, inverse_of: :tender
@@ -50,25 +53,33 @@ class Tender < ActiveRecord::Base
       transition [:bid_open, :bid_closed] => :deal_closed
     end
 
-    event :cancel_1_round do
-      transition [:intention, :determined, :bid_closed, :qualified, :invite, :bid_open, :bid_closed, :deal_closed] => :round_1_canceled
-    end
+    # event :cancel_1_round do
+    #   transition [:intention, :determined, :bid_closed, :qualified, :invite, :bid_open, :bid_closed, :deal_closed] => :round_1_canceled
+    # end
 
     # if user not satisfied with result of first round, bargain
     event :submit_bargain do
       transition :bid_closed => :bargain_started
     end
 
-    event :submit_final do
-      transition [:bargain_started, :final_bid_open] => :final_bid_open
-    end
+    # event :submit_final do
+    #   transition [:bargain_started, :final_bid_open] => :final_bid_open
+    # end
 
-    event :final_closed do
-      transition :final_bid_open => :final_bid_closed
+    # event :final_closed do
+    #   transition :final_bid_open => :final_bid_closed
+    # end
+
+    event :take do
+       transition :qualified => :taken
+    end
+    
+    event :submit_total_price do
+      transition :taken => :submitted
     end
 
     event :make_final_deal do
-      transition [:final_bid_open, :final_bid_closed] => :final_deal_closed
+      transition [:submitted, :final_bid_open, :final_bid_closed] => :final_deal_closed
     end
 
     event :cancel_2_round do
