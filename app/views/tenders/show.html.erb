@@ -185,7 +185,7 @@
 <% end %>
 
 
-<% if @deal && @deal.state == 'new' %>
+<% if @deal && @deal.state == 'new' && @tender.state == 'deal_made' %>
 <h1>验证码</h1>
 
 可以让商家直接访问：
