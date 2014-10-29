@@ -35,11 +35,11 @@ zh-CN:
       bid_closed: '竞标截止'
       round_1_canceled: '询价取消'
       deal_closed: '交易达成'
-      deal_made: '已接受商家报价'
+      deal_made: '交易达成'
       bargain_started: '还价开始'
       final_bid_open: '最终竞标开放'
       final_bid_closed: '最终竞标关闭'
-      final_deal_closed: '最终交易达成'
+      final_deal_closed: '线下交易完成'
       round_2_canceled: '最终竞标取消'
 
   devise:

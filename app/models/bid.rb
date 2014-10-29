@@ -7,4 +7,13 @@ class Bid < ActiveRecord::Base
 
   has_one :deal, inverse_of: :bid
 
+
+  state_machine :initial => :intention do
+
+    event :make_final do
+      transition :intention => :submitted
+    end
+
+  end
+
 end

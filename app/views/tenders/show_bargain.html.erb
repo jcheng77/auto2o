@@ -45,12 +45,12 @@
 
 <% if @bargain  %>
 
-  价格：<%= @bargain.price %>
+  <!-- 价格：<%#= @bargain.price %>
   <br/>
   <br/>
-  附注：<%= @bargain.postscript %>
+  附注：<%#= @bargain.postscript %>
   <br/>
-  <br/>
+  <br/> -->
 
   <% if dealer_signed_in?  %>
     <%= form_for(@bid, url: submit_bargain_path(@bargain)) do |f| %>

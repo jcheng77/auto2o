@@ -16,10 +16,6 @@ class BargainsController < InheritedResources::Base
     # @tender.submit_final!
 
     begin
-      @deal = @bid.build_deal(final_price: @bid.price, postscript: @bid.description)
-      @deal.tender = @bid.tender
-      @deal.dealer = @bid.dealer
-      @deal.user = current_user
       @bid.tender.take!
     rescue StateMachine::InvalidTransition => e
       flash[:warning] = e.to_s
@@ -28,7 +24,7 @@ class BargainsController < InheritedResources::Base
     end
 
     respond_to do |format|
-      if @bid.save && @deal.save!
+      if @bid.save
         format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
         format.json { render :show, status: :created, location: @bid }
       else
