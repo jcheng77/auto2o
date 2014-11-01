@@ -61,6 +61,9 @@ class Deposit < ActiveRecord::Base
       :logistics_name => 'JustBitIT',
       :transport_type => 'DIRECT' # 无需物流
     )
+    self.tender.shops.first.dealers.each do |dealer|
+      Sms.noty_new_tender(dealer.phone, self.tender)
+    end
   end
 
   def log_transaction

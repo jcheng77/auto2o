@@ -1,4 +1,5 @@
 json.extract! @tender, :id, :model, :trim_id, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state
+json.pic_url @tender.car_trim.model.pics.first.pic_url
 
 json.set! :states do
   json.set! :determined, I18n.t("tender.state.determined")

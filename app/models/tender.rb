@@ -132,7 +132,11 @@ class Tender < ActiveRecord::Base
   end
 
   def self.close
-    self.where(state: 'bid_open').where("NOW() > DATE_ADD(created_at, INTERVAL 1 DAY)").update_all(state: 'bid_closed')
+    self.where("state = 'qualified' and NOW() > DATE_ADD(created_at, INTERVAL 2 DAY)").update_all(state: 'round_2_canceled')
+  end
+
+  def self.release
+    self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").update_all(state: 'qualified')
   end
 
   def colors
