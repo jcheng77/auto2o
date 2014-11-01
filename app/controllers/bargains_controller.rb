@@ -7,7 +7,8 @@ class BargainsController < InheritedResources::Base
   before_action :set_bargain, only: [:show, :edit, :update, :destroy, :submit]
 
   def submit
-    @bid = Bid.new(bid_params)
+    # @bid = Bid.new(bid_params)
+    @bid = Bid.new(price: @bargin.tender.price)
     @bid.price = @bargain.price # fix bid price as user offered one
     @tender = @bargain.tender
     @bid.bargain = @bargain

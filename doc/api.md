@@ -23,6 +23,15 @@ Dealer Tender:
 GET /tenders/dealer_index.json
 GET /tenders/{bargain_id}/show_bargain.json
 
+抢单:
+----
+POST /bargains/{bargain_id}/submit
+
+
+
+
+
+
 GET /deals.json
 
 
