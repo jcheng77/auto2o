@@ -48,9 +48,33 @@
         <a class="navbar-brand" href="#">拍立行</a>
         <div class="navbar-collapse navbar-right collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
+            <li><a href="/tenders">买车招标</a></li>
+	          <li><a href="/bids">投标</a></li>
+	          <li><a href="/bargains">还价</a></li>
+	          <li><a href="/deals">成交历史</a></li>
+	          <li><a href="/shops">4S店</a></li>
+	          <li><a href="/cities">城市</a></li>
             <li><%= link_to "买车指南", "instruction.html"  %></li>
             <li><%= link_to "手机App", "/path2"  %></li>
-            <li><%= link_to "注册", "/path3"  %></li>
+            <% if current_user %>
+            <li>
+              <%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            </li>
+            <% else %>
+            <li>
+              <%= link_to "用户登录",  user_session_path %>
+            </li>
+            <% end %>
+
+            <% if dealer_signed_in? %>
+            <li>
+            	<%= link_to "经销商#{current_dealer.phone}注销", destroy_dealer_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            </li>
+            <% else %>
+            <li>
+            	<%= link_to "经销商登录",  dealer_session_path %>
+            </li>
+            <% end %>
           </ul>
         </div>
       </div>
