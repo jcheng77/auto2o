@@ -48,10 +48,25 @@
         <a class="navbar-brand"> 拍买车</a>
         <div class="navbar-collapse navbar-right collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
+            <% if current_user %>
+            <li><a href="/tenders">买车招标</a></li>
+	          <li><a href="/bids">投标</a></li>
+	          <li><a href="/bargains">还价</a></li>
+	          <li><a href="/deals">成交历史</a></li>
+	          <li><a href="/shops">4S店</a></li>
+	          <li><a href="/cities">城市</a></li>
+          <% end %>
             <li><%= link_to "买车指南", "instruction.html"  %></li>
             <li><%= link_to "手机App", "/path2"  %></li>
-            <li><%= link_to "注册", "/path3"  %></li>
-            <li><%= link_to "登录", new_tender_path  %></li>
+            <% if current_user %>
+            <li>
+              <%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+            </li>
+            <% else %>
+            <li>
+              <li><%= link_to "注册/登录", new_tender_path  %></li>
+            </li>
+            <% end %>
           </ul>
         </div>
       </div>
