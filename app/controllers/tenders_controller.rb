@@ -1,19 +1,28 @@
 class TendersController < InheritedResources::Base
 
-  before_action :authenticate_user!, except: [:index, :bid, :submit, :show_bargain]
-  before_action :authenticate_dealer!, only: [:bid, :submit]
+  before_action :authenticate_user!, except: [:bid, :submit, :show_bargain, :dealer_index]
+  before_action :authenticate_dealer!, only: [:dealer_index, :bid, :submit]
 
-  before_action :set_tender, except: [:index, :create, :new]
+  before_action :set_tender, except: [:index, :dealer_index, :create, :new]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
   # GET /tenders.json
   def index
-    @tenders = Tender.includes(:bargain).all
+    @tenders = current_user.tenders.includes(:bargain).all
 
     respond_to do |format|
       format.html
       format.json
+    end
+  end
+
+  def dealer_index
+    @tenders = current_dealer.shop.tenders.includes(:bargain).all
+
+    respond_to do |format|
+      format.html { render template: 'tenders/index' }
+      format.json { render template: 'tenders/index' }
     end
   end
 

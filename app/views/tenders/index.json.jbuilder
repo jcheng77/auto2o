@@ -5,4 +5,5 @@ json.array!(@tenders) do |tender|
   json.second_round_bids (tender.bargain ? tender.bargain.bids_count : 0 )
   json.url tender_url(tender, format: :json)
   json.pic_url tender.car_trim.model.pics.first.pic_url
+  json.bargain_id tender.bargain.id if tender.bargain
 end

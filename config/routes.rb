@@ -138,6 +138,9 @@ Rails.application.routes.draw do
       get :finish_1st_round
       get :finish_2nd_round
     end
+    collection do
+      get :dealer_index
+    end
   end
 
   resources :cars do

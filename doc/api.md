@@ -1,34 +1,46 @@
-GET http://127.0.0.1:3001/home.json
+Home:
+GET /home.json
 
-GET http://127.0.0.1:3001/cars/list.json
-GET http://127.0.0.1:3001/cars/trims.json?model_name=A3
+Register:
+POST /users/register.json  user[phone] = 123123123  or { "user" : { "phone" : "123123123" } }
+POST /dealers/register.json dealer[phone] = 123123123 or { "dealer" : { "phone" : "123123123" } }
 
-GET http://127.0.0.1:3001/deals.json
+Cars:
+GET /cars/list.json
+GET /cars/trims.json?model_name=A3
 
-GET http://127.0.0.1:3001/tenders.json
 
-GET http://127.0.0.1:3001/tenders/1.json
-
+Shops:
 GET /shops.json?trim_id=1 # shops api for specified trim
 
-POST http://127.0.0.1:3001/tenders/1/submit.json
 
-POST http://127.0.0.1:3001/bargains/5/submit.json
+User Tender:
+GET /tenders.json
+GET /tenders/1.json
 
-DELETE http://127.0.0.1:3001/tenders/3/cancel_1_round.json
 
-GET http://127.0.0.1:3001/tenders/2/bargain.json
+Dealer Tender:
+GET /tenders/dealer_index.json
+GET /tenders/{bargain_id}/show_bargain.json
 
-POST http://127.0.0.1:3001/tenders/2/submit_bargain.json
+GET /deals.json
 
-POST http://127.0.0.1:3001/bids/23/accept.json
 
-POST http://127.0.0.1:3001/bids/24/accept_final.json
+POST /tenders/1/submit.json
 
-GET http://127.0.0.1:3001/deals.json
+POST /bargains/5/submit.json
 
-GET http://127.0.0.1:3001/deals/4/verify.json?code=234asdf
+DELETE /tenders/3/cancel_1_round.json
 
-POST http://127.0.0.1:3001/users/register.json  user[phone] = 123123123  or { "user" : { "phone" : "123123123" } }
+GET /tenders/2/bargain.json
 
-POST http://127.0.0.1:3001/dealers/register.json dealer[phone] = 123123123 or { "dealer" : { "phone" : "123123123" } }
+POST /tenders/2/submit_bargain.json
+
+POST /bids/23/accept.json
+
+POST /bids/24/accept_final.json
+
+GET /deals.json
+
+GET /deals/4/verify.json?code=234asdf
+
