@@ -1,9 +1,37 @@
+<%= image_tag 'new-no-overpaid.jpg' , :height => '800',  :class => "bigpic" %>
 
-<div class="starter-template">
-	<h1>Welcome</h1>
-	<p class="lead">
-		<%= link_to '我要买车', new_tender_path %>
-	</p>
+
+<div class="jumbotron">
+  <h2 class="text-center"><%= link_to '买车就这么简单', new_tender_path %></h2>
 </div>
 
-<image src="<%= root_path(format: :png) %>"/>
+<div class="row">
+  <div class="col-lg-1">
+<%= image_tag "money.png", :size => '42x42', :class => 'pull-right'%>
+</div>
+  <div class="col-lg-3">
+  <h3 class="htitle">不花冤枉钱</h3>
+  <p>在线得到合理的低价优惠再到4S店以承诺价成交</p>
+</div>
+<div class="col-lg-1">
+<%= image_tag "time.png",:size => '37x37', :class => 'pull-right'  %>
+</div>
+  <div class="col-lg-3">
+  <h3 class="htitle">省时快捷</h3>
+  <p>
+  不用东奔西跑几家4S店去比价了,在线就可以锁定价格,然后去4S店付款提车
+  </p>
+</div>
+<div class="col-lg-1">
+<%= image_tag "hand.png",:size => '40x40', :class => 'pull-right marginx'  %>
+</div>
+  <div class="col-lg-3">
+  <h3 class="htitle">订金可退还</h3>
+  <p>
+  如果试驾不满意或者对4S店的服务不满意的话等任何原由而不能成交提车,订金可以全额退还
+  </p>
+</div>
+</div>
+
+
+<!-- <image src="<%= root_path(format: :png) %>"/> -->
