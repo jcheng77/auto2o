@@ -1,3 +1,42 @@
 // Place all the styles related to the home controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+
+.jumbotron {
+  background-color: #fff;
+}
+
+.navbar {
+  background-color: #333;
+  margin-bottom: 0px;
+
+}
+
+.navbar-static-top {
+ border-width: 0px;
+}
+
+.bigpic {
+  margin-top: -140px;
+  width: 100%;
+}
+
+.col-lg-9 {
+  padding-left: 0px;
+}
+
+.col-lg-12 {
+  margin-top: -4px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.htitle {
+ margin-top: 0px;
+}
+
+h2 {
+ margin-top: -14px;
+}
