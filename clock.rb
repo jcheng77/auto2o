@@ -20,4 +20,7 @@ module Clockwork
 
   every(1.day, 'midnight.job', :at => '00:00')
   every(1.day, Tender.close, :at => '00:00')
+
+  every(1.minutes, Tender.release)
+
 end
