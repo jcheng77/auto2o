@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141024230553) do
+ActiveRecord::Schema.define(version: 20141102160859) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -108,6 +108,11 @@ ActiveRecord::Schema.define(version: 20141024230553) do
     t.datetime "updated_at"
   end
 
+  create_table "car_models_shops", force: true do |t|
+    t.integer "model_id"
+    t.integer "shop_id"
+  end
+
   create_table "car_pics", force: true do |t|
     t.string   "pic_url"
     t.integer  "model_id"
@@ -119,6 +124,14 @@ ActiveRecord::Schema.define(version: 20141024230553) do
     t.string   "name"
     t.integer  "model_id"
     t.decimal  "guide_price", precision: 12, scale: 2
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "cars", force: true do |t|
+    t.string   "name"
+    t.string   "model"
+    t.decimal  "price",      precision: 12, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -7,6 +7,8 @@ class CarsController < ApplicationController
 
 
   def list
+    CarsController.import_cars
+
     @car_brands = Car::Brand.all
 
     @cars = { 'brands' => [] }
@@ -23,13 +25,17 @@ class CarsController < ApplicationController
 
           next if maker['models'].index { |model| model['name'] == car_model.name }
 
-          model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [] }
+          model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [], 'shops' => []}
           car_model.trims.each do |car_trim|
             model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price }
           end
 
           car_model.colors.each do |car_color|
             model['colors'] << { id: car_color.id, 'name' => car_color.name, 'code' => car_color.code }
+          end
+
+          car_model.shops.each do |shop|
+            model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
           end
 
           maker['models'] << model
@@ -58,7 +64,7 @@ class CarsController < ApplicationController
     end
   end
 
-  def self.import_cars(file='cars_audi')
+  def self.import_cars(file='data/cars_audi_prices')
 
     Car::Color .delete_all
     Car::Trim  .delete_all
@@ -77,26 +83,45 @@ class CarsController < ApplicationController
         brand = Car::Brand.find_or_create_by(name: car['@brand'])
         brands[car['@brand']] = brand
       end
-      unless maker = makers[car['@make'][/(.+)\(/,1]]
-        maker = Car::Maker.find_or_create_by(name: car['@make'][/(.+)\(/,1], brand: brand)
-        makers[car['@make'][/(.+)\(/,1]] = maker
+      unless maker = makers[car['@make']]
+        maker = Car::Maker.find_or_create_by(name: car['@make'], brand: brand)
+        makers[car['@make']] = maker
       end
-      unless car_model = models[car['@model'][/(.+)\(/,1]]
-        car_model = Car::Model.find_or_create_by(name: car['@model'][/(.+)\(/,1], maker: maker, year: car['@year'])
-        models[car['@model'][/(.+)\(/,1]] = car_model
+      unless car_model = models[car['@model']]
+        car_model = Car::Model.find_or_create_by(name: car['@model'], maker: maker)
+        models[car['@model']] = car_model
       end
       car_pic = Car::Pic.find_or_create_by(pic_url: car['@icon_link'], model: car_model)
+      # puts "Car Model"
+      # puts car['@model']
+      # puts car['@brand']
+      # puts car['@model'][/#{brand}(.+)/,1]
+      # puts car_model.inspect
+      # car_pic = Car::Pic.find_by(model: car_model)
+      # puts "Car Pic"
+      # puts car_pic.inspect
       car_trims = []
       car['@trims'].map do |trim|
-        car_trims << Car::Trim.find_or_create_by(name: trim['@trim_name'], model: car_model)
+        car_trim = Car::Trim.find_or_create_by(name: trim['@trim_name'], model: car_model)
+        car_trim.guide_price = trim['@guide_price']
+        car_trim.save!
+        car_trims << car_trim
       end
       car_colors = []
       car['@colors'].map do |color|
         car_colors << Car::Color.find_or_create_by(name: color['@color_name'], code: color['@color_code'], model: car_model)
       end
-      car_model.pics   << car_pic
-      car_model.trims   = car_trims
-      car_model.colors  = car_colors
+      car_shops = []
+      car['@dealers'].map do |dealer|
+        car_shop = Shop.find_or_create_by(name: dealer['@name'])
+        car_shop.address = dealer['@address']
+        car_shop.save!
+        car_shops << car_shop
+      end
+      car_model.pics << car_pic
+      car_model.trims = car_trims
+      car_model.colors = car_colors
+      car_model.shops = car_shops
       maker.models << car_model
       brand.makers << maker
     end
