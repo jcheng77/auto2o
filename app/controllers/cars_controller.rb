@@ -7,7 +7,6 @@ class CarsController < ApplicationController
 
 
   def list
-    CarsController.import_cars
 
     @car_brands = Car::Brand.all
 
