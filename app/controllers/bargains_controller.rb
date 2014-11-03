@@ -8,7 +8,7 @@ class BargainsController < InheritedResources::Base
 
   def submit
     # @bid = Bid.new(bid_params)
-    @bid = Bid.new(price: @bargin.tender.price)
+    @bid = Bid.new(price: @bargain.tender.price)
     @bid.price = @bargain.price # fix bid price as user offered one
     @tender = @bargain.tender
     @bid.bargain = @bargain
