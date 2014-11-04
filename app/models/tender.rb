@@ -140,7 +140,7 @@ class Tender < ActiveRecord::Base
   end
 
   def colors
-    Car::Color.find(self.colors_ids.split(','))
+    Car::Color.find(self.colors_ids.split(',')) rescue [Car::Color.new]
   end
 
 end

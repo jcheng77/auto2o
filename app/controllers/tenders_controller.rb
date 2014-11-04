@@ -38,7 +38,12 @@ class TendersController < InheritedResources::Base
     # 友好的提示当前订单的状态
     @deal ||= @tender.deal
     @dealer = @tender.deal.dealer if @deal
-    @shop = @dealer.shop if @dealer
+    @shop   = @dealer.shop if @dealer
+    @colors = @tender.colors
+    @trim = @tender.car_trim
+    @brand = @trim.brand
+    @maker = @trim.maker
+    @model = @trim.model
     callback_params = params.except(*request.path_parameters.keys)
     if callback_params.any? && Alipay::Sign.verify?(callback_params)
       if @deposit.paid? || @deposit.completed?
@@ -87,16 +92,37 @@ class TendersController < InheritedResources::Base
 
   # POST /tenders
   # POST /tenders.json
+  # Parameters: 
+  # {
+  #   "utf8"=>"✓", "authenticity_token"=>"+AHrewFQle1azO1bO9zCQFG2KtWzmUEJzRgUKkn2+YA=",
+  #   "tender"=>{
+  #     "model"=>"A3 Sportback 35TFSI 舒适型 冰川白, 阿玛菲白, 海南蓝, 白鲸棕",
+  #     "trim_id"=>"1",
+  #     "colors_ids"=>"1,6,9,11",
+  #     "pickup_time"=>"尽快",
+  #     "license_location"=>"上海",
+  #     "got_licence"=>"0",
+  #     "loan_option"=>"2",
+  #     "price"=>"123",
+  #     "shops"=>{"1"=>"1", "4"=>"1"}
+  #   },
+  #   "commit"=>"提交订单"
+  # }
   def create
     @tender = Tender.new(new_tender_params)
-    @tender.chose_subject if @tender.model.present?
+    trim = Car::Trim.find(params[:tender][:trim_id])
+    brand = trim.brand
+    maker = trim.maker
+    model = trim.model
+    colors = Car::Color.find(params[:tender][:colors_ids].split(','))
+    @tender.model = "#{brand.name} : #{maker.name} : #{model.name} : #{trim.name} : #{colors.map(&:name).join(',')}"
+    @tender.chose_subject!
     @tender.user = current_user
     respond_to do |format|
       if @tender.save!
-        raise "必须选择商家" if params[:tender][:shops].blank?
         @tender.shops << Shop.find(params[:tender][:shops].keys)
         begin
-          @bargain = @tender.build_bargain(price: params[:price])
+          @bargain = @tender.build_bargain(price: params[:tender][:price])
           # @tender.submit_bargain!
           @bargain.save!
         rescue => e
@@ -303,17 +329,23 @@ class TendersController < InheritedResources::Base
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
-  def tender_params
-    params.require(:tender).permit(:model, :price, :description)
-  end
-
   def new_tender_params
+    params.require(:tender)
+    params[:tender].require(:price)
+    # params[:tender].require(:description)
+    params[:tender].require(:trim_id)
+    params[:tender].require(:colors_ids)
+    params[:tender].require(:shops)
+    params[:tender].require(:pickup_time)
+    params[:tender].require(:license_location)
+    params[:tender].require(:got_licence)
+    params[:tender].require(:loan_option)
     params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops,
                                    :pickup_time, :license_location, :got_licence, :loan_option)
   end
 
   def update_tender_params
-    params.require(:tender).permit(:model, :price, :description, :shop)
+    params.require(:tender).permit(:price, :description, :shop)
   end
 
   def bid_params
