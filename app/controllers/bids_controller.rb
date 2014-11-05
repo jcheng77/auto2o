@@ -1,8 +1,7 @@
 class BidsController < InheritedResources::Base
 
-  before_action :authenticate_dealer!, except: [:accept_final]
-
-  before_action :authenticate_user!, only: [:accept_final]
+  before_action :authenticate_dealer! #, except: [:accept_final]
+  # before_action :authenticate_user!, only: [:accept_final]
 
   before_action :set_bid, except: [:index, :create, :new]
 
@@ -37,6 +36,36 @@ class BidsController < InheritedResources::Base
         end
       else
         format.html { render :edit }
+        format.json { render json: @bid.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def create
+    @bargain = Bargain.find(params[:bid][:bargain_id])
+    # @bid = Bid.new(bid_params)
+    @bid = Bid.new(price: @bargain.tender.price)
+    @bid.price = @bargain.price # fix bid price as user offered one
+    @tender = @bargain.tender
+    @bid.bargain = @bargain
+    @bid.tender = @tender
+    @bid.dealer = current_dealer
+    # @tender.submit_final!
+
+    begin
+      @bid.tender.take!
+    rescue StateMachine::InvalidTransition => e
+      flash[:warning] = e.to_s
+      Rails.logger.info(e)
+      redirect_to(tenders_path) and return
+    end
+
+    respond_to do |format|
+      if @bid.save
+        format.html { redirect_to @bid, notice: 'Bid was successfully created.' }
+        format.json { render :show, status: :created, location: @bid }
+      else
+        format.html { render :new }
         format.json { render json: @bid.errors, status: :unprocessable_entity }
       end
     end
@@ -90,6 +119,11 @@ class BidsController < InheritedResources::Base
   # end
 
 private
+
+  def create_params
+    params[:bid].require(:bargain_id)
+    params.require(:bid).permit(:bargain_id)
+  end
 
   def update_params
     params.require(:bid).permit(:insurance, :vehicle_tax, :purchase_tax, :license_fee, :misc_fee, :description)    

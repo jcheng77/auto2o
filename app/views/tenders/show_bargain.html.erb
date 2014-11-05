@@ -53,7 +53,8 @@
   <br/> -->
 
   <% if dealer_signed_in?  %>
-    <%= form_for(@bid, url: submit_bargain_path(@bargain)) do |f| %>
+    <%#= form_for(@bid, url: submit_bargain_path(@bargain)) do |f| %>
+    <%= form_for(@bid, url: bids_path) do |f| %>
     <% if @bid.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@bid.errors.count, "error") %> prohibited this tender from being saved:</h2>
@@ -66,16 +67,20 @@
     </div>
     <% end %>
 
+    <%= f.hidden_field :bargain_id, value: @bargain.id %>
+
+    <% if false %>
     <div class="field">
       <%#= f.label :price %><br>
       <%= f.hidden_field :price, value: @bargain.price %>
     </div>
-    <!--
+
     <div class="field">
       <%= f.label :description %><br>
       <%= f.text_field :description %>
     </div>
-    -->
+    <% end %>
+
     <div class="actions">
       <%= submit_tag "抢单" ,confirm: '确定提交?' %>
     </div>
