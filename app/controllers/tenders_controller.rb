@@ -111,11 +111,11 @@ class TendersController < InheritedResources::Base
   def create
     @tender = Tender.new(new_tender_params)
     trim = Car::Trim.find(params[:tender][:trim_id])
-    brand = trim.brand
-    maker = trim.maker
-    model = trim.model
+    @brand = trim.brand
+    @maker = trim.maker
+    @model = trim.model
     colors = Car::Color.find(params[:tender][:colors_ids].split(','))
-    @tender.model = "#{brand.name} : #{maker.name} : #{model.name} : #{trim.name} : #{colors.map(&:name).join(',')}"
+    @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
     respond_to do |format|
