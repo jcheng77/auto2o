@@ -25,7 +25,7 @@ GET /tenders/{bargain_id}/show_bargain.json
 
 抢单:
 ----
-POST /bargains/{bargain_id}/submit
+POST /bids.json  bid[bargain_id] = 123  or { "bid" : { "bargain_id" : "123" } }
 
 
 
