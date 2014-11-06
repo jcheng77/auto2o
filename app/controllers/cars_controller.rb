@@ -33,9 +33,9 @@ class CarsController < ApplicationController
             model['colors'] << { id: car_color.id, 'name' => car_color.name, 'code' => car_color.code }
           end
 
-          car_model.shops.each do |shop|
-            model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
-          end
+          # car_model.shops.each do |shop|
+          #   model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
+          # end
 
           maker['models'] << model
         end
@@ -65,19 +65,21 @@ class CarsController < ApplicationController
 
   def self.import_cars(file='data/cars_audi_prices')
 
-    Car::Color .delete_all
-    Car::Trim  .delete_all
-    Car::Pic   .delete_all
-    Car::Model .delete_all
-    Car::Maker .delete_all
-    Car::Brand .delete_all
+    #Car::Color .delete_all
+    #Car::Trim  .delete_all
+    #Car::Pic   .delete_all
+    #Car::Model .delete_all
+    #Car::Maker .delete_all
+    #Car::Brand .delete_all
 
     data = JSON.parse(File.read(file))
-
+    return if data == []
+    puts data.class
+    puts data.inspect
     brands = {}
     makers = {}
     models = {}
-    data["Cars"].map do |car|
+    data.map do |car|
       unless brand = brands[car['@brand']]
         brand = Car::Brand.find_or_create_by(name: car['@brand'])
         brands[car['@brand']] = brand
