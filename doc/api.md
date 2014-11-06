@@ -15,12 +15,12 @@ GET /shops.json?trim_id=1 # shops api for specified trim
 
 
 User Tender:
-GET /tenders.json
+GET /tenders.json?page=1
 GET /tenders/1.json
 
 
 Dealer Tender:
-GET /tenders/dealer_index.json
+GET /tenders/dealer_index.json?page=1
 GET /tenders/{bargain_id}/show_bargain.json
 
 抢单:
