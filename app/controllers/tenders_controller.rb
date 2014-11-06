@@ -9,7 +9,7 @@ class TendersController < InheritedResources::Base
   # GET /tenders
   # GET /tenders.json
   def index
-    @tenders = current_user.tenders.includes(:bargain).all
+    @tenders = current_user.tenders.includes(:bargain, deal: [:dealer], car_trim: [model: [:pics]]).order(id: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html
@@ -18,7 +18,8 @@ class TendersController < InheritedResources::Base
   end
 
   def dealer_index
-    @tenders = current_dealer.shop.tenders.includes(:bargain).all
+    @dealer = current_dealer
+    @tenders = @dealer.shop.tenders.where.not(state: %w(determined)).includes(bargain: [:bids], deal: [dealer:[:shop]], car_trim: [model: [:pics]]).order(id: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html { render template: 'tenders/index' }

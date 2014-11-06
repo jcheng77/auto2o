@@ -19,7 +19,7 @@ json.set! :states do
   json.set! :determined, I18n.t("tender.state.determined")
   json.set! :qualified, I18n.t("tender.state.qualified")
   json.set! :timeout, I18n.t("tender.state.timeout")
-  json.set! :submitted, I18n.t("tender.state.submitted")
+  # json.set! :submitted, I18n.t("tender.state.submitted")
   json.set! :deal_made, I18n.t("tender.state.deal_made")
   json.set! :final_deal_closed, I18n.t("tender.state.final_deal_closed")
 end
