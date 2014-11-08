@@ -1,6 +1,8 @@
 json.array!(@tenders) do |tender|
   json.extract! tender, :id, :model, :price, :description, :state, :created_at, :updated_at
 
+  json.bargain_id tender.bargain.id if tender.bargain
+
   if tender.bargain.bids
     bid = tender.bargain.bids.first
     if bid && bid.dealer == @dealer
@@ -11,7 +13,6 @@ json.array!(@tenders) do |tender|
   end
 
   if tender.deal && @dealer
-    json.bargain_id tender.bargain.id
     if tender.deal.dealer == @dealer
       json.bider "you"
       json.dealer_id tender.deal.dealer.id
