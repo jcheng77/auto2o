@@ -19,7 +19,7 @@ class TendersController < InheritedResources::Base
 
   def dealer_index
     @dealer = current_dealer
-    @tenders = @dealer.shop.tenders.where.not(state: %w(determined)).includes(bargain: [:bids], deal: [dealer:[:shop]], car_trim: [model: [:pics]]).order(id: :desc).page(params[:page]).per(10)
+    @tenders = @dealer.shop.tenders.where.not(state: %w(determined)).includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]]).order(id: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html { render template: 'tenders/index' }
