@@ -46,7 +46,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand moveup"><%= image_tag 'white-logo.png', :size => '30x30' %> </a>
-        <a class="navbar-brand">拍立行</a>
+        <a class="navbar-brand" href="/">拍立行</a>
         <div class="navbar-collapse navbar-right collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
             <% if current_user %>
@@ -57,7 +57,7 @@
 	          <li><a href="/shops">4S店</a></li>
 	          <li><a href="/cities">城市</a></li>
           <% end %>
-            <li><%= link_to "买车指南", "instruction.html"  %></li>
+            <li><%= link_to "买车指南", home_introduction_path  %></li>
             <li><%= link_to "手机App", "/path2"  %></li>
             <% if current_user %>
             <li>
@@ -81,9 +81,7 @@
       </div><!--/row-->
 
       <footer class='footer'>
-      <p>
       Copyright © 2014 pailixing.com 拍立行 版权所有
-      </p>
       </footer>
 
     </div> <!-- /container -->

@@ -14,4 +14,8 @@ class HomeController < ApplicationController
       format.jpeg { render :qrcode => root_url }
     end
   end
+
+  def introduction
+  end
+
 end

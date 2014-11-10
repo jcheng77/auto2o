@@ -27,7 +27,13 @@ a, a:link, a:visited {
   text-decoration: none;
 }
 
-footer {
-  margin-top: 120px;
-  text-align: center;
+.footer
+{
+text-align: center;
+position: relative;
+margin-top: 180px; /* negative value of footer height */
+height: 50px;
+clear:both;
+padding-top:20px;
+color: #bbb;
 }
