@@ -18,7 +18,7 @@
         <td><%= tender.price %></td>
         <td><%= tender.description %></td>
         <td><%= t("tender.state.#{tender.state}") %></td>
-        <td><%= link_to '详情', tender %></td>
+        <td><%= link_to '详情', tender if current_user %></td>
         <!--
         <td>
           <% if tender.state == 'invite' || tender.state == 'bid_open' %>
@@ -36,15 +36,13 @@
           <% end %>
         </td>
         -->
-        <!--
         <td>
-          <% if ['qualified', 'bargain_started', 'final_bid_open', 'final_bid_closed'].include? tender.state %>
+          <% if current_dealer && ['qualified', 'bargain_started', 'final_bid_open', 'final_bid_closed'].include?(tender.state) %>
           <%= link_to '参与抢单', show_bargain_tender_path(tender) %>
           <% else %>
           不能抢单
           <% end %>
         </td>
-        -->
         <!--<td>-->
           <!--<% if ['bargain_started', 'final_bid_open'].include? tender.state %>-->
           <!--<%= link_to '参与第二轮竞标', bid_final_tender_path(tender) %>-->
