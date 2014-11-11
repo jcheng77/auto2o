@@ -136,7 +136,8 @@ class Tender < ActiveRecord::Base
   end
 
   def self.release
-    self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").update_all(state: 'qualified')
+    # self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").update_all(state: 'qualified')
+    self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").includes(bargain:[:bids]).update_all(state: 'taken').map {|t| t.bargain.bids.each }
   end
 
   def colors

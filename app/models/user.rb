@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
 
   has_many :deals, inverse_of: :user
   has_many :deposits, inverse_of: :user
+  has_many :comments, :through => :deals
 
   has_many :bargains
 

@@ -1,4 +1,4 @@
-<h1>Listing shops</h1>
+<h1>商家</h1>
 
 <table>
   <thead>
@@ -15,13 +15,7 @@
         <td><%= shop.name %></td>
         <td><%= shop.address %></td>
         <td><%= link_to 'Show', shop %></td>
-        <td><%= link_to 'Edit', edit_shop_path(shop) %></td>
-        <td><%= link_to 'Destroy', shop, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-
-<%= link_to 'New Shop', new_shop_path %>
