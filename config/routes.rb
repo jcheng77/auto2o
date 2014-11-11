@@ -71,6 +71,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   get 'home', to: 'home#index'
   get 'home/introduction', to: 'home#introduction'
+  get 'home/download', to: 'home#download'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config

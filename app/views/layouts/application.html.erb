@@ -58,7 +58,7 @@
 	          <li><a href="/cities">城市</a></li>
           <% end %>
             <li><%= link_to "买车指南", home_introduction_path  %></li>
-            <li><%= link_to "手机App", "/path2"  %></li>
+            <li><%= link_to "手机App", home_download_path %></li>
             <% if current_user %>
             <li>
               <%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
@@ -73,18 +73,20 @@
       </div>
     </div>
 
+    <div class="wrapper">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-12">
           <%= yield %>
         </div>
       </div><!--/row-->
+      </div>
 
-      <footer class='footer'>
-      Copyright © 2014 pailixing.com 拍立行 版权所有
-      </footer>
 
     </div> <!-- /container -->
 
+      <footer>
+      Copyright © 2014 pailixing.com 拍立行 版权所有
+      </footer>
   </body>
 </html>
