@@ -25,6 +25,10 @@ class Tender < ActiveRecord::Base
       # tender.noty_all
     end
 
+    after_transition any => :bid_closed do |tender, transition|
+      tender.noty_dealer_new_tender
+    end
+
     around_transition :log_transaction
 
     event :chose_subject do
@@ -106,6 +110,14 @@ class Tender < ActiveRecord::Base
   # before start check the deposit
   def check_deposit
     self.deposit.present?
+  end
+
+  def noty_dealer_new_tender
+    self.shop.includes(:dealers).each do |shop|
+      shop.dealers.each do |dealer|
+        Push.baidu_push(dealer, "您有新买车意向")
+      end
+    end
   end
 
   def check_bid_time

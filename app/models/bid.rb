@@ -9,11 +9,17 @@ class Bid < ActiveRecord::Base
 
 
   state_machine :initial => :intention do
+    after_transition any => :submitted do |bid, transition|
+      bid.noty_user_deal_made
+    end
 
     event :make_final do
       transition :intention => :submitted
     end
+  end
 
+  def noty_user_deal_made
+    Push.baidu_push(self.deal.user, "您的订单已成交")
   end
 
 end

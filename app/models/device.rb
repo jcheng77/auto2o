@@ -21,5 +21,5 @@ class WindowsPhone < Device
 end
 
 class BaiduDevice < Device
-  
+  belongs_to :user, inverse_of: :baidu_devices
 end
