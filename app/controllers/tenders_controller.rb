@@ -127,6 +127,14 @@ class TendersController < InheritedResources::Base
     @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
+
+    # Begin of hack
+    @deposit = current_user.deposits.new(tender: @tender, sum: 1111)
+    @tender.invite_dealer # TODO notify dealers
+    @tender.submit_margin # TODO remove
+    @deposit.save
+    # End of hack
+
     respond_to do |format|
       if @tender.save!
         @tender.shops << Shop.find(params[:tender][:shops].keys)
