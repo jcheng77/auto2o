@@ -1,4 +1,5 @@
 ALL none get requests need set content-type=application/json header
+All parameters can refer to html form input fields
 
 Home:
 GET /home.json
@@ -38,6 +39,7 @@ GET /tenders/{bargain_id}/show_bargain.json
 POST /bids.json  post body { "bid" : { "bargain_id" : "123" } }
 更新具体报价:
 PATCH /bids/1.json post body
+{"bid":{"insurance":"123", "vehicle_tax":"123", "purchase_tax":"123", "license_fee":"123", "misc_fee":"123", "description":"123"}}
 
 
 
