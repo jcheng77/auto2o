@@ -1,9 +1,19 @@
+ALL none get requests need set content-type=application/json header
+
 Home:
 GET /home.json
 
 Register:
-POST /users/register.json  user[phone] = 123123123  or { "user" : { "phone" : "123123123" } }
-POST /dealers/register.json dealer[phone] = 123123123 or { "dealer" : { "phone" : "123123123" } }
+POST /users/register.json   post body   { "user" : { "phone" : "123123123" } }
+POST /dealers/register.json post body   { "dealer" : { "phone" : "123123123" } }
+
+Login:
+POST /users/sign_in.json    post body   { "user" : { "phone" : "123123123", "password" : "password" } }
+
+
+Register Device Push:
+POST /devices.json          post body:
+{ "type" : "baidu_push", "device" : { "baidu_user_id" : "baiduid", "baidu_channel_id" : "baiduchannel" } }
 
 Cars:
 GET /cars/list.json
@@ -25,10 +35,9 @@ GET /tenders/{bargain_id}/show_bargain.json
 
 抢单:
 ----
-POST /bids.json  bid[bargain_id] = 123  or { "bid" : { "bargain_id" : "123" } }
-
-
-
+POST /bids.json  post body { "bid" : { "bargain_id" : "123" } }
+更新具体报价:
+PATCH /bids/1.json post body
 
 
 

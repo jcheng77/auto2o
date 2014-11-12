@@ -19,3 +19,7 @@ end
 class WindowsPhone < Device
 
 end
+
+class BaiduDevice < Device
+  
+end
