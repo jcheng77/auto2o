@@ -55,7 +55,8 @@ gem 'state_machine'
 gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
 
 gem 'alipay', '~> 0.1.0'
-gem 'jpush' # https://github.com/jpush/jpush-api-ruby-client
+# gem 'jpush' # https://github.com/jpush/jpush-api-ruby-client
+gem 'baidu_push'
 
 gem 'web-console'
 

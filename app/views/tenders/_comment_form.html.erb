@@ -1,0 +1,25 @@
+<%= form_for(comment) do |f| %>
+  <% if @dealer_comment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@dealer_comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+
+      <ul>
+      <% @dealer_comment.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :content, '评论' %><br>
+    <%= f.text_field :content %>
+    <%= f.hidden_field :deal_id, value: comment.deal.id, readonly: :readonly %>
+    <%= f.hidden_field :dealer_id, value: comment.dealer.id, readonly: :readonly %>
+    <%= f.hidden_field :shop_id, value: comment.shop.id, readonly: :readonly %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit '提交订单' %>
+  </div>
+<% end %>

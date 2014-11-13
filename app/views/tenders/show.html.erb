@@ -198,4 +198,11 @@
 <image src="<%= qrcode_deal_path(@deal, format: :png) %>"/>
 <% elsif @deal && @deal.state == 'verified' %>
 验证码已使用
+
+
+<br/>
+<br/>
+
+<%= render partial: 'comment_form', locals: { comment: @dealer_comment } %>
+
 <% end %>

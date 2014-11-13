@@ -9,7 +9,9 @@ class TendersController < InheritedResources::Base
   # GET /tenders
   # GET /tenders.json
   def index
-    @tenders = current_user.tenders.includes(:bargain, deal: [:dealer], car_trim: [model: [:pics]]).order(id: :desc).page(params[:page]).per(10)
+    @tenders = current_user.tenders
+                   .includes(:bargain, deal: [:dealer], car_trim: [model: [:pics]])
+                   .order(id: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html
@@ -19,7 +21,9 @@ class TendersController < InheritedResources::Base
 
   def dealer_index
     @dealer = current_dealer
-    @tenders = @dealer.shop.tenders.where.not(state: %w(determined)).includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]]).order(id: :desc).page(params[:page]).per(10)
+    @tenders = @dealer.shop.tenders.where.not(state: %w(determined))
+                   .includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]])
+                   .order(id: :desc).page(params[:page]).per(10)
 
     respond_to do |format|
       format.html { render template: 'tenders/index' }
@@ -39,7 +43,11 @@ class TendersController < InheritedResources::Base
     # 友好的提示当前订单的状态
     @deal ||= @tender.deal
     @dealer = @tender.deal.dealer if @deal
-    @shop   = @dealer.shop if @dealer
+    if @dealer    
+      @shop = @dealer.shop
+      @dealer_comment = current_user.comments.build(dealer: @dealer, shop: @shop, deal: @deal)
+      @shop_comment = current_user.comments.build(dealer: @dealer, shop: @shop, deal: @deal)
+    end
     @colors = @tender.colors
     @trim = @tender.car_trim
     @brand = @trim.brand
@@ -119,6 +127,14 @@ class TendersController < InheritedResources::Base
     @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
+
+    # Begin of hack
+    @deposit = current_user.deposits.new(tender: @tender, sum: 1111)
+    @tender.invite_dealer # TODO notify dealers
+    @tender.submit_margin # TODO remove
+    @deposit.save
+    # End of hack
+
     respond_to do |format|
       if @tender.save!
         @tender.shops << Shop.find(params[:tender][:shops].keys)

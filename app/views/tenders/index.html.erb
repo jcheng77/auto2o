@@ -1,4 +1,4 @@
-<h1>Listing tenders</h1>
+<h1>订单列表</h1>
 
 <table>
   <thead>
@@ -18,7 +18,7 @@
         <td><%= tender.price %></td>
         <td><%= tender.description %></td>
         <td><%= t("tender.state.#{tender.state}") %></td>
-        <td><%= link_to '详情', tender %></td>
+        <td><%= link_to '详情', tender if current_user %></td>
         <!--
         <td>
           <% if tender.state == 'invite' || tender.state == 'bid_open' %>
@@ -37,7 +37,7 @@
         </td>
         -->
         <td>
-          <% if ['qualified', 'bargain_started', 'final_bid_open', 'final_bid_closed'].include? tender.state %>
+          <% if current_dealer && ['qualified', 'bargain_started', 'final_bid_open', 'final_bid_closed'].include?(tender.state) %>
           <%= link_to '参与抢单', show_bargain_tender_path(tender) %>
           <% else %>
           不能抢单
@@ -58,6 +58,7 @@
           <% end %>
         </td> -->
         <!-- <td>抢单商家数<%=(tender.bargain ? tender.bargain.bids_count : 0 )%></td> -->
+        <!--
         <td>
           <% if ['deal_closed', 'final_deal_closed'].include?(tender.state) %>
           <%= link_to '成交结果', deal_path(tender.deal) %>
@@ -65,6 +66,7 @@
           未成交
           <% end %>
         </td>
+        -->
         <!-- <td><%= link_to 'Edit', edit_tender_path(tender) %></td> -->
         <!-- <td><%= link_to 'Destroy', tender, method: :delete, data: { confirm: 'Are you sure?' } %></td> -->
       </tr>
@@ -74,4 +76,4 @@
 
 <br>
 
-<%= link_to 'New Tender', new_tender_path %>
+<%= link_to '买新车', new_tender_path %>

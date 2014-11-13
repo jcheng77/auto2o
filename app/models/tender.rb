@@ -25,6 +25,10 @@ class Tender < ActiveRecord::Base
       # tender.noty_all
     end
 
+    after_transition any => :bid_closed do |tender, transition|
+      tender.noty_dealer_new_tender
+    end
+
     around_transition :log_transaction
 
     event :chose_subject do
@@ -108,6 +112,14 @@ class Tender < ActiveRecord::Base
     self.deposit.present?
   end
 
+  def noty_dealer_new_tender
+    self.shop.includes(:dealers).each do |shop|
+      shop.dealers.each do |dealer|
+        Push.baidu_push(dealer, "您有新买车意向")
+      end
+    end
+  end
+
   def check_bid_time
     # tender_closed if Time.now > (self.created_at + 1.days)
   end
@@ -136,7 +148,8 @@ class Tender < ActiveRecord::Base
   end
 
   def self.release
-    self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").update_all(state: 'qualified')
+    # self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").update_all(state: 'qualified')
+    self.where("state = 'taken' and NOW() > DATE_ADD(created_at, INTERVAL 10 MINUTE)").includes(bargain:[:bids]).update_all(state: 'taken').map {|t| t.bargain.bids.each }
   end
 
   def colors

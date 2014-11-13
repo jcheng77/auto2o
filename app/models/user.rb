@@ -1,3 +1,5 @@
+require 'device'
+
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
@@ -7,10 +9,12 @@ class User < ActiveRecord::Base
 
 
   has_many :devices, inverse_of: :user
+  has_many :baidu_devices, inverse_of: :user, class_name: '::BaiduDevice'
   has_many :tenders, inverse_of: :user
 
   has_many :deals, inverse_of: :user
   has_many :deposits, inverse_of: :user
+  has_many :comments, :through => :deals
 
   has_many :bargains
 
