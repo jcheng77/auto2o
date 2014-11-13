@@ -19,6 +19,12 @@ class HomeController < ApplicationController
   end
 
   def download
+    respond_to do |format|
+      format.html
+      format.json
+      format.png  { render :qrcode => root_url + '/pailixing.apk' }
+      format.jpeg { render :qrcode => root_url + '/pailixing.apk'}
+    end
   end
 
 end
