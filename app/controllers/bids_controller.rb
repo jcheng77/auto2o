@@ -16,7 +16,12 @@ class BidsController < InheritedResources::Base
   def update
     respond_to do |format|
       if @bid.update(update_params)
-        @bid.price = @bid.tender.price + @bid.insurance + @bid.vehicle_tax + @bid.purchase_tax + @bid.license_fee + @bid.misc_fee
+        @bid.price = @bid.tender.price +
+                     @bid.insurance +
+                     # @bid.vehicle_tax +
+                     @bid.purchase_tax +
+                     @bid.license_fee +
+                     @bid.misc_fee
         @bid.make_final!
         @bid.save
         @bid.tender.submit_total_price!
@@ -126,7 +131,12 @@ private
   end
 
   def update_params
-    params.require(:bid).permit(:insurance, :vehicle_tax, :purchase_tax, :license_fee, :misc_fee, :description)    
+    params.require(:bid).permit(:insurance,
+                                # :vehicle_tax,
+                                :purchase_tax,
+                                :license_fee,
+                                :misc_fee,
+                                :description)
   end
 
   def set_bid
