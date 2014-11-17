@@ -16,18 +16,24 @@ class BidsController < InheritedResources::Base
   def update
     respond_to do |format|
       if @bid.update(update_params)
-        @bid.price = @bid.tender.price + @bid.insurance + @bid.vehicle_tax + @bid.purchase_tax + @bid.license_fee + @bid.misc_fee
-        @bid.make_final!
-        @bid.save
-        @bid.tender.submit_total_price!
+        @bid.price = @bid.tender.price +
+                     @bid.insurance +
+                     # @bid.vehicle_tax +
+                     @bid.purchase_tax +
+                     @bid.license_fee +
+                     @bid.misc_fee
 
         @deal = @bid.build_deal(final_price: @bid.price, postscript: @bid.description, verify_code: Deal.gen_verify_code)
         @deal.tender = @bid.tender
         @deal.dealer = @bid.dealer
-        @deal.user = current_user
-        @bid.tender.accept_price!
+        @deal.user   = @bid.tender.user
 
         if @deal.save!
+          @bid.tender.submit_total_price!
+          @bid.tender.accept_price!
+          @bid.save
+          @bid.make_final!
+
           format.html { redirect_to @bid, notice: '已给客户报价' }
           format.json { render :show, status: :ok, location: @bid }
         else
@@ -126,7 +132,12 @@ private
   end
 
   def update_params
-    params.require(:bid).permit(:insurance, :vehicle_tax, :purchase_tax, :license_fee, :misc_fee, :description)    
+    params.require(:bid).permit(:insurance,
+                                # :vehicle_tax,
+                                :purchase_tax,
+                                :license_fee,
+                                :misc_fee,
+                                :description)
   end
 
   def set_bid

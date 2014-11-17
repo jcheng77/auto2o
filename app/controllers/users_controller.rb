@@ -12,7 +12,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params.merge(password: generated_password, email: "fake_mail@#{user_params["phone"]}.com"))
     respond_to do |format|
       if @user.save
-        Sms.password(dealer_params['phone'], generated_password)
+        Sms.password(user_params['phone'], generated_password)
         format.html { redirect_to user_session_path, notice: "密码已发给手机号#{user_params['phone']}，请用收到的密码登录。" }
         format.json { render :show, status: :created, location: @user }
       else
