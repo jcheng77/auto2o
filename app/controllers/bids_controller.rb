@@ -26,7 +26,7 @@ class BidsController < InheritedResources::Base
         @deal = @bid.build_deal(final_price: @bid.price, postscript: @bid.description, verify_code: Deal.gen_verify_code)
         @deal.tender = @bid.tender
         @deal.dealer = @bid.dealer
-        @deal.user   = current_user
+        @deal.user   = @bid.tender.user
 
         if @deal.save!
           @bid.tender.submit_total_price!
