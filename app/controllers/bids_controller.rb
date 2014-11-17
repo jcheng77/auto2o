@@ -28,12 +28,12 @@ class BidsController < InheritedResources::Base
         @deal.dealer = @bid.dealer
         @deal.user   = current_user
 
-        @bid.tender.submit_total_price!
-        @bid.tender.accept_price!
-        @bid.make_final!
-        @bid.save
-
         if @deal.save!
+          @bid.tender.submit_total_price!
+          @bid.tender.accept_price!
+          @bid.save
+          @bid.make_final!
+
           format.html { redirect_to @bid, notice: '已给客户报价' }
           format.json { render :show, status: :ok, location: @bid }
         else
