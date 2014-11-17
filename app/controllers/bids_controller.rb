@@ -22,15 +22,16 @@ class BidsController < InheritedResources::Base
                      @bid.purchase_tax +
                      @bid.license_fee +
                      @bid.misc_fee
-        @bid.make_final!
-        @bid.save
-        @bid.tender.submit_total_price!
 
         @deal = @bid.build_deal(final_price: @bid.price, postscript: @bid.description, verify_code: Deal.gen_verify_code)
         @deal.tender = @bid.tender
         @deal.dealer = @bid.dealer
-        @deal.user = current_user
+        @deal.user   = current_user
+
+        @bid.tender.submit_total_price!
         @bid.tender.accept_price!
+        @bid.make_final!
+        @bid.save
 
         if @deal.save!
           format.html { redirect_to @bid, notice: '已给客户报价' }
