@@ -85,7 +85,7 @@ Rails.application.routes.draw do
 
   resources :deposits, only: [:create, :update] do
     collection do
-      post :alipay_notify
+      post :alipay_app_notify
     end
   end
 

@@ -128,6 +128,10 @@ class TendersController < InheritedResources::Base
     @tender.chose_subject!
     @tender.user = current_user
 
+    # mobile client submit fixed amount of deposit
+    @deposit = current_user.deposits.new(tender: @tender, sum: 1111)
+    @deposit.save
+
     respond_to do |format|
       if @tender.save!
         @tender.shops << Shop.find(params[:tender][:shops].keys)

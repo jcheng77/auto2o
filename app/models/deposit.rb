@@ -11,8 +11,8 @@ class Deposit < ActiveRecord::Base
     before_transition :invite => any - :submitted, :do => :check_sum
 
     after_transition any => :completed do |deposit, transition|
-      # tender.noty_all
       deposit.tender.submit_margin!
+      deposit.tender.invite_dealer!
     end
 
     around_transition :log_transaction
