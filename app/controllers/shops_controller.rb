@@ -3,7 +3,6 @@ class ShopsController < InheritedResources::Base
   before_action :set_shop, except: [:index, :create, :new]
 
   def index
-    @shops = Shop.all
     if params[:trim_id]
       @shops = Car::Trim.find(params[:trim_id]).brand.shops
       respond_to do |format|
