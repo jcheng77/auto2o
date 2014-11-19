@@ -31,7 +31,7 @@ class DepositsController < InheritedResources::Base
     notify_params = params.except(*request.path_parameters.keys, :deposit)
     if Alipay::Notify::App.verify?(notify_params)
       # 获取交易关联的订单
-      @deposit = Tender.find(params[:out_trade_no].split(":").last).deposit
+      @deposit = Tender.find(params[:out_trade_no]).deposit
 
       case params[:trade_status]
       # 交易状态TRADE_SUCCESS的通知触发条件是商户签约的产品支持退款功能 的前提下,买家付款成功
