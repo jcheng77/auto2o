@@ -25,6 +25,11 @@ class TendersController < InheritedResources::Base
                    .includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]])
                    .order(id: :desc).page(params[:page]).per(10)
 
+    # DEMO account
+    @tenders = Tenders.where.not(state: %w(determined))
+                      .includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]])
+                      .order(id: :desc).page(params[:page]).per(10) if current_dealer.phone == '18601207073'
+
     respond_to do |format|
       format.html { render template: 'tenders/index' }
       format.json { render template: 'tenders/index' }
