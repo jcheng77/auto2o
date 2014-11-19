@@ -1,6 +1,7 @@
 class DevicesController < InheritedResources::Base
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:create], unless: :is_dealer?
+  before_action :authenticate_dealer!, only: [:create], unless: :is_user?
 
   P_2_C = {
     'ios' => IosDevice,
@@ -12,7 +13,8 @@ class DevicesController < InheritedResources::Base
   def create
     return(head(:bad_request)) unless P_2_C.keys.include? params[:type]
     @device = P_2_C[params[:type]].new(device_params)
-    @device.user = current_user
+    @device.user = current_user if current_user
+    @device.dealer = current_dealer if current_dealer
     @device.state = "active"
     respond_to do |format|
       if @device.save
@@ -26,6 +28,14 @@ class DevicesController < InheritedResources::Base
   end
 
   private
+
+  def is_dealer?
+    current_dealer && !current_user
+  end
+
+  def is_user?
+    !current_dealer && current_user
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_device
