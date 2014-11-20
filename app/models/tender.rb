@@ -25,7 +25,7 @@ class Tender < ActiveRecord::Base
       # tender.noty_all
     end
 
-    after_transition any => :bid_closed do |tender, transition|
+    after_transition any => :qualified do |tender, transition|
       tender.noty_dealer_new_tender
     end
 

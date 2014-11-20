@@ -12,7 +12,7 @@ class Deposit < ActiveRecord::Base
 
     after_transition any => :completed do |deposit, transition|
       deposit.tender.submit_margin!
-      deposit.tender.invite_dealer!
+      # deposit.tender.invite_dealer!
     end
 
     around_transition :log_transaction
