@@ -25,7 +25,7 @@ class Tender < ActiveRecord::Base
       # tender.noty_all
     end
 
-    after_transition any => :bid_closed do |tender, transition|
+    after_transition any => :qualified do |tender, transition|
       tender.noty_dealer_new_tender
     end
 
@@ -113,7 +113,7 @@ class Tender < ActiveRecord::Base
   end
 
   def noty_dealer_new_tender
-    self.shop.includes(:dealers).each do |shop|
+    self.shops.includes(:dealers).each do |shop|
       shop.dealers.each do |dealer|
         Push.baidu_push(dealer, "您有新买车意向")
       end

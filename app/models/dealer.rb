@@ -6,6 +6,7 @@ class Dealer < ActiveRecord::Base
          :database_authenticatable, :authentication_keys => [:phone]
 
   has_many :devices, inverse_of: :dealer
+  has_many :baidu_devices, inverse_of: :dealer, class_name: '::BaiduDevice'
   has_many :bids, inverse_of: :dealer
   has_many :deals, inverse_of: :dealer
   has_many :comments, inverse_of: :dealer

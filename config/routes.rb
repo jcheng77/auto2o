@@ -81,6 +81,10 @@ Rails.application.routes.draw do
   devise_for :dealers
   devise_for :users
 
+  devise_scope :dealer do
+      get "dealers/sign_out", to: "devise/sessions#destroy"
+  end
+
   resources :devices
 
   resources :deposits, only: [:create, :update] do
