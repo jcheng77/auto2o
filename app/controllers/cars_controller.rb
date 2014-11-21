@@ -26,7 +26,10 @@ class CarsController < ApplicationController
 
           model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [], 'shops' => []}
           car_model.trims.each do |car_trim|
-            model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price }
+            lowest_price = Car::Price.where(:trim_id => car_trim.id).first #.order('offering_date desc').first
+            puts lowest_price.inspect
+            puts car_trim.prices.inspect
+            model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price, 'lowest_price' => lowest_price == nil ? -1 : lowest_price.price }
           end
 
           car_model.colors.each do |car_color|
@@ -63,14 +66,14 @@ class CarsController < ApplicationController
     end
   end
 
-  def self.import_cars(file='data/cars_audi_prices')
+  def self.import_cars(file='data/cars_info_3')
 
-    #Car::Color .delete_all
-    #Car::Trim  .delete_all
-    #Car::Pic   .delete_all
-    #Car::Model .delete_all
-    #Car::Maker .delete_all
-    #Car::Brand .delete_all
+    Car::Color .delete_all
+    Car::Trim  .delete_all
+    Car::Pic   .delete_all
+    Car::Model .delete_all
+    Car::Maker .delete_all
+    Car::Brand .delete_all
 
     data = JSON.parse(File.read(file))
     return if data == []
@@ -105,6 +108,7 @@ class CarsController < ApplicationController
       car['@trims'].map do |trim|
         car_trim = Car::Trim.find_or_create_by(name: trim['@trim_name'], model: car_model)
         car_trim.guide_price = trim['@guide_price']
+        car_trim.prices << Car::Price.find_or_create_by(offering_date: trim['@price']['@date'], price: trim['@price']['@lowest_price'])
         car_trim.save!
         car_trims << car_trim
       end

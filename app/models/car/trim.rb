@@ -8,7 +8,7 @@ module Car
     has_one :brand, :through => :maker
 
     has_many :colors, through: :model
-
+    has_many :prices
     has_many :tenders, inverse_of: :car_trim
   end
 end
