@@ -21,7 +21,7 @@ class TendersController < InheritedResources::Base
 
   def dealer_index
     @dealer = current_dealer
-    if @dealer.shop.nil? and @dealer.phone == '18601207073'
+    if @dealer.shop.nil? && (@dealer.phone == '18601207073' || @dealer.phone == '18101880217')
     @tenders = Tender.where.not(state: %w(determined))
                       .includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]])
                       .order(id: :desc).page(params[:page]).per(10) 
