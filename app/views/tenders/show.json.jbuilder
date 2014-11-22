@@ -29,3 +29,9 @@ json.verfiy_code verify_deal_url(@deal, code: @deal.verify_code) if @deal
 json.dealer @dealer, :phone if @dealer
 json.shop @shop, :name, :address if @shop
 json.colors @colors, :name, :code
+
+
+if @bid
+  json.bid @bid, :insurance, :purchase_tax, :license_fee, :misc_fee, :description, :price
+  json.bider @bid.dealer, :id, :phone
+end

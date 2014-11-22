@@ -45,7 +45,7 @@ class TendersController < InheritedResources::Base
     @shops = @tender.car_trim.brand.shops
     @selected_shops = @tender.shops
     @tender.state = 'qualified' if @tender.state == 'taken' # 暂态，不让终端用户知道
-    @bid = @tender.bids.first if @tender.state == 'submitted'
+    @bid = @tender.bids.first if @tender.state == 'submitted' || @tender.state == 'deal_made'
     # 友好的提示当前订单的状态
     @deal ||= @tender.deal
     @dealer = @tender.deal.dealer if @deal

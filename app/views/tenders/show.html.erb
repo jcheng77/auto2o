@@ -188,6 +188,51 @@
 
 
 <% if @deal && @deal.state == 'new' && @tender.state == 'deal_made' %>
+
+<h1>商家应价</h1>
+
+<p>
+  <strong>销售人员手机:</strong>
+  <%= @bid.dealer.phone %>
+</p>
+
+<p>
+  <strong>保险费预估:</strong>
+  <%= @bid.insurance %>
+</p>
+
+<!--
+<p>
+  <strong>车船税预估:</strong>
+  <%#= @bid.vehicle_tax %>
+</p>
+-->
+
+<p>
+  <strong>购置税预估:</strong>
+  <%= @bid.purchase_tax %>
+</p>
+
+<p>
+  <strong>上牌费，根据上牌地预估:</strong>
+  <%= @bid.license_fee %>
+</p>
+
+<p>
+  <strong>服务杂费:</strong>
+  <%= @bid.misc_fee %>
+</p>
+
+<p>
+  <strong>备注:</strong>
+  <%= @bid.description %>
+</p>
+
+<p>
+  <strong>预估总价:</strong>
+  <%= @bid.price %>
+</p>
+
 <h1>验证码</h1>
 
 可以让商家直接访问：
