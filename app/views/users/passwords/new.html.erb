@@ -1,6 +1,5 @@
 <h2>重置密码</h2>
 
-<%#= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
 <%= form_for(@user, url: reset_pwd_users_path) do |f| %>
   <%= devise_error_messages! %>
 
