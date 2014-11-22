@@ -24,12 +24,10 @@ json.set! :states do
   json.set! :final_deal_closed, I18n.t("tender.state.final_deal_closed")
 end
 
-json.verfiy_code verify_deal_url(@deal, code: @deal.verify_code) if @deal
-
 json.colors @colors, :name, :code
 
-
-if @bid && @tender.state == 'deal_made'
+if @bid && @tender.state == 'deal_made' && current_user
+  json.verfiy_code verify_deal_url(@deal, code: @deal.verify_code) if @deal
   json.dealer @dealer, :phone if @dealer
   json.shop @shop, :name, :address if @shop
 
