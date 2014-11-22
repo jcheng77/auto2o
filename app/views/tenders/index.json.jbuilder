@@ -12,6 +12,8 @@ json.array!(@tenders) do |tender|
     elsif tender.deal && tender.deal.dealer.shop == @dealer.shop
       json.bider "your_shop"
       json.dealer_id tender.deal.dealer.id
+    else
+      json.bider "others"
     end
   end
 
