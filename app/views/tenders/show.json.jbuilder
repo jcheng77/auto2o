@@ -1,4 +1,4 @@
-json.extract! @tender, :id, :trim_id, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state
+json.extract! @tender, :id, :trim_id, :colors_ids, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state
 
 
 [@brand, @maker, @model, @trim].each do |item|
