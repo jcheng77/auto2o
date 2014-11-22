@@ -1,12 +1,13 @@
-<h2>Forgot your password?</h2>
+<h2>重置密码</h2>
 
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<%#= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+<%= form_for(@user, url: reset_pwd_users_path) do |f| %>
   <%= devise_error_messages! %>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
+  <div><%= f.label :phone, "手机号" %><br />
+  <%= f.phone_field :phone, autofocus: true %></div>
 
-  <div><%= f.submit "Send me reset password instructions" %></div>
+  <div><%= f.submit "重置密码" %></div>
 <% end %>
 
 <%= render "users/shared/links" %>
