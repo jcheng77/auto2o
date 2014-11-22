@@ -8,6 +8,8 @@ class CarsController < ApplicationController
 
   def list
 
+    CarsController.import_cars
+
     @car_brands = Car::Brand.includes(:makers, :trims, :shops, models: [:pics, :colors]).all
 
     @cars = { 'brands' => [] }
@@ -27,8 +29,6 @@ class CarsController < ApplicationController
           model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [], 'shops' => []}
           car_model.trims.each do |car_trim|
             lowest_price = Car::Price.where(:trim_id => car_trim.id).first #.order('offering_date desc').first
-            puts lowest_price.inspect
-            puts car_trim.prices.inspect
             model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price, 'lowest_price' => lowest_price == nil ? -1 : lowest_price.price }
           end
 
@@ -77,8 +77,6 @@ class CarsController < ApplicationController
 
     data = JSON.parse(File.read(file))
     return if data == []
-    puts data.class
-    puts data.inspect
     brands = {}
     makers = {}
     models = {}
@@ -96,19 +94,11 @@ class CarsController < ApplicationController
         models[car['@model']] = car_model
       end
       car_pic = Car::Pic.find_or_create_by(pic_url: car['@icon_link'], model: car_model)
-      # puts "Car Model"
-      # puts car['@model']
-      # puts car['@brand']
-      # puts car['@model'][/#{brand}(.+)/,1]
-      # puts car_model.inspect
-      # car_pic = Car::Pic.find_by(model: car_model)
-      # puts "Car Pic"
-      # puts car_pic.inspect
       car_trims = []
       car['@trims'].map do |trim|
         car_trim = Car::Trim.find_or_create_by(name: trim['@trim_name'], model: car_model)
         car_trim.guide_price = trim['@guide_price']
-        car_trim.prices << Car::Price.find_or_create_by(offering_date: trim['@price']['@date'], price: trim['@price']['@lowest_price'])
+        car_trim.prices << Car::Price.find_or_create_by(offering_date: trim['@price']['@date'], price: trim['@price']['@lowest_price'], trim_id: car_trim.id)
         car_trim.save!
         car_trims << car_trim
       end
