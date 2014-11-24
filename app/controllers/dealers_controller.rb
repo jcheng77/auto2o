@@ -40,8 +40,8 @@ class DealersController < ApplicationController
   end
   
   def reset_pwd
-    return :bad_request unless params[:dealer][:phone]
-    return :not_found unless (@dealer = Dealer.where(phone: params[:dealer][:phone]).first)
+    return(head(:bad_request)) unless params[:dealer][:phone]
+    return(head(:not_found))   unless (@dealer = Dealer.where(phone: params[:dealer][:phone]).first)
     generated_password = Cipher.gen
     @dealer.password = generated_password
     respond_to do |format|
@@ -55,8 +55,6 @@ class DealersController < ApplicationController
       end
     end
   end
-
-  
 
   private
 

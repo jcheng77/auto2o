@@ -5,11 +5,16 @@ Home:
 GET /home.json
 
 Register:
-POST /users/register.json   post body   { "user" : { "phone" : "123123123" } }
-POST /dealers/register.json post body   { "dealer" : { "phone" : "123123123" } }
+POST /users/register.json   post body   { "user" : { "phone" : "13800000000" } }
+POST /dealers/register.json post body   { "dealer" : { "phone" : "13800000000" } }
+
+
+Reset Password:
+POST /users/reset_pwd       post body   { "user" : { "phone" : "13800000000" } }
+POST /dealers/reset_pwd     post body   { "dealer" : { "phone" : "13800000000" } }
 
 Login:
-POST /users/sign_in.json    post body   { "user" : { "phone" : "123123123", "password" : "password" } }
+POST /users/sign_in.json    post body   { "user" : { "phone" : "13800000000", "password" : "password" } }
 
 
 Register Device Push:
