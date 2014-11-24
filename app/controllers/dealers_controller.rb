@@ -29,7 +29,7 @@ class DealersController < ApplicationController
     @dealer = Dealer.new(dealer_params.merge(password: generated_password, email: "fake_mail@#{dealer_params["phone"]}.com"))
     respond_to do |format|
       if @dealer.save
-        Sms.password(dealer_params['phone'], generated_password)
+        Sms.password(dealer_params['phone'], generated_password, '商家版')
         format.html { redirect_to dealer_session_path, notice: "密码已发给手机号#{dealer_params['phone']}，请用收到的密码登录。" }
         format.json { render :show, status: :created, location: @dealer }
       else
@@ -46,7 +46,7 @@ class DealersController < ApplicationController
     @dealer.password = generated_password
     respond_to do |format|
       if @dealer.save
-        Sms.password(params[:phone], generated_password)
+        Sms.password(params[:dealer][:phone], generated_password, '商家版')
         format.html { redirect_to dealer_session_path, notice: "密码已发给手机号#{params[:dealer][:phone]}，请用收到的密码登录。" }
         format.json { render :show, status: :created, location: @dealer }
       else

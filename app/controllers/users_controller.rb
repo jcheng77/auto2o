@@ -30,7 +30,7 @@ class UsersController < ApplicationController
     @user.password = generated_password
     respond_to do |format|
       if @user.save
-        Sms.password(params[:phone], generated_password)
+        Sms.password(params[:user][:phone], generated_password)
         format.html { redirect_to user_session_path, notice: "密码已发给手机号#{params[:user][:phone]}，请用收到的密码登录。" }
         format.json { render json: @user,  status: :ok }
       else
