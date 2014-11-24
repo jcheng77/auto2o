@@ -8,8 +8,6 @@ class CarsController < ApplicationController
 
   def list
 
-    CarsController.import_cars
-
     @car_brands = Car::Brand.includes(:makers, :trims, :shops, models: [:pics, :colors]).all
 
     @cars = { 'brands' => [] }
@@ -68,12 +66,12 @@ class CarsController < ApplicationController
 
   def self.import_cars(file='data/cars_info_3')
 
-    Car::Color .delete_all
-    Car::Trim  .delete_all
-    Car::Pic   .delete_all
-    Car::Model .delete_all
-    Car::Maker .delete_all
-    Car::Brand .delete_all
+    # Car::Color .delete_all
+    # Car::Trim  .delete_all
+    # Car::Pic   .delete_all
+    # Car::Model .delete_all
+    # Car::Maker .delete_all
+    # Car::Brand .delete_all
 
     data = JSON.parse(File.read(file))
     return if data == []
