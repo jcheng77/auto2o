@@ -42,8 +42,13 @@ class DealersController < ApplicationController
   def reset_pwd
     return(head(:bad_request)) unless params[:dealer][:phone]
     return(head(:not_found))   unless (@dealer = Dealer.where(phone: params[:dealer][:phone]).first)
+    if @dealer.last_reset_at && Time.now < @dealer.last_reset_at + 30.seconds
+      flash[:notice] = '30秒后重试'
+      redirect_to new_dealer_password_url and return
+    end
     generated_password = Cipher.gen
     @dealer.password = generated_password
+    @dealer.last_reset_at = Time.now
     respond_to do |format|
       if @dealer.save
         Sms.password(params[:dealer][:phone], generated_password, '商家版')
