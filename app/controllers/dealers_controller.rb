@@ -29,7 +29,7 @@ class DealersController < ApplicationController
     @dealer = Dealer.new(dealer_params.merge(password: generated_password, email: "fake_mail@#{dealer_params["phone"]}.com"))
     respond_to do |format|
       if @dealer.save
-        Sms.password(dealer_params['phone'], generated_password)
+        Sms.password(dealer_params['phone'], generated_password, '商家版')
         format.html { redirect_to dealer_session_path, notice: "密码已发给手机号#{dealer_params['phone']}，请用收到的密码登录。" }
         format.json { render :show, status: :created, location: @dealer }
       else
@@ -40,13 +40,18 @@ class DealersController < ApplicationController
   end
   
   def reset_pwd
-    return :bad_request unless params[:dealer][:phone]
-    return :not_found unless (@dealer = Dealer.where(phone: params[:dealer][:phone]).first)
+    return(head(:bad_request)) unless params[:dealer][:phone]
+    return(head(:not_found))   unless (@dealer = Dealer.where(phone: params[:dealer][:phone]).first)
+    if @dealer.last_reset_at && Time.now < @dealer.last_reset_at + 30.seconds
+      flash[:notice] = '30秒后重试'
+      redirect_to new_dealer_password_url and return
+    end
     generated_password = Cipher.gen
     @dealer.password = generated_password
+    @dealer.last_reset_at = Time.now
     respond_to do |format|
       if @dealer.save
-        Sms.password(params[:phone], generated_password)
+        Sms.password(params[:dealer][:phone], generated_password, '商家版')
         format.html { redirect_to dealer_session_path, notice: "密码已发给手机号#{params[:dealer][:phone]}，请用收到的密码登录。" }
         format.json { render :show, status: :created, location: @dealer }
       else
@@ -55,8 +60,6 @@ class DealersController < ApplicationController
       end
     end
   end
-
-  
 
   private
 
