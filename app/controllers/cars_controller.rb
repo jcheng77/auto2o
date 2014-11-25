@@ -34,9 +34,9 @@ class CarsController < ApplicationController
             model['colors'] << { id: car_color.id, 'name' => car_color.name, 'code' => car_color.code }
           end
 
-          # car_model.shops.each do |shop|
-          #   model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
-          # end
+          car_model.shops.each do |shop|
+             model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
+          end
 
           maker['models'] << model
         end
@@ -64,15 +64,23 @@ class CarsController < ApplicationController
     end
   end
 
+  def self.bulk_import_cars
+    Shop       .delete_all
+    Car::Price .delete_all
+    Car::Color .delete_all
+    Car::Trim  .delete_all
+    Car::Pic   .delete_all
+    Car::Model .delete_all
+    Car::Maker .delete_all
+    Car::Brand .delete_all
+    Dir.foreach('data') do |file|
+      if file =~ /cars_info/
+        import_cars('data/' + file)
+      end
+    end
+  end
+
   def self.import_cars(file='data/cars_info_3')
-
-    # Car::Color .delete_all
-    # Car::Trim  .delete_all
-    # Car::Pic   .delete_all
-    # Car::Model .delete_all
-    # Car::Maker .delete_all
-    # Car::Brand .delete_all
-
     data = JSON.parse(File.read(file))
     return if data == []
     brands = {}

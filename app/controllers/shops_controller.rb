@@ -4,7 +4,7 @@ class ShopsController < InheritedResources::Base
 
   def index
     if params[:trim_id]
-      @shops = Car::Trim.find(params[:trim_id]).brand.shops
+      @shops = Car::Trim.find(params[:trim_id]).model.shops
       respond_to do |format|
         format.html
         format.json
