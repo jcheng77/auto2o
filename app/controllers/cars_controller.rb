@@ -34,9 +34,9 @@ class CarsController < ApplicationController
             model['colors'] << { id: car_color.id, 'name' => car_color.name, 'code' => car_color.code }
           end
 
-          # car_model.shops.each do |shop|
-          #   model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
-          # end
+          car_model.shops.each do |shop|
+             model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
+          end
 
           maker['models'] << model
         end
@@ -65,6 +65,7 @@ class CarsController < ApplicationController
   end
 
   def self.bulk_import_cars
+    Shop       .delete_all
     Car::Price .delete_all
     Car::Color .delete_all
     Car::Trim  .delete_all
@@ -74,7 +75,7 @@ class CarsController < ApplicationController
     Car::Brand .delete_all
     Dir.foreach('data') do |file|
       if file =~ /cars_info/
-	import_cars('data/' + file)
+        import_cars('data/' + file)
       end
     end
   end
