@@ -7,6 +7,8 @@ class CarsController < ApplicationController
 
 
   def list
+    str = ''
+    pic_data = JSON.parse(File.read('/Users/swang/Projects/ruby_scripts/cars_pics_output'))
 
     @car_brands = Car::Brand.includes(:makers, :trims, :shops, models: [:pics, :colors]).all
 
@@ -25,6 +27,21 @@ class CarsController < ApplicationController
           next if maker['models'].index { |model| model['name'] == car_model.name }
 
           model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [], 'shops' => []}
+
+          #model_name = (model['name'].include?brand['name']) ? model['name'].delete(brand['name']) : model['name']
+          model_name = model['name']
+          others = model_name[/([\(|（].+[\)|）])/u,1]
+          model_name.delete!(others) unless others == nil
+          model_name.strip!
+          if pic_data['Cars'].include? brand['name']
+            pic_data['Cars'][brand['name']].keys.each do |key|
+              if key.include? model_name
+                model['pic_url'] = pic_data['Cars'][brand['name']][key]
+              end
+            end
+          end
+          str << "#{model_name}:#{others}:#{model['pic_url']}\n" 
+
           car_model.trims.each do |car_trim|
             lowest_price = Car::Price.where(:trim_id => car_trim.id).first #.order('offering_date desc').first
             model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price, 'lowest_price' => lowest_price == nil ? -1 : lowest_price.price }
@@ -45,6 +62,8 @@ class CarsController < ApplicationController
       end
       @cars['brands'] << brand
     end
+
+    File.open('data/models_without_pic','w+') { |file| file.write(str) }
 
     respond_to do |format|
       format.html { render index.html.erb }
