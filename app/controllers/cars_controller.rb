@@ -153,6 +153,7 @@ class CarsController < ApplicationController
               if pic_data_model_name.include? car_model.name
                 car_pic = Car::Pic.find_or_create_by(pic_url: pic_data['Cars'][car_brand.name][pic_data_model_name], model: car_model)
                 Car::Pic.where(pic_url: nil, model: car_model).delete_all
+                Car::Pic.where(pic_url: '', model: car_model).delete_all
               end
             end
           end
