@@ -14,5 +14,5 @@ ActiveAdmin.register Dealer do
   #  permitted
   # end
 
-
+  permit_params :shop_id
 end

@@ -1,5 +1,5 @@
-source 'https://rubygems.org'
-# source 'http://ruby.taobao.org'
+#source 'https://rubygems.org'
+source 'http://ruby.taobao.org'
 
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
@@ -55,11 +55,15 @@ gem 'state_machine'
 gem 'ruby-graphviz', :require => 'graphviz' # Optional: only required for graphing
 
 gem 'alipay', '~> 0.1.0'
+# gem 'nokogiri'
+# gem 'ralipay', path: 'vendor/gems/ralipay'
+
 # gem 'jpush' # https://github.com/jpush/jpush-api-ruby-client
 gem 'baidu_push'
 
 gem 'web-console'
 
+gem 'daemons'
 gem 'clockwork'
 
 gem 'rqrcode-rails3'

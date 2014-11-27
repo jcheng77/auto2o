@@ -104,12 +104,14 @@ Rails.application.routes.draw do
   resources :dealers do
     collection do
       post :register
+      post :reset_pwd
     end
   end
 
   resources :users do
     collection do
       post :register
+      post :reset_pwd
     end
   end
 

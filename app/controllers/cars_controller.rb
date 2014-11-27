@@ -26,16 +26,17 @@ class CarsController < ApplicationController
 
           model = { id: car_model.id, 'name' => car_model.name, 'pic_url' => car_model.pics[0].pic_url, 'trims' => [], 'colors' => [], 'shops' => []}
           car_model.trims.each do |car_trim|
-            model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price }
+            lowest_price = Car::Price.where(:trim_id => car_trim.id).first #.order('offering_date desc').first
+            model['trims'] << { 'id' => car_trim.id, 'name' => car_trim.name, 'guide_price' => car_trim.guide_price, 'lowest_price' => lowest_price == nil ? -1 : lowest_price.price }
           end
 
           car_model.colors.each do |car_color|
             model['colors'] << { id: car_color.id, 'name' => car_color.name, 'code' => car_color.code }
           end
 
-          # car_model.shops.each do |shop|
-          #   model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
-          # end
+          car_model.shops.each do |shop|
+             model['shops'] << { id: shop.id, name: shop.name, address: shop.address } 
+          end
 
           maker['models'] << model
         end
@@ -63,19 +64,25 @@ class CarsController < ApplicationController
     end
   end
 
-  def self.import_cars(file='data/cars_audi_prices')
+  def self.bulk_import_cars
+    Shop       .delete_all
+    Car::Price .delete_all
+    Car::Color .delete_all
+    Car::Trim  .delete_all
+    Car::Pic   .delete_all
+    Car::Model .delete_all
+    Car::Maker .delete_all
+    Car::Brand .delete_all
+    Dir.foreach('data') do |file|
+      if file =~ /cars_info/
+        import_cars('data/' + file)
+      end
+    end
+  end
 
-    #Car::Color .delete_all
-    #Car::Trim  .delete_all
-    #Car::Pic   .delete_all
-    #Car::Model .delete_all
-    #Car::Maker .delete_all
-    #Car::Brand .delete_all
-
+  def self.import_cars(file='data/cars_info_3')
     data = JSON.parse(File.read(file))
     return if data == []
-    puts data.class
-    puts data.inspect
     brands = {}
     makers = {}
     models = {}
@@ -93,18 +100,11 @@ class CarsController < ApplicationController
         models[car['@model']] = car_model
       end
       car_pic = Car::Pic.find_or_create_by(pic_url: car['@icon_link'], model: car_model)
-      # puts "Car Model"
-      # puts car['@model']
-      # puts car['@brand']
-      # puts car['@model'][/#{brand}(.+)/,1]
-      # puts car_model.inspect
-      # car_pic = Car::Pic.find_by(model: car_model)
-      # puts "Car Pic"
-      # puts car_pic.inspect
       car_trims = []
       car['@trims'].map do |trim|
         car_trim = Car::Trim.find_or_create_by(name: trim['@trim_name'], model: car_model)
         car_trim.guide_price = trim['@guide_price']
+        car_trim.prices << Car::Price.find_or_create_by(offering_date: trim['@price']['@date'], price: trim['@price']['@lowest_price'], trim_id: car_trim.id)
         car_trim.save!
         car_trims << car_trim
       end

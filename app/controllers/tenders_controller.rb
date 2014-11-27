@@ -21,7 +21,7 @@ class TendersController < InheritedResources::Base
 
   def dealer_index
     @dealer = current_dealer
-    if @dealer.shop.nil? and @dealer.phone == '18601207073'
+    if @dealer.shop.nil? && (@dealer.phone == '18601207073' || @dealer.phone == '18101880217')
     @tenders = Tender.where.not(state: %w(determined))
                       .includes(bargain: [bids:[:dealer]], deal: [dealer:[:shop]], car_trim: [model: [:pics]])
                       .order(id: :desc).page(params[:page]).per(10) 
@@ -45,7 +45,7 @@ class TendersController < InheritedResources::Base
     @shops = @tender.car_trim.brand.shops
     @selected_shops = @tender.shops
     @tender.state = 'qualified' if @tender.state == 'taken' # 暂态，不让终端用户知道
-    @bid = @tender.bids.first if @tender.state == 'submitted'
+    @bid = @tender.bids.first if @tender.state == 'submitted' || @tender.state == 'deal_made'
     # 友好的提示当前订单的状态
     @deal ||= @tender.deal
     @dealer = @tender.deal.dealer if @deal
@@ -129,8 +129,8 @@ class TendersController < InheritedResources::Base
     @brand = @trim.brand
     @maker = @trim.maker
     @model = @trim.model
-    colors = Car::Color.find(params[:tender][:colors_ids].split(','))
-    @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{colors.map(&:name).join(',')}"
+    @colors = Car::Color.find(params[:tender][:colors_ids].split(','))
+    @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{@colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
 

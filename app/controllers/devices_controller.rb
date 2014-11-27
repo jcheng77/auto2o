@@ -12,7 +12,11 @@ class DevicesController < InheritedResources::Base
 
   def create
     return(head(:bad_request)) unless P_2_C.keys.include? params[:type]
-    @device = P_2_C[params[:type]].new(device_params)
+    if params[:type] == 'baidu_push'
+      @device = BaiduDevice.find_or_create_by(baidu_user_id: params[:device][:baidu_user_id], baidu_channel_id: params[:device][:baidu_channel_id])
+    else
+      @device = P_2_C[params[:type]].new(device_params)
+    end
     @device.user = current_user if current_user
     @device.dealer = current_dealer if current_dealer
     @device.state = "active"
