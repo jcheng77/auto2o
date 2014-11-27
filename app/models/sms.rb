@@ -3,8 +3,11 @@ class Sms
   def self.password(phone, password, type=nil)
     company = "拍立行"
     template = 513
-    template = 1081 if type
     template_value = CGI::escape "#code#=#{password}&#company#=#{company}"
+    if type
+      template = 1081
+      template_value = CGI::escape "#code#=#{password}"
+    end
     url = "http://v.juhe.cn"              <<
           "/sms/send?"                    <<
           "mobile=#{phone}"               <<
