@@ -22,8 +22,8 @@ class HomeController < ApplicationController
     respond_to do |format|
       format.html
       format.json
-      format.png  { render :qrcode => 'http://shouji.360tpcdn.com/141114/3e7a9e0064a93b68e2f486a4b6b5161a/com.cettco.buycar_1.apk' }
-      format.jpeg { render :qrcode => 'http://shouji.360tpcdn.com/141114/3e7a9e0064a93b68e2f486a4b6b5161a/com.cettco.buycar_1.apk'}
+      format.png  { render :qrcode => 'http://openbox.mobilem.360.cn/index/d/sid/2326532' }
+      format.jpeg { render :qrcode => 'http://openbox.mobilem.360.cn/index/d/sid/2326532'}
     end
   end
 
