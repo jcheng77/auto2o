@@ -167,4 +167,25 @@ class CarsController < ApplicationController
     end
     File.open('data/models_without_pic','w+') { |file| file.write(str) }
   end
+
+  def self.change_car_pic_url
+    Car::Pic.all.each do |car_pic|
+      if car_pic.pic_url!=nil and car_pic.pic_url!=''
+        car_pic.pic_url = 'autoalbum/' + car_pic.pic_url[/\d+_\d+\.jpg/] 
+        car_pic.save
+      end
+    end
+  end
+
+  def self.associate_brands_with_shops
+    @car_brands = Car::Brand.includes(:makers, models: [:shops]).all
+    @car_brands.each do |car_brand|
+      shops = []
+      car_brand.makers.each do |car_maker|
+        car_maker.models.collect { |car_model| shops += car_model.shops }
+      end
+      car_brand.shops = shops
+    end    
+  end
+
 end
