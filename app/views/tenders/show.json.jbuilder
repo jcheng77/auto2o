@@ -33,4 +33,5 @@ if @bid && @tender.state == 'deal_made' && current_user
 
   json.bid @bid, :insurance, :purchase_tax, :license_fee, :misc_fee, :description, :price
   json.bider @bid.dealer, :id, :phone
+  json.user_name, @tender, :user_name
 end
