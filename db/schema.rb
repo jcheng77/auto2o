@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124165421) do
+ActiveRecord::Schema.define(version: 20141129082625) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -206,12 +206,13 @@ ActiveRecord::Schema.define(version: 20141124165421) do
   create_table "deposits", force: true do |t|
     t.integer  "user_id"
     t.integer  "tender_id"
-    t.decimal  "sum",         precision: 10, scale: 0
+    t.decimal  "sum",             precision: 10, scale: 0
     t.string   "state"
     t.string   "trade_no"
     t.string   "broker_type"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "aplipay_account"
   end
 
   create_table "devices", force: true do |t|
@@ -255,6 +256,7 @@ ActiveRecord::Schema.define(version: 20141124165421) do
     t.string   "license_location"
     t.integer  "got_licence",      limit: 1
     t.integer  "loan_option"
+    t.string   "user_name"
   end
 
   create_table "users", force: true do |t|
