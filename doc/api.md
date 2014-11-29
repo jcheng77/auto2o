@@ -49,6 +49,23 @@ post body:
 }
 
 
+Cancel Tender:
+---------------
+PATCH /tedners/1.json
+post body:
+{
+  "tender"=>{
+    "cancel_reason"=>"4s店优惠不给力",
+  }
+}
+
+options:
+4s店优惠不给力
+4s店距离太远了
+信息提交错误
+选择其他车型了
+推迟购买计划了
+
 User Tender:
 GET /tenders.json?page=1
 GET /tenders/1.json

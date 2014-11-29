@@ -41,6 +41,7 @@ zh-CN:
       final_bid_closed: '最终竞标关闭'
       final_deal_closed: '线下交易完成'
       round_2_canceled: '最终竞标取消'
+      canceled: '订单已取消'
 
   devise:
     sessions:

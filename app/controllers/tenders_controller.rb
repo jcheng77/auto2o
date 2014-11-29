@@ -327,17 +327,46 @@ class TendersController < InheritedResources::Base
   end
 
 
-  def cancel_2_round
-    @tender.cancel_2_round!
-    @reasons=[
-      "reason1",
-      "reason2",
-      "reason3",
-      "reason4"
-    ]
+  # def cancel_2_round
+  #   @tender.cancel_2_round!
+  #   @reasons=[
+  #     "reason1",
+  #     "reason2",
+  #     "reason3",
+  #     "reason4"
+  #   ]
+  #   respond_to do |format|
+  #     format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+  #     format.json { render :cancel_1_round, status: :accepted, location: @tender }
+  #   end
+  # end
+
+  # def cancel_2_round
+  #   @tender.cancel_2_round!
+  #   @reasons=[
+  #     "4s店优惠不给力",
+  #     "4s店距离太远了",
+  #     "信息提交错误",
+  #     "选择其他车型了",
+  #     "推迟购买计划了"
+  #   ]
+  #   respond_to do |format|
+  #     format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+  #     format.json { render :cancel_1_round, status: :accepted, location: @tender }
+  #   end
+  # end
+
+  def cancel
+    @tender.cancel_deal!
+    @tender.cancel_reason = cancel_tender_params[:cancel_reason]
     respond_to do |format|
-      format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
-      format.json { render :cancel_1_round, status: :accepted, location: @tender }
+      if @tender.save
+        format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
+        format.json { render :show, status: :ok, location: @tender }
+      else
+        format.html { render :new }
+        format.json { render json: @tender.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -372,6 +401,12 @@ class TendersController < InheritedResources::Base
 
   def bid_params
     params.require(:bid).permit(:price, :description)
+  end
+  
+  def cancel_tender_params
+    params.require(:tender)
+    params[:tender].require(:cancel_reason)
+    params.require(:tender).permit(:cancel_reason) 
   end
 
   # def bargain_params

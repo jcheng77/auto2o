@@ -1,5 +1,5 @@
 json.array!(@tenders) do |tender|
-  json.extract! tender, :id, :model, :price, :description, :state, :created_at, :updated_at
+  json.extract! tender, :id, :model, :price, :description, :state, :created_at, :updated_at, :cancel_reason
   json.user tender, :user_name if current_user
 
   json.bargain_id tender.bargain.id if tender.bargain

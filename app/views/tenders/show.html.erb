@@ -131,6 +131,7 @@
 
 <h2>当前状态</h2>
 <%= t("tender.state.#{@tender.state}") %> <br/>
+<%= "取消原因： #{@tender.cancel_reason}"if @tender.state == 'canceled'%>
 
 <% if @tender.state == 'qualified' %>
   等待商家应价
@@ -232,6 +233,34 @@
   <strong>预估总价:</strong>
   <%= @bid.price %>
 </p>
+
+<% if ['qualified', 'submitted', 'deal_made'].include?(@tender.state) %>
+<p>
+  <%= form_for(@tender, url: cancel_tender_path(@tender)) do |f| %>
+  <% if @tender.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tender.errors.count, "error") %> prohibited this tender from being saved:</h2>
+
+      <ul>
+      <% @tender.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :cancel_reason, '取消理由' %><br>
+    <%= f.radio_button(:cancel_reason, '4s店优惠不给力')  %>4s店优惠不给力<br/>
+    <%= f.radio_button(:cancel_reason, '4s店距离太远了')  %>4s店距离太远了<br/>
+    <%= f.radio_button(:cancel_reason, '信息提交错误')  %>信息提交错误<br/>
+    <%= f.radio_button(:cancel_reason, '选择其他车型了')  %>选择其他车型了<br/>
+  </div>
+  <div class="actions">
+    <%= f.submit '取消购买意向', data: { confirm: 'Are you sure?' } %>
+  </div>
+  <% end %>
+</p>
+<% end %>
 
 <h1>验证码</h1>
 

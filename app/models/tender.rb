@@ -19,7 +19,8 @@ class Tender < ActiveRecord::Base
 
     before_transition any - :bid_closed => :bid_open, :do => :check_bid_time
     before_transition any => :final_bid_closed, :do => :check_final_bid_time
-    before_transition any => :round_2_canceled, :do => :deal_with_deposit
+    # before_transition any => :round_2_canceled, :do => :deal_with_deposit
+    before_transition any => :canceled, :do => :deal_with_deposit
 
     after_transition any => :closed do |tender, transition|
       # tender.noty_all
@@ -77,7 +78,7 @@ class Tender < ActiveRecord::Base
     event :take do
        transition :qualified => :taken
     end
-    
+
     event :submit_total_price do
       transition :taken => :submitted
     end
@@ -91,8 +92,12 @@ class Tender < ActiveRecord::Base
       transition :deal_made => :final_deal_closed
     end
 
-    event :cancel_2_round do
-      transition [:bargain_started, :final_bid_open, :final_bid_closed, :final_deal_closed] => :round_2_canceled
+    # event :cancel_2_round do
+    #   transition [:bargain_started, :final_bid_open, :final_bid_closed, :final_deal_closed] => :round_2_canceled
+    # end
+
+    event :cancel_deal do
+      transition [:intention, :determined, :qualified, :deal_made] => :canceled
     end
 
     state :determined do

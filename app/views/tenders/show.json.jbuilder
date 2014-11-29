@@ -1,4 +1,4 @@
-json.extract! @tender, :id, :trim_id, :colors_ids, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state
+json.extract! @tender, :id, :trim_id, :colors_ids, :price, :pickup_time, :license_location, :got_licence, :loan_option, :description, :created_at, :updated_at, :state, :cancel_reason
 
 
 [@brand, @maker, @model, @trim].each do |item|
@@ -22,6 +22,7 @@ json.set! :states do
   # json.set! :submitted, I18n.t("tender.state.submitted")
   json.set! :deal_made, I18n.t("tender.state.deal_made")
   json.set! :final_deal_closed, I18n.t("tender.state.final_deal_closed")
+  json.set! :canceled, I18n.t("tender.state.canceled")
 end
 
 json.colors @colors, :name, :code
@@ -33,5 +34,5 @@ if @bid && @tender.state == 'deal_made' && current_user
 
   json.bid @bid, :insurance, :purchase_tax, :license_fee, :misc_fee, :description, :price
   json.bider @bid.dealer, :id, :phone
-  json.user_name, @tender, :user_name
+  json.user @tender, :user_name
 end

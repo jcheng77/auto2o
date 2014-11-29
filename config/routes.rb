@@ -132,6 +132,7 @@ Rails.application.routes.draw do
     member do
       post :invite
       get :bid
+      patch :cancel
       delete :cancel_1_round
       post :submit
       get :bids_list
