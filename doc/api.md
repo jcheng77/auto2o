@@ -30,6 +30,25 @@ Shops:
 GET /shops.json?trim_id=1 # shops api for specified trim
 
 
+Create Tender:
+--------------
+POST /tedners.json
+post body:
+{
+  "tender"=>{
+    "price"=>"123",
+    "trim_id"=>"1",
+    "colors_ids"=>"1,6,9,11",
+    "shops"=>{"1"=>"1", "4"=>"1"},
+    "pickup_time"=>"尽快",
+    "license_location"=>"上海",
+    "got_licence"=>"0",
+    "loan_option"=>"2",
+    "user_name"=>"2",
+  }
+}
+
+
 User Tender:
 GET /tenders.json?page=1
 GET /tenders/1.json
