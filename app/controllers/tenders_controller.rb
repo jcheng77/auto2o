@@ -360,8 +360,10 @@ class TendersController < InheritedResources::Base
     params[:tender].require(:license_location)
     params[:tender].require(:got_licence)
     params[:tender].require(:loan_option)
+    params[:tender].require(:user_name)
     params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops,
-                                   :pickup_time, :license_location, :got_licence, :loan_option)
+                                   :pickup_time, :license_location, :got_licence, :loan_option,
+                                   :user_name)
   end
 
   def update_tender_params

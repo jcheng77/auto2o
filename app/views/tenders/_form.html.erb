@@ -77,6 +77,11 @@
           <% end %>
         </ul>
 
+  <div class="field">
+    <%= f.label :user_name, '车主姓名（须与发票车主一致才能参与优惠活动）' %><br>
+    <%= f.text_field :user_name %>
+  </div>
+
   <div class="actions">
     <%= f.submit '提交订单' %>
   </div>
