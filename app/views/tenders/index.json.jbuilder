@@ -1,5 +1,6 @@
 json.array!(@tenders) do |tender|
   json.extract! tender, :id, :model, :price, :description, :state, :created_at, :updated_at
+  json.user tender, :user_name if current_user
 
   json.bargain_id tender.bargain.id if tender.bargain
 
@@ -9,6 +10,8 @@ json.array!(@tenders) do |tender|
       json.bid_id bid.id
       json.bider "you"
       json.dealer_id @dealer.id
+      json.user tender, :user_name
+      json.user tender.user, :phone
     elsif tender.deal && tender.deal.dealer.shop == @dealer.shop
       json.bider "your_shop"
       json.dealer_id tender.deal.dealer.id
