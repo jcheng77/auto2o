@@ -4,9 +4,10 @@
 # is considered to be the first unless any hosts have the primary
 # property set.  Don't declare `role :all`, it's a meta role.
 
-role :app, %w{deploy@example.com}
-role :web, %w{deploy@example.com}
-role :db,  %w{deploy@example.com}
+role :app, %w{ubuntu@54.64.248.158}
+role :web, %w{ubuntu@54.64.248.158}
+role :db,  %w{ubuntu@54.64.248.158}
+role :puma_nginx,  %w{ubuntu@54.64.248.158}
 
 
 # Extended Server Syntax
@@ -15,7 +16,7 @@ role :db,  %w{deploy@example.com}
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
+server '54.64.248.158', user: 'ubuntu', roles: %w{web app}, my_property: :my_value
 
 
 # Custom SSH Options
@@ -43,3 +44,14 @@ server 'example.com', user: 'deploy', roles: %w{web app}, my_property: :my_value
 #     auth_methods: %w(publickey password)
 #     # password: 'please use keys'
 #   }
+
+
+set :ssh_options, {
+  keys: %w(~/.ssh/auto2o.pem),
+}
+
+set :rails_env, 'production'               # If the environment differs from the stage name
+set :migration_role, 'db'                  # Defaults to 'db'
+set :conditionally_migrate, false          # Defaults to false
+set :assets_roles, [:web]                  # Defaults to [:web]
+set :assets_prefix, 'assets'               # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
