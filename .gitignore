@@ -17,3 +17,5 @@
 
 # Ignore all editor config
 .idea
+
+config/database.yml
