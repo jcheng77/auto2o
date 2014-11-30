@@ -54,5 +54,5 @@ test:
 production:
   <<: *default
   database: JustBidIt_production
-  username: JustBidIt
+  username: auto2o
   password: <%= ENV['JUSTBIDIT_DATABASE_PASSWORD'] %>
