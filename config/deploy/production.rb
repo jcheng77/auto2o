@@ -63,13 +63,3 @@ set :migration_role, 'db'                  # Defaults to 'db'
 set :conditionally_migrate, false          # Defaults to false
 set :assets_roles, [:web]                  # Defaults to [:web]
 set :assets_prefix, 'assets'               # Defaults to 'assets' this should match config.assets.prefix in your rails config/application.rb
-
-
-# how many old releases do we want to keep
-set :keep_releases, 5
-
-# files we want symlinking to specific entries in shared.
-set :linked_files, %w{config/database.yml config/secrets.yml}
-
-# dirs we want symlinking to shared
-set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
