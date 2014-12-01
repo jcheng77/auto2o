@@ -5,6 +5,7 @@ set :passenger_restart_runner, :sequence    # this is default
 set :passenger_restart_wait, 5              # this is default
 set :passenger_restart_limit, 2             # this is default
 
+set :branch, :master
 
 # Simple Role Syntax
 # ==================
