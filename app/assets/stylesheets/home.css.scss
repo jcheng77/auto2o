@@ -37,7 +37,7 @@
 }
 
 .moveuph2 {
- margin-top: -14px;
+ margin-top: 54px;
 }
 
 .inc-top1 {
@@ -46,6 +46,8 @@
 
 .inc-top2 {
   margin-top: 100px;
+  padding-bottom: 30px;
+
 }
 
 .flow-title{
@@ -91,6 +93,47 @@ margin-top: 90px;
 
 .graytext {
   color: #888;
+}
+
+.dlbutton {
+    background-color: #ACD26D;
+    border-color: #fff;
+    height: 50px;
+    width: 170px;
+    border-bottom-color: #fff;
+    box-shadow:0px 0px 0px rgba(0,0,0,0.2);
+    text-shadow:0px 0px 0px rgba(0,0,0,0.3);
+    color: white;
+     border-right-style:none;
+     border-bottom-style:none;
+     border-left-style:none;
+     border-top-style:none;
+}
+
+.iosbutton {
+    background-color: #70CBE8;
+    border-color: #fff;
+    height: 50px;
+    width: 170px;
+    border-bottom-color: #fff;
+    box-shadow:0px 0px 0px rgba(0,0,0,0.2);
+    text-shadow:0px 0px 0px rgba(0,0,0,0.3);
+    color: white;
+     border-right-style:none;
+     border-bottom-style:none;
+border-left-style:none;
+     border-top-style:none;
+
+}
+
+.dlhigh {
+    margin-top: 80px;
+    margin-bottom: 80px;
+}
+
+.grayit {
+    margin-top: -20px;
+    background-color: #eee;
 }
 
 
