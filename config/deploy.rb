@@ -28,7 +28,7 @@ set :linked_files, %w{config/database.yml config/secrets.yml}
 
 # Default value for linked_dirs is []
 # set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
-set :linked_dirs, %w{bin log tmp vendor/bundle public}
+set :linked_dirs, %w{bin log tmp vendor/bundle public/assets}
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -64,6 +64,14 @@ namespace :deploy do
 
 end
 
+namespace :clockworkd do
+  desc "Check that we can access everything"
+  task :start do
+    on roles(:all) do |host|
+      execute :clockworkd, "-c #{release_path}/clock.rb start"
+    end
+  end
+end
 
 desc "Check that we can access everything"
 task :check_write_permissions do
