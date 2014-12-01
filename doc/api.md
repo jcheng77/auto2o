@@ -51,7 +51,7 @@ post body:
 
 Cancel Tender:
 ---------------
-PATCH /tedners/1.json
+PATCH /tedners/1/cancel.json
 post body:
 {
   "tender"=>{
