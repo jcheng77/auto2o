@@ -362,7 +362,7 @@ class TendersController < InheritedResources::Base
     respond_to do |format|
       if @tender.save
         format.html { redirect_to @tender, notice: 'Tender was successfully canceled.' }
-        format.json { render :show, status: :ok, location: @tender }
+        format.json { render json: { status: :ok } }
       else
         format.html { render :new }
         format.json { render json: @tender.errors, status: :unprocessable_entity }
