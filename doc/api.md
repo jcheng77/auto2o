@@ -36,7 +36,7 @@ POST /devices.json          post body:
 Cars:
 -----
 GET /cars/list.json
-GET /cars/trims.json?model_name=A3
+GET /cars/trims.json?model_id=123  # include view count of car trim
 
 
 Shops:
