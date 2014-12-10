@@ -41,6 +41,7 @@ class DepositsController < InheritedResources::Base
       timestamp_length = Time.now.to_i.to_s.length
       id = params[:out_trade_no][timestamp_length..-1]
       @deposit = Tender.find(id).deposit
+      @deposit.update(aplipay_account: params[:buyer_email])
 
       case params[:trade_status]
       # 交易状态TRADE_SUCCESS的通知触发条件是商户签约的产品支持退款功能 的前提下,买家付款成功
