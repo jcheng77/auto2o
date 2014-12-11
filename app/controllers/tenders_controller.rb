@@ -134,6 +134,17 @@ class TendersController < InheritedResources::Base
     @tender.chose_subject!
     @tender.user = current_user
 
+    # check daily tender count limit: total 4, per model 2
+    now = Time.now
+    daily_tenders = current_user.tenders.where(created_at: now.beginning_of_day..now.end_of_day)
+    if daily_tenders.includes(car_trim:[:model]).select{ |t| t.car_trim.model == @model }.size >= 2
+      reach_limit_count('同一车型每天最多下2单')
+      return
+    elsif daily_tenders.size >= 4
+      reach_limit_count('每天最多下4单')
+      return
+    end
+
     # mobile client submit fixed amount of deposit
     @deposit = current_user.deposits.new(tender: @tender, sum: 1111)
     @deposit.save
@@ -412,5 +423,13 @@ class TendersController < InheritedResources::Base
   # def bargain_params
   #   params.require(:bargain).permit(:price, :postscript)
   # end
+
+  def reach_limit_count(error)
+    flash[:warning] = error
+    respond_to do |format|
+      format.html { redirect_to(tenders_path) }
+      format.json { render json: {error: error}, status: :unprocessable_entity }
+    end
+  end
 
 end
