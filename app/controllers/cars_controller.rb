@@ -204,7 +204,7 @@ class CarsController < ApplicationController
           when 'staging'
             domain = 'http://staging.pailixing.com'
           when 'production'
-            domain = 'http://www.pailixing.com'
+            domain = 'http://prod.pailixing.com'
           else
             domain = 'http://www.pailixing.com'
         end
