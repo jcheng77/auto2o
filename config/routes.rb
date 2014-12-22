@@ -90,8 +90,10 @@ Rails.application.routes.draw do
   resources :deposits, only: [:create, :update] do
     collection do
       post :alipay_app_notify
+      get :amount_and_discount
     end
   end
+
 
   resources :deals do
     member do
