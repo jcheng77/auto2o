@@ -6,7 +6,7 @@ class Deposit < ActiveRecord::Base
   belongs_to :tender, inverse_of: :deposit
 
   AMOUNT = 599
-  DISCOUNT = 500 
+  DISCOUNT = [500]
 
 
   state_machine :initial => :pending do
