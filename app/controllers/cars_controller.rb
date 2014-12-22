@@ -13,7 +13,7 @@ class CarsController < ApplicationController
 
     @car_brands.each do |car_brand|
 
-      brand = { id: car_brand.id, 'name' => car_brand.name, 'makers' => [] }
+      brand = { id: car_brand.id, 'name' => car_brand.name, 'logo_url' => car_brand.logo_url, 'makers' => [] }
 
       car_brand.makers.each  do |car_maker|
 
@@ -189,5 +189,30 @@ class CarsController < ApplicationController
       car_brand.shops = shops
     end    
   end
+
+  def self.add_brand_logo(source='data/car_brand_logo')
+    logos = JSON.parse(File.read(source))
+    @car_brands = Car::Brand.all
+    @car_brands.each do |car_brand|
+      if logos.has_key? car_brand.name
+        puts logos[car_brand.name][/\d+\.(jpg|JPG|gif)/]
+        domain = ''
+        puts Rails.env
+        case Rails.env
+          when 'development'
+            domain = 'http://localhost:3000'
+          when 'staging'
+            domain = 'http://staging.pailixing.com'
+          when 'production'
+            domain = 'http://www.pailixing.com'
+          else
+            domain = 'http://www.pailixing.com'
+        end
+        car_brand.logo_url = domain + '/brandlogo/' + logos[car_brand.name][/\d+\.(jpg|JPG|gif)/]
+        car_brand.save!
+      end 
+    end
+  end
+
 
 end
