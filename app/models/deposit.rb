@@ -5,6 +5,9 @@ class Deposit < ActiveRecord::Base
   belongs_to :user, inverse_of: :deposits
   belongs_to :tender, inverse_of: :deposit
 
+  AMOUNT = 599
+  DISCOUNT = 500 
+
 
   state_machine :initial => :pending do
 
@@ -54,7 +57,6 @@ class Deposit < ActiveRecord::Base
     )
   end
 
-
   def send_good
     Alipay::Service.send_goods_confirm_by_platform(
       :trade_no => trade_no,
@@ -78,10 +80,6 @@ class Deposit < ActiveRecord::Base
   end
 
   def check_sum
-
-  end
-
-  def discount
 
   end
 
