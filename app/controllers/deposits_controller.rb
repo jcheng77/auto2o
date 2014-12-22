@@ -3,7 +3,7 @@ class DepositsController < InheritedResources::Base
   skip_before_filter :verify_authenticity_token, :only => [:alipay_app_notify]
 
   before_action :authenticate_user!, :except => [:alipay_app_notify]
-  before_action :set_deposit, only: [:edit, :update, :destroy]
+  before_action :set_deposit, only: [:edit, :update, :destroy ]
 
   # 创建订单
   def create
@@ -24,6 +24,13 @@ class DepositsController < InheritedResources::Base
         format.html { redirect_to tender_path(@tender), notice: '订金订单创建失败，请重试.' }
         format.json { render json: @deposit.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def amount_and_discount
+    price_hash = {:amount => Deposit::AMOUNT, :discount => Deposit::DISCOUNT }
+    respond_to do |format|
+      format.json { render :json => price_hash.to_json }
     end
   end
 
