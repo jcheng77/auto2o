@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20141222024247) do
     t.decimal  "guide_price", precision: 12, scale: 2
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "view_count"
   end
 
   create_table "cars", force: true do |t|

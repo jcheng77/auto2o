@@ -4,7 +4,10 @@ class ShopsController < InheritedResources::Base
 
   def index
     if params[:trim_id]
-      @shops = Car::Trim.find(params[:trim_id]).model.shops
+      car_trim  = Car::Trim.find(params[:trim_id])
+      car_trim.update(view_count: rand(10)) unless car_trim.view_count.present?
+      car_trim.increment!(:view_count)
+      @shops = car_trim.model.shops
       respond_to do |format|
         format.html
         format.json
