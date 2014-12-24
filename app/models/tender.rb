@@ -121,6 +121,7 @@ class Tender < ActiveRecord::Base
     self.shops.includes(:dealers).each do |shop|
       shop.dealers.each do |dealer|
         Push.baidu_push(dealer, "您有新买车意向")
+        Sms.noty_new_tender(dealer.phone, self)
       end
     end
   end

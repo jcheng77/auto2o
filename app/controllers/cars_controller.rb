@@ -55,7 +55,9 @@ class CarsController < ApplicationController
   def trims
     @models = Car::Model.find_by(id: params['model_id'])
     @trims = @models.trims
-
+    @trims.each do |car_trim|
+      car_trim.update(view_count: rand(10)) unless car_trim.view_count.present?
+    end
     respond_to do |format|
       #format.html index.html.erb
       format.xml  { render xml: @trims }
