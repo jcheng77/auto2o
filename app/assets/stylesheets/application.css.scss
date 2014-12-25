@@ -45,8 +45,8 @@ margin-top: 180px; /* negative value of footer height */
 height: 80px;
 clear:both;
 padding-top:20px;
-color: #bbb;
-background-color: #eee;
+color: white;
+background-color: #bfbfbf;
 }
 
 form input[type=submit] {
@@ -66,4 +66,10 @@ form input[type=submit] {
 
 a.button, a:link.button, a:visited.button, input[type=submit] {
   border-radius: 0px;
+  color: #fff;
 }
+
+.footer-padding {
+ padding-bottom: 30px;
+}
+

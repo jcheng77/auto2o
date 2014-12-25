@@ -58,6 +58,7 @@
           <li><%= link_to "400-032-0092", ""  %></li>
             <li><%= link_to "买车指南", home_introduction_path  %></li>
             <li><%= link_to "手机App", home_download_path %></li>
+            <li><%= link_to "商家合作", "" %></li>
             <% if current_user %>
             <li>
               <%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
@@ -84,7 +85,44 @@
     </div> <!-- /container -->
 
       <footer>
+        <div class="row footer-padding">
+   <div class="col-lg-3">
+          关于我们:
+          公司介绍
+          <p>
+          </p>
+        </div>
+  <div class="col-lg-3">
+    联系我们: 
+    <p>
+      商务合作
+      邮箱: auto2o@outlook.com
+    </p>
+        </div>
+  <div class="col-lg-3">
+    关注我们:
+    <p>
+      <%= link_to "微博", "http://weibo.com/pailixing" %> 
+    <%= image_tag 'weibo-pailixing2.png' , :size => '60x60' %>
+    微信: 
+    <%= image_tag 'weixin-pailixing.png' , :size => '60x60' %>
+      </p>
+        </div>
+  <div class="col-lg-3">
+    友情链接: <p>
+    <%= link_to "汽车之家", "http://www.autohome.com.cn/" %> 
+    <%= link_to "易车网", "http://www.autohome.com.cn/" %> 
+    <%= link_to "爱卡汽车网", "http://www.autohome.com.cn/" %> 
+    <%= link_to "太平洋汽车网", "http://www.autohome.com.cn/" %> 
+  </p>
+  </div>
+
+        <div class="row">
+          <div class="col-lg-offset-4">
+          <p>
       Copyright © 2014 pailixing.com 拍立行 版权所有
+    </div>
+    </div>
       </footer>
   </body>
 </html>
