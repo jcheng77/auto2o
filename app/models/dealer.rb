@@ -21,6 +21,7 @@ class Dealer < ActiveRecord::Base
 
   def points_up(num)
     self.points += num
+    self.save
   end
 
   def checkin_today?
@@ -29,9 +30,8 @@ class Dealer < ActiveRecord::Base
 
   def checkin
     unless checkin_today?
-      self.points_up(1)
       self.last_checkin_at = Time.now.to_date
-      self.save
+      self.points_up(1)
     end
   end
 
