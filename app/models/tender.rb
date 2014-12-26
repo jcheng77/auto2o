@@ -30,6 +30,15 @@ class Tender < ActiveRecord::Base
       tender.noty_dealer_new_tender
     end
 
+    after_transition any => :deal_made do |tender, transition|
+      tender.deal.dealer.points_up(3)
+    end
+
+    after_transition any => :final_deal_closed do |tender, transition|
+      tender.deal.dealer.points_up(20)
+    end
+
+
     around_transition :log_transaction
 
     event :chose_subject do

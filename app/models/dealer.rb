@@ -13,8 +13,26 @@ class Dealer < ActiveRecord::Base
 
   belongs_to :shop, inverse_of: :dealers
 
+  IPHONE_REDEEM_POINTS = 6000
+
   def email_required?
     false
+  end
+
+  def points_up(num)
+    self.points += num
+  end
+
+  def checkin_today?
+    self.last_checkin_at == Time.now.to_date
+  end
+
+  def checkin
+    unless checkin_today?
+      self.points_up(1)
+      self.last_checkin_at = Time.now.to_date
+      self.save
+    end
   end
 
 end
