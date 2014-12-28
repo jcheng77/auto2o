@@ -3,7 +3,7 @@ class TendersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:bid, :submit, :show_bargain, :dealer_index]
   before_action :authenticate_dealer!, only: [:dealer_index, :bid, :submit]
 
-  before_action :set_tender, except: [:index, :dealer_index, :create, :new]
+  before_action :set_tender, except: [:index, :dealer_index, :create, :new, :confirm ]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
@@ -136,17 +136,19 @@ class TendersController < InheritedResources::Base
 
     # check daily tender count limit: total 4, per model 2
     now = Time.now
-    daily_tenders = current_user.tenders.where(created_at: now.beginning_of_day..now.end_of_day)
-    if daily_tenders.includes(car_trim:[:model]).select{ |t| t.car_trim.model == @model }.size >= 2
-      reach_limit_count('同一车型每天最多下2单')
-      return
-    elsif daily_tenders.size >= 4
-      reach_limit_count('每天最多下4单')
-      return
+    unless current_user.is_test_user?
+       daily_tenders = current_user.tenders.where(created_at: now.beginning_of_day..now.end_of_day)
+       if daily_tenders.includes(car_trim:[:model]).select{ |t| t.car_trim.model == @model }.size >= 2
+         reach_limit_count('同一车型每天最多下2单')
+         return
+       elsif daily_tenders.size >= 4
+         reach_limit_count('每天最多下4单')
+         return
+       end
     end
 
     # mobile client submit fixed amount of deposit
-    @deposit = current_user.deposits.new(tender: @tender, sum: 1111)
+    @deposit = current_user.deposits.new(tender: @tender, sum: (Deposit::AMOUNT - Deposit::DEFAULT_DISCOUNT))
     @deposit.save
 
     respond_to do |format|
@@ -190,6 +192,25 @@ class TendersController < InheritedResources::Base
       end
     end
   end
+
+
+  # PATCH/PUT /tenders/1
+  # PATCH/PUT /tenders/1.json
+  def confirm
+    @tender.confirm_deal! 
+    respond_to do |format|
+      if @tender.save
+        format.html { redirect_to @tender, notice: 'Tender is confirmed.' }
+        format.json { render :show, status: :ok, location: @tender }
+      else
+        format.html { render :edit }
+        format.json { render json: @tender.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+
+
 
   # DELETE /tenders/1
   # DELETE /tenders/1.json

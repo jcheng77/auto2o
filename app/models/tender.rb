@@ -93,9 +93,13 @@ class Tender < ActiveRecord::Base
     end
 
     event :accept_price do
-      transition :submitted => :deal_made
+      transition :submitted => :yet_confirm
     end
 
+    event :confirm_deal do
+      transition :yet_confirm => :deal_made
+    end                                      
+    
     event :make_final_deal do
       # transition [:submitted, :final_bid_open, :final_bid_closed] => :final_deal_closed
       transition :deal_made => :final_deal_closed
