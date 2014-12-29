@@ -3,7 +3,7 @@ class TendersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:bid, :submit, :show_bargain, :dealer_index]
   before_action :authenticate_dealer!, only: [:dealer_index, :bid, :submit]
 
-  before_action :set_tender, except: [:index, :dealer_index, :create, :new, :confirm ]
+  before_action :set_tender, except: [:index, :dealer_index, :create, :new ]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders

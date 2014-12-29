@@ -42,6 +42,7 @@ zh-CN:
       final_deal_closed: '线下交易完成'
       round_2_canceled: '最终竞标取消'
       canceled: '订单已取消'
+      yet_confirm: "等待用户确认购买"
 
   devise:
     sessions:
