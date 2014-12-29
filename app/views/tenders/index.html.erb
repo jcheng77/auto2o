@@ -43,6 +43,11 @@
           不能抢单
           <% end %>
         </td>
+        <td>
+          <% if current_user && ['yet_confirm'].include?(tender.state) %>
+            <%= link_to '确认成交', confirm_tender_path(tender),  html_options = {:method => "put"} %>
+          <% end %>
+        </td>
         <!--<td>-->
           <!--<% if ['bargain_started', 'final_bid_open'].include? tender.state %>-->
           <!--<%= link_to '参与第二轮竞标', bid_final_tender_path(tender) %>-->

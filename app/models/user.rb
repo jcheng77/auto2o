@@ -22,4 +22,8 @@ class User < ActiveRecord::Base
     false
   end
 
+  def is_test_user?
+    self.phone == '18601207073'
+  end
+
 end
