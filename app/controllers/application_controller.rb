@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   skip_before_filter :verify_authenticity_token, :if => :check_method
 
-  before_action :set_locale
+  before_action :set_locale, :check_env
 
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
@@ -15,6 +15,10 @@ private
 
   def check_method
     request.format == :json
+  end
+
+  def check_env
+    @is_production_env = ( Rails.env == 'production' )
   end
 
 end
