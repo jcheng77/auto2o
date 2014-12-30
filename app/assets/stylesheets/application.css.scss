@@ -37,16 +37,26 @@ a, a:link, a:visited {
 min-height: 100%;
 }
 
+.footer_head {
+  font-size:18px;
+  margin-bottom: 10px;
+}
+
+.footer_line {
+  margin-top: 20px;
+ }
+
+
 footer
 {
 text-align: center;
 position: relative;
 margin-top: 180px; /* negative value of footer height */
-height: 80px;
+height: 140px;
 clear:both;
 padding-top:20px;
 color: #bbb;
-background-color: #eee;
+background-color: #333;
 }
 
 form input[type=submit] {
