@@ -37,16 +37,46 @@ a, a:link, a:visited {
 min-height: 100%;
 }
 
+.footer_head {
+  font-size:18px;
+  margin-bottom: 10px;
+}
+
+.footer_line {
+  margin-top: 20px;
+ }
+
+
+
+ul {
+list-style: none; 
+}
+
+ul li {
+text-align: left; 
+}
+
+.foot_imag {
+   float: right;
+}
+
+.footer_line ul li{
+  float: right;
+  margin-right: 5px;
+  margin-left: 5px;
+ }
+
+
 footer
 {
 text-align: center;
 position: relative;
 margin-top: 180px; /* negative value of footer height */
-height: 80px;
+height: 240px;
 clear:both;
 padding-top:20px;
 color: #bbb;
-background-color: #eee;
+background-color: #333;
 }
 
 form input[type=submit] {
