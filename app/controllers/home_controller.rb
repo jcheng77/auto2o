@@ -27,4 +27,16 @@ class HomeController < ApplicationController
     end
   end
 
+  def about
+    respond_to do |format|
+      format.html {}
+    end
+  end
+
+  def join
+    respond_to do |format|
+      format.html {}
+    end
+  end
+
 end

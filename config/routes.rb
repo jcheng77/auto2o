@@ -72,6 +72,8 @@ Rails.application.routes.draw do
   get 'home', to: 'home#index'
   get 'home/introduction', to: 'home#introduction'
   get 'home/download', to: 'home#download'
+  get 'home/about', to: 'home#about'
+  get 'home/join', to: 'home#join'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config
@@ -161,5 +163,6 @@ Rails.application.routes.draw do
       get :trims
     end
   end
+
 
 end
