@@ -19,3 +19,7 @@
 .idea
 
 config/database.yml
+public/pailixing.apk
+public/version.xml
+
+
