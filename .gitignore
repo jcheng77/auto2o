@@ -21,5 +21,7 @@
 config/database.yml
 public/pailixing.apk
 public/version.xml
+public/dealer_pailixing.apk
+public/dealer_version.xml
 
 
