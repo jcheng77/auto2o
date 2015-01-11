@@ -66,7 +66,7 @@ class CarsController < ApplicationController
   end
 
   def self.bulk_import_cars
-    Tender     .delete_all
+    #Tender     .delete_all
     Bargain    .delete_all
     Deal       .delete_all
     Shop       .delete_all
@@ -82,7 +82,7 @@ class CarsController < ApplicationController
         import_cars('data/' + file)
       end
     end
-    correct_model_name_and_pics
+    #correct_model_name_and_pics
   end
 
   def self.import_cars(file='data/cars_info_000')

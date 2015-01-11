@@ -154,6 +154,7 @@ Rails.application.routes.draw do
     end
     collection do
       get :dealer_index
+      get :update_model
     end
   end
 

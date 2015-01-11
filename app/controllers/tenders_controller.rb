@@ -3,7 +3,7 @@ class TendersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:bid, :submit, :show_bargain, :dealer_index]
   before_action :authenticate_dealer!, only: [:dealer_index, :bid, :submit]
 
-  before_action :set_tender, except: [:index, :dealer_index, :create, :new]
+  before_action :set_tender, except: [:index, :dealer_index, :create, :new, :update_model]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
@@ -78,26 +78,31 @@ class TendersController < InheritedResources::Base
   #   @tender.final_closed!
   #   redirect_to tender_path(@tender)
   # end
-
   # GET /tenders/new
   def new
     @tender = Tender.new
     if !params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
       @brands = Car::Brand.all
+      @models = Car::Model.all
     elsif params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
       @makers = Car::Brand.find(params[:brand]).makers
     elsif params[:maker] && !params[:model] && !params[:trim]
       @maker = Car::Maker.find(params[:maker])
-    elsif params[:model] && !params[:trim]
+    elsif params[:model] 
       @model = Car::Model.find(params[:model])
-    elsif params[:trim] && !params[:color]
-      @trim = Car::Trim.find(params[:trim])
-      @model = @trim.model
-    elsif params[:color]
-      @trim = Car::Trim.find(params[:trim])
-      @model = @trim.model
+      @trim = @model.trims.first
       @shops = ( @trim.brand.shops.size == 0 ? @model.shops : @trim.brand.shops )
-      @colors = Car::Color.find params[:color].keys
+      @colors = @trim.colors
+      #@colors = Car::Color.find params[:color].keys
+    end
+  end
+
+  def update_model
+    @makers = Car::Brand.find(params[:brand_id]).makers
+    @models = @makers.map {|m| m.models}
+    @models.flatten!
+    respond_to do |format| 
+      format.js 
     end
   end
 
@@ -123,13 +128,16 @@ class TendersController < InheritedResources::Base
   #   },
   #   "commit"=>"提交订单"
   # }
+
   def create
+    binding.pry
     @tender = Tender.new(new_tender_params)
     @trim = Car::Trim.find(params[:tender][:trim_id])
     @brand = @trim.brand
     @maker = @trim.maker
     @model = @trim.model
-    @colors = Car::Color.find(params[:tender][:colors_ids].split(','))
+    binding.pry
+    @colors = Car::Color.find(params[:color].keys)
     @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{@colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
@@ -415,7 +423,6 @@ class TendersController < InheritedResources::Base
     params[:tender].require(:price)
     # params[:tender].require(:description)
     params[:tender].require(:trim_id)
-    params[:tender].require(:colors_ids)
     params[:tender].require(:shops)
     params[:tender].require(:pickup_time)
     params[:tender].require(:license_location)

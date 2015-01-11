@@ -11,77 +11,111 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= f.label :model, '车型' %><br>
-    <%= "#{@model.name} #{@trim.name} #{@colors.map(&:name).join(', ')}" %>
-    <% @colors.each do |color| %>
-    <span style="color:<%= color.code %>;font-size:40px;">◼︎</span>
-    <% end %>
-    <%= f.hidden_field :model, value: "#{@model.name} #{@trim.name} #{@colors.map(&:name).join(', ')}", readonly: :readonly %>
-    <%= f.hidden_field :trim_id, value: @trim.id, readonly: :readonly %>
-    <%= f.hidden_field :colors_ids, value: @colors.map(&:id).join(','), readonly: :readonly %>
-  </div>
-  <!--
-		<div class="field">
-    <%= f.label :price %><br>
-    <%= f.text_field :price %>
-  </div>
-	-->
-	  
-  <div class="field">
-    <%= f.label :pickup_time, '提车时间' %><br>
-    <%= f.text_field :pickup_time %>
-  </div>
 
 
-  <div class="field">
-    <%= f.label :license_location, '上牌地点' %><br>
-    <%= f.text_field :license_location %>
-  </div>
+<div class="row car-container">
+<div class="row">
+<div class="step">
+                    <ul>
+                        <li><span class="num-step">1</span>提交订单
+                            <br>
+                            <em>选车型填需求</em></li>
+                        <li><span class="num-step">2</span>预付订金
+                            <br>
+                            <em>预付意向金到拍立行</em><span class="arrow"></span></li>
+                        <li><span class="num-step">3</span>4S店抢单
+                            <br>
+                            <em>查看报价明细获得凭证</em><span class="arrow"></span></li>
+                        <li><span class="num-step">4</span>到店看车
+                            <br>
+                            <em>线下试驾到4S店提车</em><span class="arrow"></span></li>
+                    </ul>
+                </div>
+</div>
 
-  <div class="field">
-    <%= f.label :got_licence, '已有牌照' %><br>
-    <%= f.radio_button(:got_licence, 1)  %>是<br>
-    <%= f.radio_button(:got_licence, 0)  %>否
-  </div>
 
-  <div class="field">
-    <%= f.label :loan_option, '贷款或全款' %><br>
-    <%= f.radio_button(:loan_option, 1)  %>贷款<br>
-    <%= f.radio_button(:loan_option, 2)  %>全款<br>
-    <%= f.radio_button(:loan_option, 3)  %>均可
-  </div>
-  
-  <div class="field">
-    <%= f.label :price, '裸车价' %><br>
-    <%= f.text_field :price %>
-  </div>  
-  
 
-<!--  
-  <div class="field">
-    <%= f.label :description, '额外要求' %><br>
-    <%= f.text_field :description %>
-  </div> 
--->
+  <div class="col-lg-4">
+    <h4><b><%= @model.name %></h4>
+<h5><%= @model.trims.first.name %></h5>
+<h5>指导价: <%= @model.trims.first.prices.first.price %>万</h4>
+<div class="dot-line"></div>
 
-    <h2>选择经销商：</h2>
+  <%= image_tag 'http://img4.bitautoimg.com/autoalbum/files/20141208/525/1132255259_6.jpg' %>
 
-        <ul>
-          <% @shops.each do |shop| %>
-              <li>
-                <%= check_box_tag "tender[shops][#{shop.id}]" %>
-                <%= label_tag "tender[shops]_#{shop.id}", shop.name %>
-              </li>
-          <% end %>
-        </ul>
+</div>
 
-  <div class="field">
-    <%= f.label :user_name, '车主姓名（须与发票车主一致才能参与优惠活动）' %><br>
-    <%= f.text_field :user_name %>
-  </div>
+<div class="col-lg-8 ">
+<h5><%= label_tag :choose_color, "请输入期望优惠:" %></h5>
+<input type="text" id="price" name="price" class="form-control" placeholder="输入你打听到的最低优惠">
+</div>
 
-  <div class="actions">
-    <%= f.submit '提交订单' %>
-  </div>
+
+
+<div class="col-lg-8 ">
+<h5><%= label_tag :choose_color, "请选择你考虑的颜色:" %></h5>
+
+        <ul class="list-inline">
+  <% @trim.colors.each do |color| %>
+          <li>
+            <span style="color:<%= color.code %>;font-size:25px;float:left;">◼︎</span>
+            <%= label_tag "color_#{color.id}", color.name , :class => "desc" %>
+          </li>
+  <% end %>                                                               	  
+</ul>
+</div>
+<div class="col-lg-8 ">
+<div class="dot-line"></div>
+<h5><%= f.label :pickup_time, '购车时间:' %></h5>
+<span class="choose" data-code='7' >                                                                             <%= f.label "7天之内"%> </span>
+<span class="choose" data-code='14' >                                                                             <%= f.label "14天之内"%> </span>
+<span class="choose" data-code='30' >                                                                             <%= f.label "30天之内"%> </span>
+</div>
+<div class="col-lg-8 ">
+<h5><%= f.label :pickup_time, '付款方式:' %></h5>
+<span class="choose" data-code='0' >                                                                             <%= f.label "全款"%> </span>
+<span class="choose" data-code='1' >                                                                             <%= f.label "贷款"%> </span>
+</div>
+
+<div class="col-lg-offset-4 col-lg-8 ">
+<h5><%= f.label :pickup_time, '上牌地点:' %></h5>
+<span class="choose" data-code='0' >                                                                             <%= f.label "本市"%> </span>
+<span class="choose" data-code='1' >                                                                             <%= f.label "外地"%> </span>
+</div>
+
+<div class="col-lg-offset-4 col-lg-8 ">
+<h5><%= f.label :pickup_time, '已有牌照:' %></h5>
+<span class="choose" data-code='0' >                                                                             <%= f.label "已有"%> </span>
+<span class="choose" data-code='1' >                                                                             <%= f.label "没有"%> </span></div>
+
+<div class="col-lg-offset-4 col-lg-8 ">
+<p>目前全城有 
+<button class="btn btn-primary btn-lg" data-toggle="modal" 
+   data-target="#myModal">
+<%= @shops.count %>家4S店    
+</button> 
+可以在线抢单
+
+</div>    
+<div class="col-lg-offset-4 col-lg-8">
+<div class="dot-line">
+
+<button type="submit" class="btn btn-default color-button">提交意向</button>
+</div>
+</div>
+
+</div>
+                                                                                                                                       </div>
+</div>
+
+
+
+
+
+
+
+
+<%= f.hidden_field :model, value: "#{@model.name} #{@trim.name} #{@colors.map(&:name).join(', ')}", readonly: :readonly %> </div></div>    
+<%= f.hidden_field :trim_id, value: @trim.id, readonly: :readonly %> </div>                                                                                                                                               </div> </div>
+
 <% end %>
