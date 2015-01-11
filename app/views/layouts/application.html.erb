@@ -81,6 +81,8 @@
       </div>
     </div>
 
+    <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
+
     <div class="wrapper">
     <div class="container-fluid">
       <div class="row">
@@ -95,28 +97,27 @@
 
       <footer>
     <div class="row footer_row">
-    <div class="col-lg-offset-2 col-lg-1 footer_head">
+    <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8 col-lg-1 footer_head">
         关于我们
     </div>
-    <div class="col-lg-offset-2 col-lg-1 footer_head">
+    <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8  col-lg-1 footer_head">
        联系我们
     </div>
-      <div class="col-lg-offset-2 col-lg-1 footer_head">
+      <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8 col-lg-1 footer_head">
        关注我们
     </div>
-     <div class="col-lg-3 footer_head">
-    <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
-  </div>
+<!--     <div class="col-lg-3 col-xd-offset-4 col-xd-8 footer_head">
+  </div> -->
   </div>
 
     <div class="row">
-      <div class="col-lg-offset-2 col-lg-2">
+      <div class="col-lg-offset-2 col-xs-offset-4 col-lg-2">
         <ul>
           <li><%= link_to "公司简介", home_about_path %></li>
           <li><%= link_to "加入我们", home_join_path %></li>
         </ul>
       </div>
-     <div class="col-lg-offset-1 col-lg-3">
+     <div class="col-lg-offset-1 col-xs-offset-4 col-lg-3">
   <ul>
     <li> <%= link_to "邮箱: auto2o@outlook.com", ""  %></li>
     <li> <%= link_to "热线: 400-032-0092", ""   %></li>
@@ -131,13 +132,11 @@
 
     </div>
     <div class="col-lg-offset-2 footer_line">
-      
       <ul class="pull-left"> 友情链接:        
-        <li><%= link_to "MSN汽车","http://auto.msn.com.cn/", :target=> "_blank" %></li> 
         <li><%= link_to "网易汽车","http://auto.163.com/", :target=> "_blank" %></li> 
         <li><%= link_to "新浪汽车", "http://auto.sina.com.cn/", :target=> "_blank"  %></li> 
         <li><%= link_to "搜狐汽车","http://auto.sohu.com/" , :target=> "_blank" %></li> 
-        <li><%= link_to "太平洋汽车", "http://www.pcauto.com.cn/", :target=> "_blank"  %></li> 
+        <li><%= link_to "太平洋汽车", "http://www.pcauto.com.cn/", :target=> "_blank"  %></li>
         <li><%= link_to "爱卡汽车","http://www.xcar.com.cn/", :target=> "_blank"  %></li> 
         <li><%= link_to "易车网", "http://www.bitauto.com/" , :target=> "_blank" %></li> 
         <li><%= link_to "汽车之家", "http://www.autohome.com.cn", :target=> "_blank"  %></li> 

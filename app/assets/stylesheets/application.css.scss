@@ -77,12 +77,19 @@ footer
 text-align: center;
 position: relative;
 margin-top: 180px; /* negative value of footer height */
-height: 240px;
+height: 280px;
 clear:both;
 padding-top:20px;
 color: #bbb;
 background-color: #333;
 }
+
+footer a:link, a:visited {
+    color: #b7b7b7;
+
+}
+
+
 
 form input[type=submit] {
     width:280px;
