@@ -4,84 +4,123 @@
       <h2><%= pluralize(@tender.errors.count, "error") %> prohibited this tender from being saved:</h2>
 
       <ul>
-      <% @tender.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
+        <% @tender.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
       </ul>
     </div>
   <% end %>
+  <div class="row car-container">
 
-  <div class="field">
-    <%= f.label :model, '车型' %><br>
-    <%= "#{@model.name} #{@trim.name} #{@colors.map(&:name).join(', ')}" %>
-    <% @colors.each do |color| %>
-    <span style="color:<%= color.code %>;font-size:40px;">◼︎</span>
-    <% end %>
-    <%= f.hidden_field :model, value: "#{@model.name} #{@trim.name} #{@colors.map(&:name).join(', ')}", readonly: :readonly %>
-    <%= f.hidden_field :trim_id, value: @trim.id, readonly: :readonly %>
-    <%= f.hidden_field :colors_ids, value: @colors.map(&:id).join(','), readonly: :readonly %>
-  </div>
-  <!--
-		<div class="field">
-    <%= f.label :price %><br>
-    <%= f.text_field :price %>
-  </div>
-	-->
-	  
-  <div class="field">
-    <%= f.label :pickup_time, '提车时间' %><br>
-    <%= f.text_field :pickup_time %>
-  </div>
+  <%= render :partial => 'workflow' %>
+
+  <%= hidden_field_tag "pickup_time", 7 %>   
+  <%= hidden_field_tag "loan_option", 0%>   
+  <%= hidden_field_tag "license_location", 0%>   
+  <%= hidden_field_tag "got_licence", 0 %>   
+  <%= hidden_field_tag "shops"%>   
+  <%= f.hidden_field :trim_id, value: @trim.id %> 
+
+  <div class="col-lg-4">
+    <h4><b><%= @model.name %></h4>
+      <h5><label id="trim_label"> <%= @model.trims.first.name %></label></h5>  
+      <%= link_to "更改车型", "#", "data-toggle" => "modal", "data-target" => "#myModal" %>
+
+      <h5>指导价: <label id="price_label" class="price_tag"> <%= @model.trims.first.prices.first.price %>万</label></h4>
+      <div class="dot-line"></div>
+
+      <%= image_tag 'http://img4.bitautoimg.com/autoalbum/files/20141208/525/1132255259_6.jpg' %>
+
+    </div>
+
+    <div class="col-lg-8 ">
+      <div class="col-lg-6 margin0 div_fix_buy first_element">
+        <h5><%= label_tag :myprice, "请输入期望优惠:" %></h5>
+        <input type="text" id="price" name="tender[price]" class="form-control carinput" placeholder="输入你打听到的最低优惠">
+      </div>
+
+      <div class="col-lg-6">
+        <h5><%= label_tag :myprice, "请输入您的姓名:" %></h5>
+        <input type="text" id="user_name" name="tender[user_name]" class="form-control carinput" placeholder="填写你的姓名">
+      </div>
 
 
-  <div class="field">
-    <%= f.label :license_location, '上牌地点' %><br>
-    <%= f.text_field :license_location %>
-  </div>
+      <div class="col-lg-12 div_fix_buy">
+        <dl>
+          <dt><%= label_tag :choose_color, "请选择你考虑的颜色:" %></dt>
+          <dd id="ddcolor" data-code="" data-text="">
+          <% @trim.colors.each_with_index do |color,i| %>
+            <% if i==0 %>
+              <%= hidden_field_tag "color_ids", color.id %>   
+            <% end %>
 
-  <div class="field">
-    <%= f.label :got_licence, '已有牌照' %><br>
-    <%= f.radio_button(:got_licence, 1)  %>是<br>
-    <%= f.radio_button(:got_licence, 0)  %>否
-  </div>
+            <div style="float:left;margin-left:10px" data-code="">
+              <div class="choose_color <%= "currentcolor" if i == 0 %>" style="background-color:<%= color.code %>; height:20px; width:20px;display:block" data-code="<%= color.id %>"></div>
+              <span style="font-size:12px;"><%= label_tag :color_name , color.name ,:class => "text-muted"%></span> 
+            </div>
 
-  <div class="field">
-    <%= f.label :loan_option, '贷款或全款' %><br>
-    <%= f.radio_button(:loan_option, 1)  %>贷款<br>
-    <%= f.radio_button(:loan_option, 2)  %>全款<br>
-    <%= f.radio_button(:loan_option, 3)  %>均可
-  </div>
-  
-  <div class="field">
-    <%= f.label :price, '裸车价' %><br>
-    <%= f.text_field :price %>
-  </div>  
-  
-
-<!--  
-  <div class="field">
-    <%= f.label :description, '额外要求' %><br>
-    <%= f.text_field :description %>
-  </div> 
--->
-
-    <h2>选择经销商：</h2>
-
-        <ul>
-          <% @shops.each do |shop| %>
-              <li>
-                <%= check_box_tag "tender[shops][#{shop.id}]" %>
-                <%= label_tag "tender[shops]_#{shop.id}", shop.name %>
-              </li>
           <% end %>
-        </ul>
+          </dd>
+        </div>
 
-  <div class="field">
-    <%= f.label :user_name, '车主姓名（须与发票车主一致才能参与优惠活动）' %><br>
-    <%= f.text_field :user_name %>
-  </div>
+        <div class="col-lg-12 div_fix_buy ">
 
-  <div class="actions">
-    <%= f.submit '提交订单' %>
+          <dt><%= f.label :pickup_time, '购车时间:' %></dt>
+          <dd data-code="7" id="buytime">
+          <span class="choose current" data-code='7' >                                                                             <%= f.label "7天之内"%> </span>
+          <span class="choose" data-code='14' >                                                                             <%= f.label "14天之内"%> </span>
+          <span class="choose" data-code='30' >                                                                             <%= f.label "30天之内"%> </span>
+          </dd>
+        </div>
+        <div class="col-lg-12 div_fix_buy ">
+          <dt><%= f.label :load_option, '付款方式:' %></dt>
+          <dd data-code="" id="loanoption">
+          <span class="choose current" data-code='0' >                                                                             <%= f.label "全款"%> </span>
+          <span class="choose" data-code='1' >                                                                             <%= f.label "贷款"%> </span>
+          </dd>
+        </div>
+
+        <div class="col-lg-12 div_fix_buy">
+          <dt><%= f.label :license, '上牌地点:' %></dt>
+          <dd data-code="" id="plateplace">
+          <span class="choose current" data-code='0' >                                                                             <%= f.label "本市"%> </span>
+          <span class="choose" data-code='1' >                                                                             <%= f.label "外地"%> </span>
+          </dd>
+        </div>
+
+        <div class="col-lg-12 div_fix_buy">
+          <dt><%= f.label :plate, '已有牌照:' %></dt>
+          <dd data-code="0" id="myplate">
+          <span class="choose current" data-code='0' >                                                                             <%= f.label "已有"%> </span>
+          <span class="choose" data-code='1' >                                                                             <%= f.label "没有"%> </span>
+
+          <div class="col-lg-12 div_fix_buy">
+            <p class="text-muted div_fix_buy  ">目前全城有 
+            <%= link_to "#{@shops.count}家4S店", "#", "data-toggle" => "modal", "data-target" => "#4sModal" %>
+            可以在线抢单, 你选择了<label id='selected_shops'>0</label>家
+          </dl>
+        </div>    
+
+        <div class="col-lg-12 ">
+      <div class="dot-line"></div>
+          <button type="submit" class="btn btn-default color-button">提交意向</button>
+        </div>
+
+      </div>
+    </div>
+
   </div>
+</div>
+</div>
 <% end %>
+
+
+
+
+
+<%= render :partial => 'choose_trim' %>
+
+
+
+<!-- Modal -->
+<%= render :partial => 'shops_modal' %>

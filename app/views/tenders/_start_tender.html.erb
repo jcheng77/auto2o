@@ -1,0 +1,17 @@
+	<ul class="list-inline start-choose">
+		<li>
+
+<%= form_tag(update_model_tenders_path, :id => "filter_form", :method => 'get', :remote => true) do %>
+	<%= select_tag(:brand_id, options_from_collection_for_select(@brands, :id, :name),:class => 'form-control choose-model', :onchange => "$('#filter_form').submit();", :prompt => "选择品牌")  %>
+<% end %>
+</li>
+<li>
+<%= form_tag(new_tender_path, :id => 'model_form', :method => 'get') do %>
+
+<%= render :partial => 'tenders/model' , :object => @models %>
+</li>
+<li>
+<%= submit_tag '底价买车', :id => 'submit' , :class =>'submit_button' %>
+</li>
+</ul>
+<% end %>

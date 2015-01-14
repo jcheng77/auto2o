@@ -5,6 +5,8 @@ class HomeController < ApplicationController
     flash.now[:warning] = 'warning'
     flash.now[:danger] = 'danger'
 
+    @brands = Car::Brand.all
+    @models = Car::Model.all
     respond_to do |format|
       format.html
       format.json

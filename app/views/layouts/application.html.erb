@@ -52,6 +52,7 @@
   </head>
   <body>
 
+	<% unless current_page?(controller: 'home', action: 'index') %>
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -63,18 +64,14 @@
         <a class="navbar-brand" href="/">拍立行</a>
         <div class="navbar-collapse navbar-right collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-            <% if current_user %>
-            <li><a href="/tenders">买车</a></li>
-	          <li><a href="/shops">4S店</a></li>
-	          <li><a href="/cities">城市</a></li>
-          <% end %>
           <li><%= image_tag "phone.png", :size => "16x16" %> </li>
           <li><%= link_to "400-032-0092", ""  %></li>
             <li><%= link_to "买车指南", home_introduction_path  %></li>
             <li><%= link_to "手机App", home_download_path %></li>
-            <% if current_user %>
+<% if current_user %>
+            <li><a href="/tenders">底价买车</a></li>
             <li>
-              <%= link_to "用户#{current_user.phone}注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
+              <%= link_to "#{current_user.phone} 注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
             </li>
             <% else %>
             <li>
@@ -84,6 +81,7 @@
         </div>
       </div>
     </div>
+<% end %>
 
     <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
 

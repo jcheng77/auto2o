@@ -3,7 +3,7 @@ class TendersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:bid, :submit, :show_bargain, :dealer_index]
   before_action :authenticate_dealer!, only: [:dealer_index, :bid, :submit]
 
-  before_action :set_tender, except: [:index, :dealer_index, :create, :new]
+  before_action :set_tender, except: [:index, :dealer_index, :create, :new, :update_model, :update_trim]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
@@ -78,28 +78,46 @@ class TendersController < InheritedResources::Base
   #   @tender.final_closed!
   #   redirect_to tender_path(@tender)
   # end
-
   # GET /tenders/new
   def new
     @tender = Tender.new
     if !params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
       @brands = Car::Brand.all
+      @models = Car::Model.all
     elsif params[:brand] && !params[:maker] && !params[:model] && !params[:trim]
       @makers = Car::Brand.find(params[:brand]).makers
     elsif params[:maker] && !params[:model] && !params[:trim]
       @maker = Car::Maker.find(params[:maker])
-    elsif params[:model] && !params[:trim]
+    elsif params[:model] 
       @model = Car::Model.find(params[:model])
-    elsif params[:trim] && !params[:color]
-      @trim = Car::Trim.find(params[:trim])
-      @model = @trim.model
-    elsif params[:color]
-      @trim = Car::Trim.find(params[:trim])
-      @model = @trim.model
+      @trim = @model.trims.first
       @shops = ( @trim.brand.shops.size == 0 ? @model.shops : @trim.brand.shops )
-      @colors = Car::Color.find params[:color].keys
+      @colors = @trim.colors
+      #@colors = Car::Color.find params[:color].keys
     end
   end
+
+  def update_model
+    @makers = Car::Brand.find(params[:brand_id]).makers
+    @models = @makers.map {|m| m.models}
+    @models.flatten!
+    respond_to do |format| 
+      format.js 
+    end
+  end
+
+
+  def update_trim
+    @trim = Car::Trim.find(params[:m_trim_id])
+    respond_to do |format| 
+      format.js 
+    end
+  end
+
+  def update_shops
+
+  end
+
 
   # GET /tenders/1/edit
   def edit
@@ -123,13 +141,16 @@ class TendersController < InheritedResources::Base
   #   },
   #   "commit"=>"提交订单"
   # }
+
   def create
-    @tender = Tender.new(new_tender_params)
+     outside_params =  params.select { |t| ["pickup_time","got_licence","license_location","loan_option"].include?(t)  }
+     @tender = Tender.new(new_tender_params.merge(outside_params))
     @trim = Car::Trim.find(params[:tender][:trim_id])
     @brand = @trim.brand
     @maker = @trim.maker
     @model = @trim.model
-    @colors = Car::Color.find(params[:tender][:colors_ids].split(','))
+    @colors = Car::Color.find(params[:color_ids].split(',').map(&:to_i))
+    binding.pry
     @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{@colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
@@ -153,7 +174,7 @@ class TendersController < InheritedResources::Base
 
     respond_to do |format|
       if @tender.save!
-        @tender.shops << Shop.find(params[:tender][:shops].keys)
+	      @tender.shops << Shop.find(params[:shops].split(',').map(&:to_i))
         begin
           @bargain = @tender.build_bargain(price: params[:tender][:price])
           # @tender.submit_bargain!
@@ -167,7 +188,7 @@ class TendersController < InheritedResources::Base
           end
           return
         end
-        format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
+	format.html { redirect_to @tender, notice: '拍立行君收到您的订单需求了，我们稍后联系您确认订单后，就会出发帮你砍价买车了.谢谢你选择我们做为你购车旅程的第一站. ' }
         format.json { render :show, status: :created, location: @tender }
       else
         format.html { render :new }
@@ -415,15 +436,13 @@ class TendersController < InheritedResources::Base
     params[:tender].require(:price)
     # params[:tender].require(:description)
     params[:tender].require(:trim_id)
-    params[:tender].require(:colors_ids)
-    params[:tender].require(:shops)
-    params[:tender].require(:pickup_time)
-    params[:tender].require(:license_location)
-    params[:tender].require(:got_licence)
-    params[:tender].require(:loan_option)
+    params.require(:shops)
+    params.require(:pickup_time)
+    params.require(:license_location)
+    params.require(:got_licence)
+    params.require(:loan_option)
     params[:tender].require(:user_name)
     params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops,
-                                   :pickup_time, :license_location, :got_licence, :loan_option,
                                    :user_name)
   end
 

@@ -9,8 +9,10 @@ class UsersController < ApplicationController
   end
 
   def register
-    generated_password = Cipher.gen
-    @user = User.new(user_params.merge(password: generated_password, email: "fake_mail@#{user_params["phone"]}.com"))
+    unless exist
+      generated_password = Cipher.gen
+      @user = User.new(user_params.merge(password: generated_password, email: "fake_mail@#{user_params["phone"]}.com"))
+    end
     respond_to do |format|
       if @user.save
         Sms.password(user_params['phone'], generated_password)
