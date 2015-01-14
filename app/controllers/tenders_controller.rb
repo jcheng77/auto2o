@@ -3,7 +3,7 @@ class TendersController < InheritedResources::Base
   before_action :authenticate_user!, except: [:bid, :submit, :show_bargain, :dealer_index]
   before_action :authenticate_dealer!, only: [:dealer_index, :bid, :submit]
 
-  before_action :set_tender, except: [:index, :dealer_index, :create, :new, :update_model]
+  before_action :set_tender, except: [:index, :dealer_index, :create, :new, :update_model, :update_trim]
                 #, only: [:show, :edit, :update, :destroy, :bid, :bids_list, :final_bids, :submit, :bargain, :submit_bargain, :show_bargain]
 
   # GET /tenders
@@ -106,6 +106,19 @@ class TendersController < InheritedResources::Base
     end
   end
 
+
+  def update_trim
+    @trim = Car::Trim.find(params[:m_trim_id])
+    respond_to do |format| 
+      format.js 
+    end
+  end
+
+  def update_shops
+
+  end
+
+
   # GET /tenders/1/edit
   def edit
   end
@@ -130,14 +143,14 @@ class TendersController < InheritedResources::Base
   # }
 
   def create
-    binding.pry
-    @tender = Tender.new(new_tender_params)
+     outside_params =  params.select { |t| ["pickup_time","got_licence","license_location","loan_option"].include?(t)  }
+     @tender = Tender.new(new_tender_params.merge(outside_params))
     @trim = Car::Trim.find(params[:tender][:trim_id])
     @brand = @trim.brand
     @maker = @trim.maker
     @model = @trim.model
+    @colors = Car::Color.find(params[:color_ids].split(',').map(&:to_i))
     binding.pry
-    @colors = Car::Color.find(params[:color].keys)
     @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{@colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
@@ -161,7 +174,7 @@ class TendersController < InheritedResources::Base
 
     respond_to do |format|
       if @tender.save!
-        @tender.shops << Shop.find(params[:tender][:shops].keys)
+	      @tender.shops << Shop.find(params[:shops].split(',').map(&:to_i))
         begin
           @bargain = @tender.build_bargain(price: params[:tender][:price])
           # @tender.submit_bargain!
@@ -175,7 +188,7 @@ class TendersController < InheritedResources::Base
           end
           return
         end
-        format.html { redirect_to @tender, notice: 'Tender was successfully created.' }
+	format.html { redirect_to @tender, notice: '拍立行君收到您的订单需求了，我们稍后联系您确认订单后，就会出发帮你砍价买车了.谢谢你选择我们做为你购车旅程的第一站. ' }
         format.json { render :show, status: :created, location: @tender }
       else
         format.html { render :new }
@@ -423,14 +436,13 @@ class TendersController < InheritedResources::Base
     params[:tender].require(:price)
     # params[:tender].require(:description)
     params[:tender].require(:trim_id)
-    params[:tender].require(:shops)
-    params[:tender].require(:pickup_time)
-    params[:tender].require(:license_location)
-    params[:tender].require(:got_licence)
-    params[:tender].require(:loan_option)
+    params.require(:shops)
+    params.require(:pickup_time)
+    params.require(:license_location)
+    params.require(:got_licence)
+    params.require(:loan_option)
     params[:tender].require(:user_name)
     params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops,
-                                   :pickup_time, :license_location, :got_licence, :loan_option,
                                    :user_name)
   end
 

@@ -155,6 +155,8 @@ Rails.application.routes.draw do
     collection do
       get :dealer_index
       get :update_model
+      post :update_trim
+      post :update_shops
     end
   end
 

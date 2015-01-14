@@ -24,22 +24,35 @@
 
 .navbar-default .navbar-nav > li > a, .navbar-default .navbar-brand  {
   color: white;
-  background-color: #333;
+  background-color: transparent;
 }
+
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+    color: #333333;
+    background-color: transparent;
+} 
+
 
 ul.nav.navbar-nav > li > img {
     margin-top: 15px;
     margin-right: -1px;
 }
 
-
-a, a:link, a:visited {
-  text-decoration: none;
+ul.nav.navbar-nav > li > a, a:link, a:hover, a:visited {
+    text-decoration: none;
+    margin-right: -1px;
+    background-color: transparent;
 }
 
 .wrapper {
 min-height: 100%;
+background-color: white;
 }
+
+.container-fluid {
+    background-color: white;
+}
+
 
 .footer_head {
   font-size:18px;
@@ -70,6 +83,10 @@ text-align: left;
   margin-right: 5px;
   margin-left: 5px;
  }
+
+ footer a, a:link, a:hover, a:visited {
+     color: #666;
+}
 
 .footer_row {
 position:relative;
@@ -103,6 +120,8 @@ form input[type=submit] {
     border: 1px;
 }
 
-a.button, a:link.button, a:visited.button, input[type=submit] {
-  border-radius: 0px;
+
+
+.navbar-default .container .navbar-nav>li>a:hover {
+    color: gray;
 }
