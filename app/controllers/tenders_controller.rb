@@ -143,13 +143,12 @@ class TendersController < InheritedResources::Base
   # }
 
   def create
-     outside_params =  params.select { |t| ["pickup_time","got_licence","license_location","loan_option"].include?(t)  }
-     @tender = Tender.new(new_tender_params.merge(outside_params))
+    @tender = Tender.new(new_tender_params)
     @trim = Car::Trim.find(params[:tender][:trim_id])
     @brand = @trim.brand
     @maker = @trim.maker
     @model = @trim.model
-    @colors = Car::Color.find(params[:color_ids].split(',').map(&:to_i))
+    @colors = Car::Color.find(params[:tender][:colors_ids].split(',').map(&:to_i))
     @tender.model = "#{@brand.name} : #{@maker.name} : #{@model.name} : #{@trim.name} : #{@colors.map(&:name).join(',')}"
     @tender.chose_subject!
     @tender.user = current_user
@@ -173,7 +172,12 @@ class TendersController < InheritedResources::Base
 
     respond_to do |format|
       if @tender.save!
-	      @tender.shops << Shop.find(params[:shops].split(',').map(&:to_i))
+        if params[:shops]
+	        @tender.shops << Shop.find(params[:shops].split(',').map(&:to_i))
+        else
+          @tender.shops << Shop.find(params[:tender][:shops].keys)
+        end
+
         begin
           @bargain = @tender.build_bargain(price: params[:tender][:price])
           # @tender.submit_bargain!
@@ -431,17 +435,23 @@ class TendersController < InheritedResources::Base
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def new_tender_params
+    binding.pry
     params.require(:tender)
     params[:tender].require(:price)
     # params[:tender].require(:description)
     params[:tender].require(:trim_id)
-    params.require(:shops)
-    params.require(:pickup_time)
-    params.require(:license_location)
-    params.require(:got_licence)
-    params.require(:loan_option)
+    unless params[:tender][:shops]
+      params.require(:shops)
+    end
+    unless params[:shops]
+      params[:tender].require(:shops)
+    end
+
+    params[:tender].require(:pickup_time)
+    params[:tender].require(:license_location)
+    params[:tender].require(:colors_ids)
     params[:tender].require(:user_name)
-    params.require(:tender).permit(:model, :price, :description, :trim_id, :colors_ids, :shops,
+    params.require(:tender).permit(:model, :price, :description, :trim_id, :pickup_time, :license_location, :got_licence, :loan_option, :colors_ids, :shops,
                                    :user_name)
   end
 

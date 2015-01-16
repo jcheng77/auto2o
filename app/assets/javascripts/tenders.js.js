@@ -20,7 +20,7 @@
           $(this).addClass("currentcolor");
           colors.push($(this).attr('data-code'));
         }
-      return $('#color_ids').val(colors.join(','));
+      return $('#colors_ids').val(colors.join(','));
     });
 
     $("#model").change(function() {

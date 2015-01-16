@@ -14,12 +14,15 @@
 
   <%= render :partial => 'workflow' %>
 
-  <%= hidden_field_tag "pickup_time", 7 %>   
-  <%= hidden_field_tag "loan_option", 0%>   
-  <%= hidden_field_tag "license_location", 0%>   
-  <%= hidden_field_tag "got_licence", 0 %>   
-  <%= hidden_field_tag "shops"%>   
+  <%= f.hidden_field "pickup_time", value: "7" %>   
+  <%= f.hidden_field "loan_option", value: "0" %>   
+  <%= f.hidden_field "license_location", value: "0" %>   
+  <%= f.hidden_field "got_licence", value: "0" %>   
   <%= f.hidden_field :trim_id, value: @trim.id %> 
+
+
+
+  <%= hidden_field_tag :shops , value: "" %>
 
   <div class="col-lg-4">
     <h4><b><%= @model.name %></h4>
@@ -50,11 +53,9 @@
           <dt><%= label_tag :choose_color, "请选择你考虑的颜色:" %></dt>
           <dd id="ddcolor" data-code="" data-text="">
           <% @trim.colors.each_with_index do |color,i| %>
-            <% if i==0 %>
-              <%= hidden_field_tag "color_ids", color.id %>   
-            <% end %>
+              <%= f.hidden_field :colors_ids, value: color.id %>   
 
-            <div style="float:left;margin-left:10px" data-code="">
+            <div style="float:left;margin-left:10px" data-code="<%= color.id %>">
               <div class="choose_color <%= "currentcolor" if i == 0 %>" style="background-color:<%= color.code %>; height:20px; width:20px;display:block" data-code="<%= color.id %>"></div>
               <span style="font-size:12px;"><%= label_tag :color_name , color.name ,:class => "text-muted"%></span> 
             </div>
@@ -74,9 +75,10 @@
         </div>
         <div class="col-lg-12 div_fix_buy ">
           <dt><%= f.label :load_option, '付款方式:' %></dt>
-          <dd data-code="" id="loanoption">
-          <span class="choose current" data-code='0' >                                                                             <%= f.label "全款"%> </span>
-          <span class="choose" data-code='1' >                                                                             <%= f.label "贷款"%> </span>
+          <dd data-code="1" id="loanoption">
+          <span class="choose current" data-code='1' >                                                                             <%= f.label "全款"%> </span>
+          <span class="choose" data-code='2' >                                                                             <%= f.label "贷款"%> </span>
+          <span class="choose " data-code='3' >                                                                             <%= f.label "都可以"%> </span>
           </dd>
         </div>
 
