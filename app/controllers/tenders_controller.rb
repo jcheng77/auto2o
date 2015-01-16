@@ -435,7 +435,6 @@ class TendersController < InheritedResources::Base
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def new_tender_params
-    binding.pry
     params.require(:tender)
     params[:tender].require(:price)
     # params[:tender].require(:description)
