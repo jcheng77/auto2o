@@ -1,36 +1,45 @@
-<h1>您的购买需求</h1>
+<div class="create_order">
+  <div class="row car-container">
+<%= render :partial => 'workflow' %>
+
 
 <p id="notice"><%= notice %></p>
+<ul class="list">
+
+<h2 class="page-header" >您的购买需求</h2>
+
 
 <p>
-  <strong>车型:</strong>
-  <%= @tender.model %>
+<h4>  <%= @tender.car_trim.model.name %> </h4>
+<h5>  <%= @tender.car_trim.name %> </h5>
 </p>
 
-<!-- <p>
-  <strong>配置:</strong>
-  <%= @tender.car_trim.name %>
-</p> -->
+<div class="dot-line"></div>
+<ul class="list-inline">
+  <li><h4>提车时间:</h4></li> 
+  <li> <span class="display:inline-block"><%= @tender.pickup_time %>天之内</span></li>
+</ul>
 
-<p>
-  <strong>提车时间:</strong>
-  <%= @tender.pickup_time %>
-</p>
+<ul class="list-inline">
+  <li>  <h4>上牌地点:</h4> </li>
+  <li>  <% if @tender.license_location %>
+     本地上牌
+  <% else %>
+     上外牌
+  <% end %>
+  </li>
+</ul>
 
-<p>
-  <strong>上牌地点:</strong>
-  <%= @tender.license_location %>
-</p>
+<ul class="list-inline">
+  <li>  <h4>已有牌照:</h4> </li>
+  <li> <%= @tender.got_licence == 1 ? "是" : "否" %> </li>
+</ul>
 
-<p>
-  <strong>已有牌照:</strong>
-  <%= @tender.got_licence == 1 ? "是" : "否" %>
-</p>
+<ul class="list-inline">
 
-<p>
-  <strong>贷款或全款:</strong>
-  <% case @tender.loan_option %>
-  <% when 1 %>
+  <li>  <h4>贷款或全款:</h4></li>
+  <li>
+  <% case @tender.loan_option when 1 %>
   贷款
   <% when 2 %>
   全款
@@ -39,103 +48,37 @@
   <% else %>
   未知
   <% end %>
-</p>
+  </li>
+</ul>
 
+<ul class="list-inline">
+  <li><h4>裸车价:</h4></li>
+  <li>  <%= @tender.price %>万 </li>
+</ul>
+
+<ul class="list-inline">
+  <li> <h4>车主姓名:</h4> </li>
+  <li>  <%= @tender.user_name %> </li>
+</ul>
+
+<ul class="list-inline">
+  <li><h4>附加要求:</h4> </li>
+  <li>  <%= @tender.description || "无"%> </li>
+</ul>
+
+<div class="dot-line"></div>
 <p>
-  <strong>裸车价:</strong>
-  <%= @tender.price %>
-</p>
-
-<p>
-  <strong>车主姓名:</strong>
-  <%= @tender.user_name %>
-</p>
-
-<!-- 
-<p>
-  <strong>其它要求:</strong>
-  <%= @tender.description %>
-</p> 
--->
-
-
-<h1>保证金</h1>
-<!-- <p>第一次询价后可以全额退回保证金</p>
-<p>还价后若有经销商应价成功不可全额退回保证金</p> -->
-<p>未达成交易可以全额退回保证金</p>
-<p>达成交易后保证金将作为车款。此时反悔不可全额退回保证金</p>
-
-<% if @tender.deposit.new_record? %>
-
-	<%= form_for(@deposit) do |f| %>
-	<% if @deposit.errors.any? %>
-	<div id="error_explanation">
-		<h2><%= pluralize(@deposit.errors.count, "error") %> prohibited this tender from being saved:</h2>
-
-		<ul>
-			<% @deposit.errors.full_messages.each do |message| %>
-			<li><%= message %></li>
-			<% end %>
-		</ul>
-	</div>
-	<% end %>
-
-	<div class="field">
-		<%= f.label :sum %><br>
-		<%= f.text_field :sum %>
-	</div>
-
-	<%= hidden_field_tag "deposit[tender_id]", @tender.id, onchange: "alert('Input collected!')" %>
-
-	<div class="actions">
-		<%= f.submit '提交保证金' %>
-	</div>
-	<% end %>
-
-<% else %>
-
-	<p>已交保证金：¥ <%= @tender.deposit.sum %></p>
-
-    <% if @tender.qualified? %>
-
-      <% unless @selected_shops.present? %>
-      <h2>选择经销商：</h2>
-        <%= form_for(@tender) do |f| %>
-        <%= f.hidden_field :model %>
-        <ul>
-          <% @shops.each do |shop| %>
-          <li>
-            <%= check_box_tag "shop[#{shop.id}]" %>
-            <%= label_tag "shop_#{shop.id}", shop.name %>
-          </li>
-          <% end %>
-        </ul>
-
-        <div class="actions">
-          <%= f.submit '邀请这些经销商应价' %>
-        </div>
-        <% end %>
-      <% else %>
-      <h2>已选择经销商：</h2>
-        <ul>
-          <% @selected_shops.each do |shop| %>
-          <li><%= link_to shop.name, shop_path(shop) %></li>
-          <% end %>
-        </ul>
-
-        <!-- <p>可以给经销商报价了：</p>
-        <%= button_to "给经销商报价", invite_tender_path(@tender), method: :post %> -->
-       
-      <% end %>
-
-    <% else %>
-
-    <% end %>
-
-<% end %>
-
 <h2>当前状态</h2>
-<%= t("tender.state.#{@tender.state}") %> <br/>
+<%= "你的购车需求已收到，客服会和您联系沟通小额定金支付"  %> <br/>
+
+</p>
+
+
+</ul>
+</div>
+</div>
+
+
 <%= "取消原因： #{@tender.cancel_reason}"if @tender.state == 'canceled'%>
 
 <% if @tender.state == 'qualified' %>
@@ -146,44 +89,44 @@
 <h1>商家应价</h1>
 
 <p>
-  <strong>销售人员手机:</strong>
+  <h4>销售人员手机:</h4>
   <%= @bid.dealer.phone %>
 </p>
 
 <p>
-  <strong>保险费预估:</strong>
+  <h4>保险费预估:</h4>
   <%= @bid.insurance %>
 </p>
 
 <!--
 <p>
-  <strong>车船税预估:</strong>
+  <h4>车船税预估:</h4>
   <%#= @bid.vehicle_tax %>
 </p>
 -->
 
 <p>
-  <strong>购置税预估:</strong>
+  <h4>购置税预估:</h4>
   <%= @bid.purchase_tax %>
 </p>
 
 <p>
-  <strong>上牌费，根据上牌地预估:</strong>
+  <h4>上牌费，根据上牌地预估:</h4>
   <%= @bid.license_fee %>
 </p>
 
 <p>
-  <strong>服务杂费:</strong>
+  <h4>服务杂费:</h4>
   <%= @bid.misc_fee %>
 </p>
 
 <p>
-  <strong>备注:</strong>
+  <h4>备注:</h4>
   <%= @bid.description %>
 </p>
 
 <p>
-  <strong>预估总价:</strong>
+  <h4>预估总价:</h4>
   <%= @bid.price %>
 </p>
 
@@ -198,44 +141,44 @@
 <h1>商家应价</h1>
 
 <p>
-  <strong>销售人员手机:</strong>
+  <h4>销售人员手机:</h4>
   <%= @bid.dealer.phone %>
 </p>
 
 <p>
-  <strong>保险费预估:</strong>
+  <h4>保险费预估:</h4>
   <%= @bid.insurance %>
 </p>
 
 <!--
 <p>
-  <strong>车船税预估:</strong>
+  <h4>车船税预估:</h4>
   <%#= @bid.vehicle_tax %>
 </p>
 -->
 
 <p>
-  <strong>购置税预估:</strong>
+  <h4>购置税预估:</h4>
   <%= @bid.purchase_tax %>
 </p>
 
 <p>
-  <strong>上牌费，根据上牌地预估:</strong>
+  <h4>上牌费，根据上牌地预估:</h4>
   <%= @bid.license_fee %>
 </p>
 
 <p>
-  <strong>服务杂费:</strong>
+  <h4>服务杂费:</h4>
   <%= @bid.misc_fee %>
 </p>
 
 <p>
-  <strong>备注:</strong>
+  <h4>备注:</h4>
   <%= @bid.description %>
 </p>
 
 <p>
-  <strong>预估总价:</strong>
+  <h4>预估总价:</h4>
   <%= @bid.price %>
 </p>
 
