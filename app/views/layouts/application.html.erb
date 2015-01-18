@@ -69,7 +69,6 @@
             <li><%= link_to "买车指南", home_introduction_path  %></li>
             <li><%= link_to "手机App", home_download_path %></li>
 <% if current_user %>
-            <li><a href="/tenders">底价买车</a></li>
             <li>
               <%= link_to "#{current_user.phone} 注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
             </li>
