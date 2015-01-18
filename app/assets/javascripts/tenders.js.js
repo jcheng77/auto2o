@@ -42,6 +42,23 @@ return false;
 
     });
 
+
+    $("#tender_submit").click(function() {
+     if ($('#price').val() === null || $('#user_name').val() === null || $('#price').val() === '' || $('#user_name').val() === '' ){
+       alert('请输入价格和你的姓名!');
+       alert($('#shops').val());
+       return false;
+    }
+
+   if ($('#shops').val() === null | $('#shops').val() === '' ){
+       alert('请选择4S店!');
+       return false;
+    }
+
+
+    });
+
+
     $("span.choose").click(function() {
       $(this).parent().attr("data-code", $(this).attr('data-code'));
       $(this).parent().children().removeClass('current');
@@ -62,6 +79,7 @@ return false;
             selected = chkArray.join(',') ;
       if(selected.length < 2 && $('[name="shops[]"]').length > 2){
         alert("请至少选择两家4S店竞价"); 
+        return false;
       }
       var shop_count, shop_val;
       shop_count = $('[name="shops[]"]:checked').length;

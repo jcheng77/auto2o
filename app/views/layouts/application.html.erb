@@ -52,7 +52,7 @@
   </head>
   <body>
 
-	<% unless current_page?(controller: 'home', action: 'index') %>
+    <% unless current_page?(:controller => '/home', :action => 'index') %>
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -83,7 +83,6 @@
     </div>
 <% end %>
 
-    <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
 
     <div class="wrapper">
     <div class="container-fluid">
@@ -108,8 +107,9 @@
       <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8 col-lg-1 footer_head">
        关注我们
     </div>
-<!--     <div class="col-lg-3 col-xd-offset-4 col-xd-8 footer_head">
-  </div> -->
+     <div class="col-lg-3 col-xd-offset-4 col-xd-8 footer_head">
+    <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
+  </div>
   </div>
 
     <div class="row">
@@ -125,16 +125,16 @@
     <li> <%= link_to "热线: 400-032-0092", ""   %></li>
   </ul>
        </div>
-<div class="col-lg-2 col-xs-offset-4">
+<div class="col-lg-2">
   <ul>
     <li> <%= link_to "新浪微博", "http://weibo.com/pailixing" , :target=> "_blank"  %></li>
     <li> <%= link_to "腾讯微博", "http://weibo.qq.com/pailixing", :target=> "_blank"  %></li>
   </ul>
-       </div>
+</div>
 
     </div>
     <div class="col-lg-offset-2 footer_line">
-      <ul class="pull-left"> 友情链接:        
+      <ul class="pull-left"> 友情链接:
         <li><%= link_to "网易汽车","http://auto.163.com/", :target=> "_blank" %></li> 
         <li><%= link_to "新浪汽车", "http://auto.sina.com.cn/", :target=> "_blank"  %></li> 
         <li><%= link_to "搜狐汽车","http://auto.sohu.com/" , :target=> "_blank" %></li> 
