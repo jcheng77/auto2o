@@ -1,0 +1,68 @@
+<% if @tender.deposit.new_record? %>
+
+	<%= form_for(@deposit) do |f| %>
+	<% if @deposit.errors.any? %>
+	<div id="error_explanation">
+		<h2><%= pluralize(@deposit.errors.count, "error") %> prohibited this tender from being saved:</h2>
+
+		<ul>
+			<% @deposit.errors.full_messages.each do |message| %>
+			<li><%= message %></li>
+			<% end %>
+		</ul>
+	</div>
+	<% end %>
+
+	<div class="field">
+		<%= f.label :sum %><br>
+		<%= f.text_field :sum %>
+	</div>
+
+	<%= hidden_field_tag "deposit[tender_id]", @tender.id, onchange: "alert('Input collected!')" %>
+
+	<div class="actions">
+		<%= f.submit '提交保证金' %>
+	</div>
+	<% end %>
+
+<% else %>
+
+	<p>已交保证金：¥ <%= @tender.deposit.sum %></p>
+
+    <% if @tender.qualified? %>
+
+      <% unless @selected_shops.present? %>
+      <h2>选择经销商：</h2>
+        <%= form_for(@tender) do |f| %>
+        <%= f.hidden_field :model %>
+        <ul>
+          <% @shops.each do |shop| %>
+          <li>
+            <%= check_box_tag "shop[#{shop.id}]" %>
+            <%= label_tag "shop_#{shop.id}", shop.name %>
+          </li>
+          <% end %>
+        </ul>
+
+        <div class="actions">
+          <%= f.submit '邀请这些经销商应价' %>
+        </div>
+        <% end %>
+      <% else %>
+      <h2>已选择经销商：</h2>
+        <ul>
+          <% @selected_shops.each do |shop| %>
+          <li><%= link_to shop.name, shop_path(shop) %></li>
+          <% end %>
+        </ul>
+
+        <!-- <p>可以给经销商报价了：</p>
+        <%= button_to "给经销商报价", invite_tender_path(@tender), method: :post %> -->
+       
+      <% end %>
+
+    <% else %>
+
+    <% end %>
+
+<% end %>
