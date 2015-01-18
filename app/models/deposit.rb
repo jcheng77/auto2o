@@ -7,6 +7,7 @@ class Deposit < ActiveRecord::Base
 
   AMOUNT = 599
   DISCOUNT = [500]
+  DEFAULT_DISCOUNT = DISCOUNT.first
 
 
   state_machine :initial => :pending do

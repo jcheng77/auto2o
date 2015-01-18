@@ -30,6 +30,15 @@ class Tender < ActiveRecord::Base
       tender.noty_dealer_new_tender
     end
 
+    after_transition any => :deal_made do |tender, transition|
+      tender.deal.dealer.points_up(3)
+    end
+
+    after_transition any => :final_deal_closed do |tender, transition|
+      tender.deal.dealer.points_up(20)
+    end
+
+
     around_transition :log_transaction
 
     event :chose_subject do
@@ -84,9 +93,13 @@ class Tender < ActiveRecord::Base
     end
 
     event :accept_price do
-      transition :submitted => :deal_made
+      transition :submitted => :yet_confirm
     end
 
+    event :confirm_deal do
+      transition :yet_confirm => :deal_made
+    end                                      
+    
     event :make_final_deal do
       # transition [:submitted, :final_bid_open, :final_bid_closed] => :final_deal_closed
       transition :deal_made => :final_deal_closed

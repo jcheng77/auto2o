@@ -87,6 +87,7 @@ Rails.application.routes.draw do
       get "dealers/sign_out", to: "devise/sessions#destroy"
   end
 
+
   resources :devices
 
   resources :deposits, only: [:create, :update] do
@@ -137,6 +138,7 @@ Rails.application.routes.draw do
       post :invite
       get :bid
       patch :cancel
+      put :confirm
       delete :cancel_1_round
       post :submit
       get :bids_list
@@ -153,6 +155,9 @@ Rails.application.routes.draw do
     end
     collection do
       get :dealer_index
+      get :update_model
+      post :update_trim
+      post :update_shops
     end
   end
 
