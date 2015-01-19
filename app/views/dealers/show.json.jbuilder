@@ -1,1 +1,1 @@
-json.extract! @dealer, :id, :phone, :created_at, :updated_at
+json.extract! @dealer, :id, :phone, :points, :created_at, :updated_at
