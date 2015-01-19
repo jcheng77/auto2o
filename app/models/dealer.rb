@@ -21,7 +21,6 @@ class Dealer < ActiveRecord::Base
 
   def points_up(num)
     self.points += num
-    self.save
   end
 
   def checkin_today?

@@ -7,6 +7,8 @@ class DealersController < ApplicationController
   before_action :authenticate_dealer!, except: [:new, :register, :reset_pwd]
   skip_before_action :authenticate_dealer!, if: :user_login
 
+  protect_from_forgery :except => :checkin
+
   def index
     @dealers = Dealer.all
     @dealers = current_dealer.shop.dealers if current_dealer
@@ -22,6 +24,20 @@ class DealersController < ApplicationController
 
   def new
     @dealer = Dealer.new
+  end
+
+  def checkin
+    @dealer = Dealer.find(params[:id])
+    @dealer.checkin
+
+    respond_to do |format|
+      if @dealer.save
+        format.json  {render :show, status: :success , location: @dealer }
+      else
+        format.json {render json: {error: {status: -1 }}}
+      end
+    end
+
   end
 
   def register
