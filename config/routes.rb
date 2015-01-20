@@ -113,6 +113,9 @@ Rails.application.routes.draw do
       post :register
       post :reset_pwd
     end
+    member do
+      post :checkin
+    end
   end
 
   resources :users do
