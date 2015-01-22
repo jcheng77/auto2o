@@ -7,11 +7,13 @@ class HomeController < ApplicationController
 
     @brands = Car::Brand.all
     @brands.each do |brand|
+      logger.debug brand.name
       brand.name.encode!('gbk','utf-8')
     end
-    @brands.sort_by &:name 
+    @brands = @brands.sort_by &:name 
     @brands.each do |brand|
       brand.name.encode!('utf-8','gbk')
+      logger.debug brand.name
     end
 
     @models = Car::Model.all
