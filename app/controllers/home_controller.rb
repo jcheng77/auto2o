@@ -9,7 +9,7 @@ class HomeController < ApplicationController
     @brands.each do |brand|
       brand.name.encode!('gbk','utf-8')
     end
-    @brands.sort { |a,b| a.name <=> b.name }
+    @brands.sort_by &:name 
     @brands.each do |brand|
       brand.name.encode!('utf-8','gbk')
     end
