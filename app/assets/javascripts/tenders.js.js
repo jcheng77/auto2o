@@ -46,7 +46,6 @@ return false;
     $("#tender_submit").click(function() {
      if ($('#price').val() === null || $('#user_name').val() === null || $('#price').val() === '' || $('#user_name').val() === '' ){
        alert('请输入价格和你的姓名!');
-       alert($('#shops').val());
        return false;
     }
 
