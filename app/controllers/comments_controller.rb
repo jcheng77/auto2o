@@ -11,7 +11,7 @@ private
 
 
   def permitted_params
-    params.require(:comment).permit(:content, :deal_id, :dealer_id, :shop_id)
+    params.require(:comment).permit(:content, :deal_id, :user_id, :dealer_id, :shop_id)
   end
 
 end

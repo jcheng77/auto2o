@@ -6,6 +6,16 @@ class HomeController < ApplicationController
     flash.now[:danger] = 'danger'
 
     @brands = Car::Brand.all
+    @brands.each do |brand|
+      logger.debug brand.name
+      brand.name.encode!('gbk','utf-8')
+    end
+    @brands = @brands.sort_by &:name 
+    @brands.each do |brand|
+      brand.name.encode!('utf-8','gbk')
+      logger.debug brand.name
+    end
+
     @models = Car::Model.all
     respond_to do |format|
       format.html

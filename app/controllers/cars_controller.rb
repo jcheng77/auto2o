@@ -7,7 +7,7 @@ class CarsController < ApplicationController
 
 
   def list
-    @car_brands = Car::Brand.includes(:makers, :trims, :shops, models: [:pics, :colors]).all
+    @car_brands = Car::Brand.includes(:makers, :trims, :shops, models: [:pics, :colors]).all.order(:name)
 
     @cars = { 'brands' => [] }
 
