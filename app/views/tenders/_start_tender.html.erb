@@ -2,10 +2,10 @@
 		<li>
 
 <%= form_tag(update_model_tenders_path, :id => "filter_form", :method => 'get', :remote => true) do %>
-	<%= select_tag(:brand_id, options_from_collection_for_select(@brands, :id, :name),:class => 'form-control choose-model', :onchange => "$('#filter_form').submit();", :prompt => "选择品牌")  %>
+	<%= select_tag(:brand_id, options_from_collection_for_select(@brands, :id, :name),:class => 'form-control choose-model qrcode-padding', :onchange => "$('#filter_form').submit();", :prompt => "选择品牌")  %>
 <% end %>
 </li>
-<li>
+<li class="">
 <%= form_tag(new_tender_path, :id => 'model_form', :method => 'get') do %>
 
 <%= render :partial => 'tenders/model' , :object => @models %>

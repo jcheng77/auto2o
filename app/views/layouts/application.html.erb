@@ -52,7 +52,6 @@
   </head>
   <body>
 
-    <% unless current_page?(:controller => '/home', :action => 'index') %>
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
@@ -60,7 +59,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand moveup"><%= image_tag 'white-logo.png', :size => '30x30' %> </a>
+        <span class="navbar-brand moveup"><%= image_tag 'white-logo.png', :size => '30x30' %> </span>
         <a class="navbar-brand" href="/">拍立行</a>
         <div class="navbar-collapse navbar-right collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
@@ -80,7 +79,6 @@
         </div>
       </div>
     </div>
-<% end %>
 
 
     <div class="wrapper">
