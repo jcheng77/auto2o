@@ -76,6 +76,7 @@ Rails.application.routes.draw do
   get 'home/download', to: 'home#download'
   get 'home/about', to: 'home#about'
   get 'home/join', to: 'home#join'
+  get 'home/faq', to: 'home#faq'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config

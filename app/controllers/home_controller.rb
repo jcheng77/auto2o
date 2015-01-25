@@ -40,6 +40,9 @@ class HomeController < ApplicationController
     end
   end
 
+  def faq
+  end
+
   def join
     respond_to do |format|
       format.html {}
