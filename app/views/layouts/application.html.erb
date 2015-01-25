@@ -9,7 +9,7 @@
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
     <!--[if lt IE 9]>
-      <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.6.1/html5shiv.js" type="text/javascript"></script>
     <![endif]-->
 
     <%= stylesheet_link_tag "application", :media => "all" %>
@@ -37,18 +37,18 @@
     <%= javascript_include_tag "application" %>
     <% if @is_production_env %>
 
-    <script>
-      var _hmt = _hmt || [];
-      (function() {
+      <script>
+        var _hmt = _hmt || [];
+        (function() {
         var hm = document.createElement("script");
-          hm.src = "//hm.baidu.com/hm.js?f70397b32d6572cf4e6ddd0f3ea76aed";
-            var s = document.getElementsByTagName("script")[0]; 
-              s.parentNode.insertBefore(hm, s);
+        hm.src = "//hm.baidu.com/hm.js?f70397b32d6572cf4e6ddd0f3ea76aed";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
 
-              })();
-     </script>
+        })();
+      </script>
 
-   <% end %>
+    <% end %>
   </head>
   <body>
 
@@ -63,51 +63,51 @@
         <a class="navbar-brand" href="/">拍立行</a>
         <div class="navbar-collapse navbar-right collapse navbar-responsive-collapse">
           <ul class="nav navbar-nav">
-          <li><%= image_tag "phone.png", :size => "16x16" %> </li>
-          <li><%= link_to "400-032-0092", ""  %></li>
+            <li><%= image_tag "phone.png", :size => "16x16" %> </li>
+            <li><%= link_to "400-032-0092", ""  %></li>
             <li><%= link_to "买车指南", home_introduction_path  %></li>
             <li><%= link_to "手机App", home_download_path %></li>
-<% if current_user %>
-            <li>
+            <% if current_user %>
+              <li>
               <%= link_to "#{current_user.phone} 注销", destroy_user_session_path, method: :delete, data: { confirm: "Are you sure?" } %>
-            </li>
+              </li>
             <% else %>
-            <li>
-            </li>
+              <li>
+              </li>
             <% end %>
           </ul>
         </div>
       </div>
     </div>
 
-
     <div class="wrapper">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-12">
-          <%= yield %>
-        </div>
-      </div><!--/row-->
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <%= render partial: "shared/flash_message", flash: flash %>  
+            <%= yield %>
+          </div>
+        </div><!--/row-->
       </div>
 
 
     </div> <!-- /container -->
 
-      <footer>
+    <footer>
     <div class="row footer_row">
-    <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8 col-lg-1 footer_head">
-        关于我们
-    </div>
-    <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8  col-lg-1 footer_head">
-       联系我们
-    </div>
       <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8 col-lg-1 footer_head">
-       关注我们
+        关于我们
+      </div>
+      <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8  col-lg-1 footer_head">
+        联系我们
+      </div>
+      <div class="col-lg-offset-2 col-sm-offset-2 col-sm-8 col-lg-1 footer_head">
+        关注我们
+      </div>
+      <div class="col-lg-3 col-xd-offset-4 col-xd-8 footer_head">
+        <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
+      </div>
     </div>
-     <div class="col-lg-3 col-xd-offset-4 col-xd-8 footer_head">
-    <%= image_tag "pailixing_qrcode.jpg" , :size => '100x100', :class => "foot_imag" %>
-  </div>
-  </div>
 
     <div class="row">
       <div class="col-lg-offset-2 col-xs-offset-4 col-lg-2">
@@ -116,18 +116,18 @@
           <li><%= link_to "加入我们", home_join_path %></li>
         </ul>
       </div>
-     <div class="col-lg-offset-1 col-xs-offset-4 col-lg-3">
-  <ul>
-    <li> <%= link_to "邮箱: auto2o@outlook.com", ""  %></li>
-    <li> <%= link_to "热线: 400-032-0092", ""   %></li>
-  </ul>
-       </div>
-<div class="col-lg-2">
-  <ul>
-    <li> <%= link_to "新浪微博", "http://weibo.com/pailixing" , :target=> "_blank"  %></li>
-    <li> <%= link_to "腾讯微博", "http://weibo.qq.com/pailixing", :target=> "_blank"  %></li>
-  </ul>
-</div>
+      <div class="col-lg-offset-1 col-xs-offset-4 col-lg-3">
+        <ul>
+          <li> <%= link_to "邮箱: auto2o@outlook.com", ""  %></li>
+          <li> <%= link_to "热线: 400-032-0092", ""   %></li>
+        </ul>
+      </div>
+      <div class="col-lg-2">
+        <ul>
+          <li> <%= link_to "新浪微博", "http://weibo.com/pailixing" , :target=> "_blank"  %></li>
+          <li> <%= link_to "腾讯微博", "http://weibo.qq.com/pailixing", :target=> "_blank"  %></li>
+        </ul>
+      </div>
 
     </div>
     <div class="col-lg-offset-2 footer_line">
@@ -139,11 +139,11 @@
         <li><%= link_to "爱卡汽车","http://www.xcar.com.cn/", :target=> "_blank"  %></li> 
         <li><%= link_to "易车网", "http://www.bitauto.com/" , :target=> "_blank" %></li> 
         <li><%= link_to "汽车之家", "http://www.autohome.com.cn", :target=> "_blank"  %></li> 
+      </div>
+      <div class="col-lg-12 footer_line">
+        Copyright © 2014 pailixing.com 拍立行<br> 上海紫薯软件技术有限公司 版权所有
+      </div>
     </div>
-<div class="col-lg-12 footer_line">
-      Copyright © 2014 pailixing.com 拍立行<br> 上海紫薯软件技术有限公司 版权所有
-    </div>
-    </div>
-      </footer>
+    </footer>
   </body>
 </html>

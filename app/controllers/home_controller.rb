@@ -1,16 +1,11 @@
 class HomeController < ApplicationController
   def index
-    flash.now[:success] = 'success'
-    flash.now[:info] = 'info'
-    flash.now[:warning] = 'warning'
-    flash.now[:danger] = 'danger'
-
     @brands = Car::Brand.all
     @brands.each do |brand|
       logger.debug brand.name
       brand.name.encode!('gbk','utf-8')
     end
-    @brands = @brands.sort_by &:name 
+    @brands = @brands.sort_by &:name
     @brands.each do |brand|
       brand.name.encode!('utf-8','gbk')
       logger.debug brand.name
