@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141222024247) do
+ActiveRecord::Schema.define(version: 20141226102112) do
 
   create_table "active_admin_comments", force: true do |t|
     t.string   "namespace"
@@ -183,6 +183,8 @@ ActiveRecord::Schema.define(version: 20141222024247) do
     t.string   "role"
     t.integer  "shop_id"
     t.datetime "last_reset_at"
+    t.integer  "points",                             default: 0
+    t.date     "last_checkin_at"
   end
 
   add_index "dealers", ["email"], name: "index_dealers_on_email", unique: true, using: :btree

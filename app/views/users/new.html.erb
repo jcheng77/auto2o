@@ -1,23 +1,31 @@
-<h2>用户注册</h2>
+<div class="row col-lg-offset-4 login-container">
+  <div class="register-form">
+  <h2>用户注册</h2>
+  <div class="dot-line"></div>
 
-<h3>务必用有效手机号注册，密码将短信发到注册手机</h3>
-
-<%= form_for(@user, url: register_users_path) do |f| %>
+<%= form_for(@user, url: register_users_path, :html => {:class => 'form-inline' }) do |f| %>
   <% if @user.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this bid from being saved:</h2>
+    <div class="form-group">
 
       <ul>
       <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
+        <% flash[:error] = message%>
       <% end %>
       </ul>
-    </div>
   <% end %>
 
-  <div><%= f.label :phone, '手机' %><br />
-  <%= f.telephone_field :phone, autofocus: true %></div>
+  <div class="row col-lg-offset-2">
+  <div class="list-inline h4">
+    <%= f.label :phone, '手机'  %>
+<small>务必用有效手机号注册，密码将短信发到注册手机</small>
 
-  <div><%= f.submit "提交注册" %></div>
+</div>
+  <p>
+  <%= f.telephone_field :phone, autofocus: true %>
 
+  <div class="submit_f"><%= f.submit "提交注册" %></div>
+</div>
 <% end %>
+</div>
+</div>
+</div>

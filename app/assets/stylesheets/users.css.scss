@@ -1,3 +1,37 @@
 // Place all the styles related to the users controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+//
+//
+//
+
+.login-container {
+      border: 1px solid #e1e1e1;
+      background: #FFFFFF;
+      -webkit-box-shadow: 0 0 5px #ebe9e9;
+      box-shadow: 0 0 5px #ebe9e9;
+      margin-top: 100px;
+      margin-left: 380px;
+      margin-right: 380px;
+      padding: 0 30px;
+      height: 400px;
+      font: normal 14px "Microsoft yahei";
+
+      .register-form {
+        h2 {
+          text-align: center;
+        }
+
+        div.list-inline {
+          margin-top: 50px;
+        }
+
+        .submit_f {
+          margin-top: 50px;
+        }
+
+
+      }
+}
+
+
