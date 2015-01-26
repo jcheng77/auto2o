@@ -29,29 +29,29 @@
 }
 
 .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: black;
-    background-color: transparent;
+  color: black;
+  background-color: transparent;
 } 
 
 
 ul.nav.navbar-nav > li > img {
-    margin-top: 15px;
-    margin-right: -1px;
+  margin-top: 15px;
+  margin-right: -1px;
 }
 
 ul.nav.navbar-nav > li > a, a:link, a:hover, a:visited {
-    text-decoration: none;
-    margin-right: -1px;
-    background-color: transparent;
+  text-decoration: none;
+  margin-right: -1px;
+  background-color: transparent;
 }
 
 .wrapper {
-min-height: 100%;
-background-color: white;
+  min-height: 100%;
+  background-color: white;
 }
 
 .container-fluid {
-    background-color: white;
+  background-color: white;
 }
 
 
@@ -66,12 +66,12 @@ background-color: white;
 
 
 
-ul {
-list-style: none; 
+ ul {
+   list-style: none; 
 }
 
 ul li {
-text-align: left; 
+  text-align: left; 
 }
 
 .foot_imag {
@@ -86,50 +86,55 @@ text-align: left;
  }
 
  footer a, a:link, a:hover, a:visited {
-     color: #666;
+   color: #666;
 }
 
 .footer_row {
-position:relative;
+  position:relative;
 }
 
 
 footer
 {
-text-align: center;
-position: relative;
-margin-top: 180px; /* negative value of footer height */
-height: 280px;
-clear:both;
-padding-top:20px;
-color: #bbb;
-background-color: #333;
+  text-align: center;
+  position: relative;
+  margin-top: 180px; /* negative value of footer height */
+  height: 280px;
+  clear:both;
+  padding-top:20px;
+  color: #bbb;
+  background-color: #333;
 }
 
 footer a:link, a:visited {
-    color: #b7b7b7;
+  color: #b7b7b7;
 
 }
 
 
 
 form input[type=submit] {
-    width:280px;
-    display:inline-block;
-    font-family: 'Open Sans', sans-serif;
-    font-size:12px;
-    text-decoration:none;
-    color:#eee;
-    position:relative;
-    margin-top:position40px;
-    padding-bottom:10px;
-    padding-top:10px;
-    border-radius: none;
-    border: 1px;
+  width:280px;
+  display:inline-block;
+  font-family: 'Open Sans', sans-serif;
+  font-size:12px;
+  text-decoration:none;
+  color:#eee;
+  position:relative;
+  margin-top:position40px;
+  padding-bottom:10px;
+  padding-top:10px;
+  border-radius: none;
+  border: 1px;
 }
 
 
 
 .navbar-default .container .navbar-nav>li>a:hover {
-    color: gray;
+  color: gray;
 }
+
+media-body {
+  width: 100%;
+}
+
