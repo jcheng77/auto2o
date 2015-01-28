@@ -51,7 +51,9 @@
     <% end %>
   </head>
   <body>
-
+   <% if andriod_device? %>
+    <%= render :partial => 'home/mobile_alert' %>
+  <% end %>
     <div class="navbar navbar-default navbar-static-top">
       <div class="container">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
