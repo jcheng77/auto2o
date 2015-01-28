@@ -15,6 +15,16 @@ class ApplicationController < ActionController::Base
 
 private
 
+  def mobile_device?
+    request.user_agent =~ /Mobile|webOS/
+  end
+
+  def andriod_device?
+    request.user_agent =~ /Android/
+  end
+ 
+  helper_method :mobile_device? , :andriod_device?
+
   def check_method
     request.format == :json
   end
@@ -22,5 +32,7 @@ private
   def check_env
     @is_production_env = ( Rails.env == 'production' )
   end
+
+
 
 end
