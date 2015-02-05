@@ -1,0 +1,54 @@
+<div class="wx-news">
+  <div class="row">
+    <div class="col-lg-8 wx-new2-left">
+<% @posts.each_with_index do |post,i| %>
+  <div class="row">
+    <div class="col-lg-offset-2 inc-top2">
+      <div class="wx-topbpx">
+    <div class="media">
+      <a class="pull-left" href="#">
+        <%= image_tag post.pic_url , :size => '390x240' , :class => 'media-object'%>
+      </a>
+      <div class="media-body">
+        <h3 class="media-heading"><%= post.title %> </h3>
+        <p><%= post.description %></p>
+      </div>
+    </div>
+    </div>
+    </div>
+  </div>
+<% end %>
+  </div>
+<div class="col-lg-3">
+  <div class="rc-dy">
+    <h3> 最热优惠 </h3>
+  <ul class="sc-news">
+    <li>
+  <div class="news-txt">喝酒后多久驾车asdfasdfasdfasdfasdfasdfasdf</div>
+    <div class="news-img">
+      <%= image_tag 'new-bg-pic.png', :size => '80x60'%>
+    </div>
+  </li>
+
+    <li>
+  <div class="news-txt">喝酒后多久驾车asdfasdfasdfasdfasdfasdfasdf</div>
+    <div class="news-img">
+      <%= image_tag 'new-bg-pic.png', :size => '80x60'%>
+    </div>
+  </li>
+
+    <li>
+  <div class="news-txt">喝酒后多久驾车asdfasdfasdfasdfasdfasdfasdf</div>
+    <div class="news-img">
+      <%= image_tag 'new-bg-pic.png', :size => '80x60'%>
+    </div>
+  </li>
+
+
+
+</ul>
+</div>
+</div>
+
+<%= link_to 'New Post', new_post_path %>
+</div>

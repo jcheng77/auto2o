@@ -1,0 +1,137 @@
+// Place all the styles related to the posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+//
+//
+
+.wx-news {
+  background: #f5f5f5;
+}
+
+.tabcontant {
+  width: 390px;
+  margin-right: 20px;
+  border-right: 1px solid #eaece9;
+  overflow: hidden;
+}
+
+.wx-topbpx,.wx-ph,.look-more a,.wx-box,.wx-ad,.rc-dy {
+  box-shadow:0 0 1px #f1f2f1;
+  margin: 1px;
+  border: 1px solid #eaece9;
+}
+
+.wx-desc {
+  width: 280px;
+
+}
+
+.wx-topbpx {
+  overflow:hidden;
+  zoom:1;
+  height:240px;
+  width: 690px;
+  padding-right: 20px;
+  background: #fff;
+  position: relative;
+}
+
+.wx-news h3 {
+  font-size:24px;
+  font-weight:normal;
+  line-height:34px;
+  padding-bottom:10px;
+  margin-bottom: 10px;
+  /*overflow:hidden;white-space:nowrap;text-overflow:ellipsis;width:280px;*/
+  border-bottom: dotted #d2d2d2 1px;
+}
+
+.wx-news p {
+  font-size:13px;
+  color:#000;
+  line-height:24px;
+  margin-bottom: 3px;
+  /*overflow:hidden;white-space:nowrap;text-overflow:ellipsis;*/
+  font-family: simsun;
+}
+
+.wx-news2 {
+  background: #f5f5f5;
+  overflow:hidden;
+  zoom:1;
+  padding-bottom:30px
+}
+.wx-news2 .wx-news2-left{
+  width:701px;
+  float:left; 
+  position:relative; 
+  z-index:200
+}
+
+
+.wx-news2-right {
+  float: right;
+  width: 282px;
+  overflow: hidden;
+  background: #fff;
+}
+
+
+.rc-dy {
+  background: #fff;
+  border: 1px solid #eaece9;
+  padding: 0px 20px 10px;
+  margin-top: 10px;
+  min-height: 600px;
+}
+.rc-dy ul {
+  padding-left: 0px;
+}
+
+.rc-dy h3 {
+  font-size: 16px;
+  color: #000;
+  font-weight: normal;
+  line-height: 20px;
+  font-family: "微软雅黑";
+  padding: 15px 0 9px 0;
+  border-bottom: 2px solid #ececec;
+  position: relative;
+}
+
+.sc_news {
+  width: 278px;
+  margin-left: -10px;
+}
+
+.sc_news li {
+  zoom: 1;
+  overflow: hidden;
+  position: relative;
+  height: 82px;
+}
+
+.news-img {
+  float: right;
+  margin-right: 10px;
+  margin-top: 10px;
+  _display: inline;
+  //background: image-url('new-bg-pic.png') 0 0 no-repeat;
+  width: 82px;
+  height: 62px;
+}
+
+.sc_news .news-img img {
+  vertical-align:top;
+}
+
+.news-txt {
+  overflow: hidden;
+  zoom: 1;
+  width: 88px;
+  margin: 0 0 0 0;
+  top: 0;
+  left: 5px;
+  padding-top: 10px;
+  z-index: 30;
+}

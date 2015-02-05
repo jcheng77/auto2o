@@ -25,6 +25,14 @@ class HomeController < ApplicationController
   def introduction
   end
 
+  def discount
+
+  end
+
+  def sale
+    
+  end
+
   def download
     respond_to do |format|
       format.html

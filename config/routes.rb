@@ -55,6 +55,7 @@
 Rails.application.routes.draw do
 
   resources :feedbacks
+  resources :posts
 
   resources :comments
 
@@ -77,6 +78,8 @@ Rails.application.routes.draw do
   get 'home/about', to: 'home#about'
   get 'home/join', to: 'home#join'
   get 'home/faq', to: 'home#faq'
+  get 'home/discount', to: 'home#discount'
+  get 'home/sale', to: 'home#sale'
 
 
   devise_for :admin_users, ActiveAdmin::Devise.config
